@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
   # require "watir-webdriver"
-	def search_data
+	
+  # def send_token
+  #   if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
+  #     SecureRandom.base64(24)
+  #     render json: 
+  #   end
+  # end
+  
+  def search_data
     begin
     	require "selenium-webdriver"
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
@@ -54,12 +62,14 @@ class UsersController < ApplicationController
 
           tables = driver.find_elements(:class, 'collapseTable')
 
-          @table1 = tables[0].attribute('innerHTML').gsub("\t","").gsub("\n","")
-          @table2 = tables[1].attribute('innerHTML').gsub("\t","").gsub("\n","")
-          @table3 = tables[2].attribute('innerHTML').gsub("\t","").gsub("\n","")
-          @table4 = tables[3].attribute('innerHTML').gsub("\t","").gsub("\n","")
-          @table5 = tables[4].attribute('innerHTML').gsub("\t","").gsub("\n","")
-          @table6 = tables[5].attribute('innerHTML').gsub("\t","").gsub("\n","")
+          sanit = ActionView::Base
+          
+          @table1 = sanit.full_sanitizer.sanitize(tables[0].attribute('innerHTML').squish, tags: %w(td))
+          @table2 = sanit.full_sanitizer.sanitize(tables[1].attribute('innerHTML'))
+          @table3 = sanit.full_sanitizer.sanitize(tables[2].attribute('innerHTML').gsub("\t","").gsub("\n",""))
+          @table4 = sanit.full_sanitizer.sanitize(tables[3].attribute('innerHTML').gsub("\t","").gsub("\n",""))
+          @table5 = sanit.full_sanitizer.sanitize(tables[4].attribute('innerHTML').gsub("\t","").gsub("\n",""))
+          @table6 = sanit.full_sanitizer.sanitize(tables[5].attribute('innerHTML').gsub("\t","").gsub("\n",""))
         
           driver.quit
         else
