@@ -1,0 +1,42 @@
+# connection: &connection
+#   adapter: postgresql
+#   host: localhost
+#   pool: 5
+#   timeout: 5000
+#   min_messages: warning
+#   username: postgres
+#   password: postgres
+
+# development:
+#   <<: *connection
+#   database: prospects
+
+# test: &test
+#   <<: *connection
+#   database: prospects_test
+
+# cucumber:
+#   <<: *test
+
+development:
+  adapter:  mysql2
+  encoding:  utf8
+  reconnect: false
+  database:  scrapping_dev
+  username: root
+  password: root
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: scrapping_test
+  username: root
+  password: root
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: scrapping_pro
+  pool: 5
+  username: root
+  password: root
