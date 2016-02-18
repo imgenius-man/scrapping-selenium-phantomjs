@@ -6,8 +6,9 @@ gem 'test-unit'
 gem 'headless'
 
 gem 'mechanize'
-
+gem 'delayed_job_active_record'
 gem 'watir-webdriver'
+gem 'rest-client'
 # gem 'wait_until'
 gem 'heroku'
 gem 'american_date'

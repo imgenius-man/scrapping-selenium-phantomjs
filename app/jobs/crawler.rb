@@ -1,32 +1,12 @@
-class UsersController < ApplicationController
-
+class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id)
 	
-  def access_token
-    if params[:user].present? && params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
-      token = SecureRandom.base64(24)
-      
-      created = User.create(params[:user], token: token)
-      
-      if created
-        result = params[:user].merge({token: token})
 
-        Delayed::Job.enqueue Crawler.new(result[:first_name], result[:last_name], result[:dob], result[:patient_id])
-      end
-    
-    else
-      result = 'Not permitted'
-    end
-    
-    render json: result
-  end
-  
-
-  def search_data
+	def perform
     begin
-      if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
-        driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+        driver = Selenium::WebDriver.for :firefox
+        # , :args => ['--ignore-ssl-errors=true']
         
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
@@ -50,22 +30,24 @@ class UsersController < ApplicationController
           member_id = driver.find_element(:name, 'memberDataList[0].memberId')
         }
 
-        member_id.send_keys params[:user][:patient_id]
+        member_id.send_keys pat_id.to_s
 
         dob = driver.find_element(:name, 'memberDataList[0].dobDate')
-        dob.send_keys params[:user][:dob]
+        dob.send_keys date_of_birth
         
         first_name = driver.find_element(:name, 'memberDataList[0].firstName')
-        first_name.send_keys params[:user][:last_name]
+        first_name.send_keys l_name
         
         last_name = driver.find_element(:name, 'memberDataList[0].lastName')
-        last_name.send_keys params[:user][:first_name]
+        last_name.send_keys f_name
         
         ee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
         ee.submit
 
         sleep(2)
+        
         eee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
+        
         if !eee.present?
           link = nil
           wait.until {
@@ -78,16 +60,6 @@ class UsersController < ApplicationController
           tables = driver.find_elements(:class, 'collapseTable')
 
           sanit = ActionView::Base
-
-
-          # .to_html
-          
-          # page.search('tbody > tr')[0].search('td')[0].children.map{|l| l.text.squish if l.name == 'text'}.reject(&:nil?)
-          
-
-
-
-          # .squish.split('ID#:')
           
           @table1 = sanit.full_sanitizer.sanitize(tables[0].attribute('innerHTML'))
           @table2 = sanit.full_sanitizer.sanitize(tables[1].attribute('innerHTML'))
@@ -97,26 +69,16 @@ class UsersController < ApplicationController
           @table6 = sanit.full_sanitizer.sanitize(tables[5].attribute('innerHTML').gsub("\t","").gsub("\n",""))
         
           driver.quit
-        
-        else
-          flash[:danger] = "Please enter correct information"
-        
-          redirect_to :back
-        end
       
       else
-        flash[:danger] = "All fields are required."
-        
-        redirect_to :back
+      	puts "(=All fields are required.=)"*90
       end
     
     rescue Exception=> e
       puts "77777"*90
       puts e.inspect
       
-      flash[:info] = "Time Out. Please try again later."
-      
-      redirect_to :back
+      puts "(=Time Out. Please try again later.=)"*90
     end 
   end
 end

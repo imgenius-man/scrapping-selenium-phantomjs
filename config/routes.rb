@@ -8,6 +8,7 @@ Academia::Application.routes.draw do
     resources :users do
     	collection do
     		post 'search_data'
+            post 'access_token'
     	end
     end
     # root :to => '/users/sign_in'
