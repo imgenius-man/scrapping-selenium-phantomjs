@@ -22,11 +22,14 @@ class UsersController < ApplicationController
   
 
   def search_data
-    begin
+    respond_to do |format|
+      format.xls {
+    # begin
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
-        driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+        driver = Selenium::WebDriver.for :firefox
+        # , :args => ['--ignore-ssl-errors=true']
         
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
@@ -65,6 +68,9 @@ class UsersController < ApplicationController
         ee.submit
 
         sleep(2)
+        # wait.until {
+        #    driver.find_elements(:class,'patient-results-onDate').displayed?
+        #   }
         eee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
         if !eee.present?
           link = nil
@@ -81,21 +87,52 @@ class UsersController < ApplicationController
 
 
           # .to_html
-          
           # page.search('tbody > tr')[0].search('td')[0].children.map{|l| l.text.squish if l.name == 'text'}.reject(&:nil?)
+          # str.slice(0..str.index(/\n/)-1)
+
+
+
+          @tables = []
+          @tables_v = []
+          @tables_h = []
+
+          tables.each do |table|
+            tab = table.attribute('innerHTML')
+
+            page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tab,nil,Mechanize.new)
           
+            @tables_h = page.search('thead > tr:last').map do |tr|
+            [
+              tr: tr.search('th').map do |q| 
+              [
+                th: q.children.map do |l| 
+                  l.text.squish if l.name == 'text'
+                end
+                .reject(&:nil?)
+              ]   
+              end
+            ]
+            end
 
+            @tables_v = page.search('tbody > tr').map do |tr|
+            [
+              tr: tr.search('td').map do |q| 
+              [
+                td: q.children.map do |l| 
+                  l.text.squish if l.name == 'text'
+                end
+                .reject(&:nil?)
+              ]   
+              end
+            ]
+            end
 
-
-          # .squish.split('ID#:')
-          
-          @table1 = sanit.full_sanitizer.sanitize(tables[0].attribute('innerHTML'))
-          @table2 = sanit.full_sanitizer.sanitize(tables[1].attribute('innerHTML'))
-          @table3 = sanit.full_sanitizer.sanitize(tables[2].attribute('innerHTML').gsub("\t","").gsub("\n",""))
-          @table4 = sanit.full_sanitizer.sanitize(tables[3].attribute('innerHTML').gsub("\t","").gsub("\n",""))
-          @table5 = sanit.full_sanitizer.sanitize(tables[4].attribute('innerHTML').gsub("\t","").gsub("\n",""))
-          @table6 = sanit.full_sanitizer.sanitize(tables[5].attribute('innerHTML').gsub("\t","").gsub("\n",""))
+            @tables << @tables_h.flatten + @tables_v.flatten 
+          end
         
+          puts "==="*100
+          puts @tables[0]
+
           driver.quit
         
         else
@@ -109,14 +146,17 @@ class UsersController < ApplicationController
         
         redirect_to :back
       end
+
+     render text: User.to_csv({col_sep: "\t"},@tables) }
+    end
     
-    rescue Exception=> e
-      puts "77777"*90
-      puts e.inspect
+    # rescue Exception=> e
+    #   puts "77777"*90
+    #   puts e.inspect
       
-      flash[:info] = "Time Out. Please try again later."
+    #   flash[:info] = "Time Out. Please try again later."
       
-      redirect_to :back
-    end 
+    #   redirect_to :back
+    # end 
   end
 end
