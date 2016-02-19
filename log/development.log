@@ -7832,3 +7832,632 @@ Processing by UsersController#search_data as XLS
   Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
   Rendered text template (0.0ms)
 Completed 200 OK in 31379ms (Views: 13.5ms | ActiveRecord: 0.0ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+
+Started GET "/" for 127.0.0.1 at 2016-02-19 17:57:08 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (8.7ms)
+Completed 200 OK in 16ms (Views: 15.4ms | ActiveRecord: 0.7ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+
+Started POST "/users/search_data.xls" for 127.0.0.1 at 2016-02-19 17:57:15 +0500
+Processing by UsersController#search_data as XLS
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered text template (0.0ms)
+Completed 200 OK in 32552ms (Views: 0.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-02-19 18:00:28 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (16.2ms)
+Completed 200 OK in 24ms (Views: 22.7ms | ActiveRecord: 0.9ms)
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-19 18:00:35 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (4.7ms)
+Completed 200 OK in 35590ms (Views: 12.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-19 18:06:24 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 30156ms (Views: 7.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-19 18:08:31 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 20955ms (Views: 18.8ms | ActiveRecord: 0.0ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-19 18:10:09 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+Redirected to http://localhost:3000/
+Completed 302 Found in 17551ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-02-19 18:10:27 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (9.2ms)
+Completed 200 OK in 18ms (Views: 16.9ms | ActiveRecord: 0.9ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-19 18:10:36 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 20572ms (Views: 14.0ms | ActiveRecord: 0.0ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-19 18:15:50 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"kvpjwC4s334okK7+et540VnwtjO30di2B3fmWe5gtO4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 22774ms (Views: 10.0ms | ActiveRecord: 0.0ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/bootstrap.css.map"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+
+
+Started GET "/" for 192.168.100.26 at 2016-02-19 18:19:43 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (12.2ms)
+Completed 200 OK in 20ms (Views: 19.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/favicon.ico" for 192.168.100.26 at 2016-02-19 18:19:45 +0500
+
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /home/ittsel/.rvm/gems/ruby-2.2.0/gems/actionpack-3.2.14/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started POST "/users/search_data" for 192.168.100.26 at 2016-02-19 18:19:55 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"2OaL12bxKsMOyVdkynJr+HgwnpinKI116F0j+m9pwd4=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 23798ms (Views: 5.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/public/content/pdf/resourceLibrary/prescription/GeneralMedPriorAuth.pdf" for 192.168.100.26 at 2016-02-19 18:24:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/public/content/pdf/resourceLibrary/prescription/GeneralMedPriorAuth.pdf"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /home/ittsel/.rvm/gems/ruby-2.2.0/gems/actionpack-3.2.14/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:26:32 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 10ms (Views: 10.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/favicon.ico" for 192.168.100.13 at 2016-02-19 18:26:33 +0500
+
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  actionpack (3.2.14) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.14) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.14) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.14) lib/rails/rack/logger.rb:16:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (3.2.14) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.7) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.7) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.14) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.7) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.14) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.14) lib/rails/engine.rb:484:in `call'
+  railties (3.2.14) lib/rails/application.rb:231:in `call'
+  rack (1.4.7) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.14) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.7) lib/rack/handler/webrick.rb:59:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /home/ittsel/.rvm/rubies/ruby-2.2.0/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /home/ittsel/.rvm/gems/ruby-2.2.0/gems/actionpack-3.2.14/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:27:01 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"KEYA", "last_name"=>"PATEL", "patient_id"=>"U5708090403", "dob"=>"11/26/2002"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 36371ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:27:37 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 7ms (Views: 6.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:28:14 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"KEYA", "last_name"=>"PATEL", "patient_id"=>"U5708090403", "dob"=>"11/26/2002"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 37148ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:28:51 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 11ms (Views: 10.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:29:43 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"PATEL", "last_name"=>"KEYA", "patient_id"=>"U5708090403", "dob"=>"11/26/2002"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 17735ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:30:01 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 7ms (Views: 7.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:31:12 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"PATEL", "last_name"=>"KEYA", "patient_id"=>"U57080904", "dob"=>"11/26/2002"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 28908ms (Views: 11.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:33:25 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 8ms (Views: 7.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:33:50 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"NARAYANAMURTHY", "last_name"=>"HEMAMALINI", "patient_id"=>"80015529502", "dob"=>""}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:33:50 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 9ms (Views: 8.5ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:34:24 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"NARAYANAMURTHY", "last_name"=>"HEMAMALINI", "patient_id"=>"80015529502", "dob"=>"3/27/1988"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 20810ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:34:45 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 8ms (Views: 8.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:35:06 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"HEMAMALINI", "last_name"=>"NARAYANAMURTHY", "patient_id"=>"80015529502", "dob"=>"3/27/1988"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 22143ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:35:28 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (4.0ms)
+Completed 200 OK in 10ms (Views: 10.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:36:16 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"AVI", "last_name"=>"SHETH", "patient_id"=>"U0342448403", "dob"=>"6/7/1992"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 19441ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:36:36 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 8ms (Views: 8.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:38:32 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"KRISHNA", "last_name"=>"PATEL", "patient_id"=>"U38332217 03", "dob"=>"5/24/1993"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 17709ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:38:50 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 8ms (Views: 8.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:39:43 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"KEYA", "last_name"=>"PATEL", "patient_id"=>"U5708090403", "dob"=>"11/26/2002"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 17385ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:40:01 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 9ms (Views: 9.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:40:26 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"SHIV", "last_name"=>"PATEL", "patient_id"=>"U1033135803", "dob"=>"12/1/2000"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 30053ms (Views: 8.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:42:08 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"KIRTAN", "last_name"=>"JANI", "patient_id"=>"U3254176603", "dob"=>"10/22/1997"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (1.3ms)
+Completed 200 OK in 30569ms (Views: 14.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:43:35 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"PURVA", "last_name"=>"JANI", "patient_id"=>"U0872264903", "dob"=>"5/14/1996"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 22269ms (Views: 15.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:44:42 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"JOYDEEP", "last_name"=>"SINGH", "patient_id"=>"U3933309203", "dob"=>"4/1/1995"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 29291ms (Views: 10.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:45:59 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"CHIRAYU", "last_name"=>"PATEL", "patient_id"=>"U3100702203", "dob"=>"3/31/1995"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 20074ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:46:19 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 7ms (Views: 7.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:46:46 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"ARUN", "last_name"=>"JEENO", "patient_id"=>"U4373281003", "dob"=>"11/24/1994"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 37771ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:47:24 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 9ms (Views: 8.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:47:47 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"CHIRAYU", "last_name"=>"PATEL", "patient_id"=>"U4373281003", "dob"=>"11/24/1994"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 20557ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:48:07 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 9ms (Views: 8.5ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:48:39 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"ROMA", "last_name"=>"PATEL", "patient_id"=>"U5336683601", "dob"=>"1/12/1991"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 29384ms (Views: 10.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:50:07 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"SNEHA", "last_name"=>"PATEL", "patient_id"=>"U5170601104", "dob"=>"11/18/1988"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 41107ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:50:48 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 9ms (Views: 8.8ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:51:28 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"SNEHA", "last_name"=>"PATEL", "patient_id"=>"U5170601104", "dob"=>"11/18/1988"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 68952ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:52:37 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 8ms (Views: 7.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:52:58 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"SNEHA", "last_name"=>"PATEL", "patient_id"=>"U5170601104", "dob"=>"11/18/1988"}, "commit"=>"Please wait..."}
+Redirected to http://192.168.100.14:3000/
+Completed 302 Found in 21127ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:53:19 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (3.4ms)
+Completed 200 OK in 9ms (Views: 9.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.100.13 at 2016-02-19 18:53:19 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 10ms (Views: 9.8ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 192.168.100.13 at 2016-02-19 18:53:55 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"sgRI1aEldZieFgiG72KUZoV/gfqi5wDLkzRfcIn8NEE=", "user"=>{"first_name"=>"PARUL", "last_name"=>"PATEL", "patient_id"=>"U5151043002", "dob"=>"6/15/1986"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 31009ms (Views: 9.3ms | ActiveRecord: 0.0ms)

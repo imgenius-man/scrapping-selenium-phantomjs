@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "custom.css" %>
 <div class="well signup-form">
 	<h3 style="text-align: center;">Patient Search</h3>
-	<%= form_for User.new,:url=>search_data_users_path(:format => 'xls'),:html => { :class => 'form-horizontal' } do |f| %>
+	<%= form_for User.new,:url=>search_data_users_path,:html => { :class => 'form-horizontal' } do |f| %>
 	  <div class="form-group">
 	   	<%= f.label :first_name, :class => 'control-label' %>
 		 	<%= f.text_field :first_name, :class =>'form-control' %>

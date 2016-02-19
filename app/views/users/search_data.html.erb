@@ -1,12 +1,16 @@
-
-<% @tables.each do |table| %>
-	<div class="panel">
+<div class="well">
+	<% @table.each do |table| %>
+	<div class="panel panel-primary">
 		<div class="panel-heading">
-			Table	
+			Table
 		</div>
-		
 		<div class="panel-body">
-			<%=	table %>	
-		</div>		
+				<table class="table table-striped">
+					<%= table.html_safe %>
+				</table>
+		</div>
+	<% end %>		
 	</div>
-<% end %>
+	
+
+	
