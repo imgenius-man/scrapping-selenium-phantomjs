@@ -22,11 +22,12 @@ class UsersController < ApplicationController
   
 
   def search_data
-    begin
+    # begin
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
-        driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+        driver = Selenium::WebDriver.for :firefox
+        # , :args => ['--ignore-ssl-errors=true']
         
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
@@ -79,57 +80,47 @@ class UsersController < ApplicationController
 
           sanit = ActionView::Base
 
-
-          # .to_html
-          
-          # page.search('tbody > tr')[0].search('td')[0].children.map{|l| l.text.squish if l.name == 'text'}.reject(&:nil?)
-          
-
-
-
-          # .squish.split('ID#:')
-          
-         @table = []
+         @tables_v  = []
+         @tables_h  = []
+         @tables = []
 
          tables.each do |table|
-          @table << table.attribute('innerHTML').gsub("\t","").gsub("\n","")
-         end
+            tab = table.attribute('innerHTML')
+
+            page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tab,nil,Mechanize.new)
+          
+            @tables_h = page.search('thead > tr:last').map do |tr|
+            [
+              tr: tr.search('th').map do |q| 
+              [
+                th: q.children.map do |l| 
+                  l.text.squish if l.name == 'text'
+                end
+                .reject(&:nil?)
+              ]   
+              end
+            ]
+            end
+
+            @tables_v = page.search('tbody > tr').map do |tr|
+            [
+              tr: tr.search('td').map do |q| 
+              [
+                td: q.children.map do |l| 
+                  l.text.squish if l.name == 'text'
+                end
+                .reject(&:nil?)
+              ]   
+              end
+            ]
+            end
+
+            @tables << @tables_h.flatten + @tables_v.flatten 
+          end
         
           driver.quit
         
- # tables.each do |table|
-          #   tab = table.attribute('innerHTML')
-
-          #   page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tab,nil,Mechanize.new)
-          
-          #   @tables_h = page.search('thead > tr:last').map do |tr|
-          #   [
-          #     tr: tr.search('th').map do |q| 
-          #     [
-          #       th: q.children.map do |l| 
-          #         l.text.squish if l.name == 'text'
-          #       end
-          #       .reject(&:nil?)
-          #     ]   
-          #     end
-          #   ]
-          #   end
-
-          #   @tables_v = page.search('tbody > tr').map do |tr|
-          #   [
-          #     tr: tr.search('td').map do |q| 
-          #     [
-          #       td: q.children.map do |l| 
-          #         l.text.squish if l.name == 'text'
-          #       end
-          #       .reject(&:nil?)
-          #     ]   
-          #     end
-          #   ]
-          #   end
-
-          #   @tables << @tables_h.flatten + @tables_v.flatten 
-          # end
+ 
 
 
 
@@ -145,13 +136,13 @@ class UsersController < ApplicationController
         redirect_to :back
       end
     
-    rescue Exception=> e
-      puts "77777"*90
-      puts e.inspect
+    # rescue Exception=> e
+    #   puts "77777"*90
+    #   puts e.inspect
       
-      flash[:info] = "Time Out. Please try again later."
+    #   flash[:info] = "Time Out. Please try again later."
       
-      redirect_to :back
-    end 
+    #   redirect_to :back
+    # end 
   end
 end
