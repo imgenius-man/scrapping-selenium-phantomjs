@@ -89,7 +89,7 @@ class UsersController < ApplicationController
 
             page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tab,nil,Mechanize.new)
           
-            @tables_h = page.search('thead > tr:last').map do |tr|
+            @tables_h = page.search('thead > tr').map do |tr|
             [
               tr: tr.search('th').map do |q| 
               [

@@ -9073,3 +9073,18 @@ Processing by UsersController#search_data as HTML
   Parameters: {"utf8"=>"✓", "authenticity_token"=>"FgJDQGn7qO+52qCzFe3slDaFMA5AurBAgoHJbRwU9iw=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
   Rendered users/search_data.html.erb within layouts/application (4.9ms)
 Completed 200 OK in 28523ms (Views: 9.3ms | ActiveRecord: 0.0ms)
+Connecting to database specified by database.yml
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-22 15:46:47 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"FgJDQGn7qO+52qCzFe3slDaFMA5AurBAgoHJbRwU9iw=", "user"=>{"first_name"=>"PARUL", "last_name"=>"PATEL", "patient_id"=>"U5151043002", "dob"=>"6/15/1986"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (6.1ms)
+Completed 200 OK in 32001ms (Views: 26.9ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-22 15:55:48 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"FgJDQGn7qO+52qCzFe3slDaFMA5AurBAgoHJbRwU9iw=", "user"=>{"first_name"=>"PARUL", "last_name"=>"PATEL", "patient_id"=>"U5151043002", "dob"=>"6/15/1986"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (8.9ms)
+Completed 200 OK in 27950ms (Views: 19.5ms | ActiveRecord: 0.0ms)
