@@ -115,7 +115,7 @@ class UsersController < ApplicationController
                 {
                   td: q.children.map do |l| 
                     if l.children.present?
-                      l.children.text.squish if l.name == 'p'
+                      l.children.text.squish if l.name == 'p' || l.name == 'a'
                     
                     else
                       l.text.squish if l.name == 'text'
@@ -137,9 +137,15 @@ class UsersController < ApplicationController
           end
         
           driver.quit
-        
- 
+          
+          @json = []
 
+          @cont.each do |cont|
+            cont[1..cont.length].each do |con| 
+             @json << User.json_table(con[:table], cont[0][:name], con[:header_count])
+            end
+          end
+          
 
 
         else

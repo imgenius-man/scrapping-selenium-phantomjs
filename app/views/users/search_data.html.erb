@@ -1,16 +1,16 @@
-<div class="well">
-	<% @cont.each do |table| %>
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			Table
-		</div>
-		<div class="panel-body">
-				<table class="table table-striped">
-					<%= table.inspect %>
-				</table>
-		</div>
+	<% @json.each do |table| %>
+		<% if table.present? %>
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					JSON
+				</div>
+			</div>
+			<pre>
+				<%= JSON.pretty_generate(table) %>
+			</pre>
+			
+		<% end %>
 	<% end %>		
-	</div>
 	
 
 	
