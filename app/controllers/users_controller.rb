@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         
         driver = Selenium::WebDriver.for :firefox
         # , :args => ['--ignore-ssl-errors=true']
-        
+        # collapseTable-container
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
         username = driver.find_element(:name, 'username')
@@ -76,46 +76,64 @@ class UsersController < ApplicationController
 
           wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
-          tables = driver.find_elements(:class, 'collapseTable')
+          containers = driver.find_elements(:class, 'collapseTable-container')
 
           sanit = ActionView::Base
 
-         @tables_v  = []
-         @tables_h  = []
+         @tables_v  = {}
+         @tables_h  = {}
          @tables = []
 
-         tables.each do |table|
-            tab = table.attribute('innerHTML')
+         @cont = []
 
-            page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tab,nil,Mechanize.new)
-          
-            @tables_h = page.search('thead > tr').map do |tr|
-            [
-              tr: tr.search('th').map do |q| 
-              [
-                th: q.children.map do |l| 
-                  l.text.squish if l.name == 'text'
+         containers.each do |container|
+            cont = container.attribute('innerHTML')
+
+            page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},cont,nil,Mechanize.new)
+            
+            table_text = page.at('div').text.squish
+            
+            tables_content = page.search('table')
+            
+            tables_content.each do |tab|
+              @tables_h = tab.search('thead > tr').map do |tr|
+              {
+                tr: tr.search('th').map do |q| 
+                {
+                  th: q.children.map do |l| 
+                    l.text.squish if l.name == 'text'
+                  end
+                  .reject(&:nil?)
+                }   
                 end
-                .reject(&:nil?)
-              ]   
+              }
               end
-            ]
-            end
 
-            @tables_v = page.search('tbody > tr').map do |tr|
-            [
-              tr: tr.search('td').map do |q| 
-              [
-                td: q.children.map do |l| 
-                  l.text.squish if l.name == 'text'
+              @tables_v = tab.search('tbody > tr').map do |tr|
+              {
+                tr: tr.search('td').map do |q| 
+                {
+                  td: q.children.map do |l| 
+                    if l.children.present?
+                      l.children.text.squish if l.name == 'p'
+                    
+                    else
+                      l.text.squish if l.name == 'text'
+                    end
+                  end
+                  .reject(&:nil?)
+                }   
                 end
-                .reject(&:nil?)
-              ]   
+              }
               end
-            ]
-            end
 
-            @tables << @tables_h.flatten + @tables_v.flatten 
+              @tables << [ table: @tables_h.flatten + @tables_v.flatten, header_count: @tables_h.count]
+            end
+            
+            @cont << [name: table_text] + @tables.flatten
+            
+            # @cont << tables_content
+            @tables = []
           end
         
           driver.quit
@@ -145,4 +163,7 @@ class UsersController < ApplicationController
     #   redirect_to :back
     # end 
   end
+
+
+  
 end
