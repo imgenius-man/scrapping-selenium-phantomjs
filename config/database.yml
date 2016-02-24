@@ -24,7 +24,7 @@ development:
   reconnect: false
   database:  scrapping_dev
   username: root
-  password: root
+  password: helloworld91@
 test:
   adapter: mysql2
   encoding: utf8
