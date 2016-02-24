@@ -15539,3 +15539,18 @@ Processing by UsersController#search_data as HTML
   Parameters: {"utf8"=>"✓", "authenticity_token"=>"UuNb9a8NVgGLbVT+7nBoHc1zVJ7252aPgaaL/7WjqVs=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
   Rendered users/search_data.html.erb within layouts/application (3.7ms)
 Completed 200 OK in 32742ms (Views: 11.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-02-24 17:13:30 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (13.2ms)
+Completed 200 OK in 21ms (Views: 19.8ms | ActiveRecord: 0.9ms)
+
+
+Started POST "/users/search_data" for 127.0.0.1 at 2016-02-24 17:13:55 +0500
+Processing by UsersController#search_data as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"UuNb9a8NVgGLbVT+7nBoHc1zVJ7252aPgaaL/7WjqVs=", "user"=>{"first_name"=>"Freund", "last_name"=>"Donald", "patient_id"=>"U1409487901", "dob"=>"11/14/1956"}, "commit"=>"Please wait..."}
+  Rendered users/search_data.html.erb within layouts/application (5.2ms)
+Completed 200 OK in 39593ms (Views: 12.2ms | ActiveRecord: 0.0ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml

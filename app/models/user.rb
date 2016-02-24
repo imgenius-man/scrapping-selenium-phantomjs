@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   end  
 
   
-  def self.key_mapping_double_header_table(table_content, head_count)
+  def self.map_keys(table_content, head_count)
   	table_content[head_count..table_content.length].map do |tr|
 			tr[:tr][1..tr[:tr].length].map.with_index(1) do |td, i|
 				# next if td[:td].inject(&:+).present? && td[:td].inject(&:+) == "--"
@@ -67,12 +67,12 @@ class User < ActiveRecord::Base
   	if table_content[0][:tr][0][:th].first.present?
     	{ 
     		table_name + " - " +table_content[0][:tr][0][:th].inject(&:+).to_s => 
-    			key_mapping_double_header_table(table_content, head_count)
+    			map_keys(table_content, head_count)
     	}
     	
     elsif table_content[0][:tr][0][:th].first.nil?
     	{ 
-    		table_name => key_mapping_double_header_table(table_content, head_count)
+    		table_name => map_keys(table_content, head_count)
     	}
     end
   end
@@ -82,17 +82,17 @@ class User < ActiveRecord::Base
   	if table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')
   		{ 
     		table_name + " - " +table_content[0][:tr][0][:th].inject(&:+).to_s => 
-    			key_mapping_double_header_table(table_content, head_count)
+    			map_keys(table_content, head_count)
     	}
 
     elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?)  && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')	
   		{ 
-    		table_name => key_mapping_double_header_table(table_content, head_count)
+    		table_name => map_keys(table_content, head_count)
     	}
     
     elsif table_content[0][:tr][0][:th].first.present? && (table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)	
   		{ 
-    		table_name => key_mapping_double_header_table(table_content, head_count)
+    		table_name => map_keys(table_content, head_count)
     	}
   	
   	elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1][:th].first.present?  

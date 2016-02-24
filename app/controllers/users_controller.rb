@@ -75,6 +75,12 @@ class UsersController < ApplicationController
 
           wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
+          driver.find_elements( :class,"oep-managed-sub-tab").second.click
+
+          sleep(4)
+
+          wait.until { driver.find_elements(:class, 'collapseTable').present? }
+ 
           containers = driver.find_elements(:class, 'collapseTable-container')
 
           sanit = ActionView::Base
