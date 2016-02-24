@@ -153,6 +153,7 @@ class UsersController < ApplicationController
             end
           end
           
+          @json.reject!(&:nil?).reject!{|a| a == false}
 
 
         else

@@ -1,16 +1,10 @@
-	<% @json.each do |table| %>
-		<% if table.present? %>
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					JSON
 				</div>
 			</div>
 			<pre>
-				<%= JSON.pretty_generate(table) %>
+				<%= JSON.pretty_generate(@json) %>
 			</pre>
-			
-		<% end %>
-	<% end %>		
-	
 
 	
