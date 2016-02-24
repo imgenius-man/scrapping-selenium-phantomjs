@@ -26,8 +26,7 @@ class UsersController < ApplicationController
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
-        driver = Selenium::WebDriver.for :firefox
-        # , :args => ['--ignore-ssl-errors=true']
+        driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
         # collapseTable-container
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
@@ -93,6 +92,8 @@ class UsersController < ApplicationController
             
             table_text = page.at('div').text.squish
             
+            table_info = page.at('div > .info-text').text.squish if page.at('div > .info-text').present?
+
             tables_content = page.search('table')
             
             tables_content.each do |tab|
@@ -130,7 +131,7 @@ class UsersController < ApplicationController
               @tables << [ table: @tables_h.flatten + @tables_v.flatten, header_count: @tables_h.count]
             end
             
-            @cont << [name: table_text] + @tables.flatten
+            @cont << [name: table_text] + @tables.flatten + [info: table_info]
             
             # @cont << tables_content
             @tables = []
@@ -142,7 +143,7 @@ class UsersController < ApplicationController
 
           @cont.each do |cont|
             cont[1..cont.length].each do |con| 
-             @json << User.json_table(con[:table], cont[0][:name], con[:header_count])
+             @json << User.json_table(con[:table], cont.first[:name], con[:header_count], cont.last[:info])
             end
           end
           
