@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
   def search_data
     begin
-      if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
+      if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present?        
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
         driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
@@ -31,10 +31,10 @@ class UsersController < ApplicationController
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
         username = driver.find_element(:name, 'username')
-        username.send_keys "skedia105"
+        username.send_keys params[:user][:username]
 
         password = driver.find_element(:name, 'password')
-        password.send_keys "Empclaims100"
+        password.send_keys params[:user][:password]
 
         element = driver.find_element(:id, 'button1')
         element.submit
@@ -122,7 +122,12 @@ class UsersController < ApplicationController
                 {
                   td: q.children.map do |l| 
                     if l.children.present?
-                      l.children.text.squish if l.name == 'p' || l.name == 'a'
+                      if l.name == 'p' || l.name == 'a'  
+                        l.children.text.squish
+                      
+                      elsif l.name == 'div' && l.attributes["class"].present? && l.attributes["class"].value == "icon-notificationsSmall cigna-careDesignation"
+                        l.children.text.squish + " (C)"
+                      end 
                     
                     else
                       l.text.squish if l.name == 'text'
@@ -139,7 +144,7 @@ class UsersController < ApplicationController
             
             @cont << [name: table_text] + @tables.flatten + [info: table_info]
             
-            # @cont << tables_content
+            # @cont << cont
             @tables = []
           end
         
@@ -154,7 +159,6 @@ class UsersController < ApplicationController
           end
           
           @json.reject!(&:nil?).reject!{|a| a == false}
-
 
         else
           flash[:danger] = "Please enter correct information"

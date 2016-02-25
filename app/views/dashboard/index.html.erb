@@ -3,6 +3,19 @@
 	<h3 style="text-align: center;">Patient Search</h3>
 	<%= form_for User.new,:url=>search_data_users_path,:html => { :class => 'form-horizontal' } do |f| %>
 	  <div class="form-group">
+	  	<%= f.label :username, :class => 'control-label' %>
+			<%= f.text_field :username, :class =>'form-control' %>
+	  </div>
+	  <div class="form-group">
+			<%= f.label :password, :class => 'control-label' %>
+			<%= f.password_field :password, :class =>'form-control' %>
+	  </div>
+
+	  <div class="form-group">
+			<%= f.label "Select the Website to Scrap data", :class=> 'control-label' %>
+			<%= f.select :site_to_scrap, options_for_site,{} , {:class=> 'form-control'} %>
+	  </div>
+	  <div class="form-group">
 	   	<%= f.label :first_name, :class => 'control-label' %>
 		 	<%= f.text_field :first_name, :class =>'form-control' %>
 	  </div>
