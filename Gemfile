@@ -4,7 +4,7 @@ gem 'rails', '3.2.14'
 gem 'selenium-webdriver'
 gem 'test-unit'
 gem 'headless'
-
+gem "rack-timeout"
 gem 'mechanize'
 gem 'delayed_job_active_record'
 gem 'watir-webdriver'

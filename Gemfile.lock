@@ -237,6 +237,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack-timeout (0.3.2)
     rails (3.2.14)
       actionmailer (= 3.2.14)
       actionpack (= 3.2.14)
@@ -362,6 +363,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.10)
   pg
   quiet_assets
+  rack-timeout
   rails (= 3.2.14)
   rest-client
   rolify
