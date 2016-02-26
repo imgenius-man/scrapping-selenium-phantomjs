@@ -69,13 +69,15 @@ class UsersController < ApplicationController
         if !eee.present?
           link = nil
           wait.until {
-            link = driver.find_elements(:class,'oep-managed-link')[5]
+            link = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td > .oep-managed-link')[0]
           }
           link.click
 
           wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
-          driver.find_elements( :class,"oep-managed-sub-tab").second.click
+          if driver.find_elements( :class,"oep-managed-sub-tab").second.displayed?
+            driver.find_elements( :class,"oep-managed-sub-tab").second.click
+          end
 
           sleep(4)
 
@@ -127,6 +129,9 @@ class UsersController < ApplicationController
                       
                       elsif l.name == 'div' && l.attributes["class"].present? && l.attributes["class"].value == "icon-notificationsSmall cigna-careDesignation"
                         l.children.text.squish + " (C)"
+
+                      elsif l.name == 'ul'
+                        " " + l.children.text.squish      
                       end 
                     
                     else

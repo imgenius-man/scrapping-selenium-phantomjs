@@ -47,7 +47,7 @@ attr_accessible :dob, :first_name, :last_name, :patient_id, :username, :password
   	row_length = table_content.first[:tr].length
   	
   	(row_length).times do |cell_i| 
-  		if table_name.include?('Patient and Plan Detail')
+  		if table_name == 'Patient and Plan Detail' || table_name == 'Maternity' 
   			header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
   		end
   	end
@@ -65,31 +65,37 @@ attr_accessible :dob, :first_name, :last_name, :patient_id, :username, :password
   def self.traverse_table_columnwise(table_content, row_length, cell_i)
   	array = []
 
-  	(1..row_length-1).map do |row_i|
-  		tempry=""
+  	coulmn_length = table_content.length
 
-  		if table_content[row_i][:tr][cell_i][:td].present?
-	  		table_content[row_i][:tr][cell_i][:td].each do |a|
-				  
-			    if a != ""
-			      if a.scan(/:/).count == 0
-			        tempry=tempry + " " + a
-			       	
-			       	if tempry.scan(/:/).count != 0
-			       		b = tempry.split(":")
-			       		
-			       		array[array.length-1] = {b[0].to_s => b[1].to_s}	
-			       	end
-			      
-			      else
-			        tempry = a
-			        
-			        b = tempry.split(":")
-		          
-		          array << {b[0].to_s => b[1].to_s}
-			      end
-			    end
-	  		end
+    (1..coulmn_length-1).map do |row_i|
+      tempry=""
+
+      if table_content[row_i][:tr][cell_i][:td].present?
+	  		if table_content[row_i][:tr][cell_i][:td].second.present?
+          table_content[row_i][:tr][cell_i][:td].each do |a|
+  			    if a != ""
+  			      if a.scan(/:/).count == 0
+  			        tempry=tempry + " " + a
+  			       	
+  			       	if tempry.scan(/:/).count != 0
+  			       		b = tempry.split(":")
+  			       		
+  			       		array[array.length-1] = {b[0].to_s => b[1].to_s}	
+  			       	end
+  			      
+  			      else
+  			        tempry = a
+  			        
+  			        b = tempry.split(":")
+  		          
+  		          array << {b[0].to_s => b[1].to_s}
+  			      end
+  			    end
+  	  		end
+        
+        else
+          array << table_content[row_i][:tr][cell_i][:td].first
+        end
 	  	end
   	end
   	array 
@@ -133,24 +139,26 @@ attr_accessible :dob, :first_name, :last_name, :patient_id, :username, :password
 
 
   def self.parse_1H_table(table_content, table_name, head_count)
-  	if table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')
+  	if table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')
   		{ 
     		table_name + " - " + table_content[0][:tr][0][:th].inject(&:+).to_s => 
     			map_keys(table_content, head_count).flatten!
     	}
 
     elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?)  && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')	
-  		{ 
+      { 
     		table_name => map_keys(table_content, head_count).flatten!
     	}
     
-    elsif table_content[0][:tr][0][:th].first.present? && (table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)	
+    elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? &&(table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)	
   		{ 
-    		table_name => map_keys(table_content, head_count).flatten!
+    		table_name + " - " + table_content[0][:tr][0][:th].first => map_keys(table_content, head_count).flatten!
     	}
   	
-  	elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1][:th].first.present?  
-  		map_keys_complex_table(table_content, table_name, head_count)	
+  	elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.present?  
+  		puts "==="*100
+      puts table_content.inspect
+      map_keys_complex_table(table_content, table_name, head_count)	
   	end
   end
 

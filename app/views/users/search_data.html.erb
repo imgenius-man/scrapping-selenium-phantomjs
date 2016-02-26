@@ -1,10 +1,15 @@
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					JSON
-				</div>
+			<div class="json" id="json">
 			</div>
-			<pre>
-				<%= JSON.pretty_generate(@json) %>
-			</pre>
 
-	
+<%= javascript_include_tag "jquery.min" %>
+<%= javascript_include_tag "jjsonviewer" %>
+<%= stylesheet_link_tag 'jjsonviewer.css' %>
+
+
+<script type="text/javascript">
+	$(document).ready( function() {
+		var javascript_side_json = <%= raw(JSON.generate(@json)) %>
+		
+		$("#json").jJsonViewer(javascript_side_json);
+	})
+</script>

@@ -5,6 +5,8 @@ gem 'selenium-webdriver'
 gem 'test-unit'
 gem 'headless'
 
+gem 'jjsonviewer', :git => 'https://github.com/Shridhad/jjsonviewer.git'
+
 gem 'mechanize'
 gem 'delayed_job_active_record'
 gem 'watir-webdriver'
