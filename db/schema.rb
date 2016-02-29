@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160225124230) do
+ActiveRecord::Schema.define(:version => 20160229112256) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0, :null => false
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20160225124230) do
     t.string   "site_to_scrap"
     t.string   "password"
     t.string   "username"
+    t.text     "raw_html"
+    t.text     "json"
   end
 
 end

@@ -2,15 +2,17 @@ class UsersController < ApplicationController
 
 	
   def access_token
-    if params[:user].present? && params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present?
+    if params[:user].present? && params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present?        
       token = SecureRandom.base64(24)
       
-      created = User.create(params[:user], token: token)
+      params[:user].merge!({token: token})
+      
+      created = User.create(params[:user])
       
       if created
-        result = params[:user].merge({token: token})
+        result = params[:user]
 
-        Delayed::Job.enqueue Crawler.new(result[:first_name], result[:last_name], result[:dob], result[:patient_id])
+        Delayed::Job.enqueue Crawler.new(result[:first_name], result[:last_name], result[:dob], result[:patient_id], result[:username], result[:password], token)
       end
     
     else
@@ -22,7 +24,7 @@ class UsersController < ApplicationController
   
 
   def search_data
-    begin
+    # begin
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present?        
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
@@ -83,6 +85,8 @@ class UsersController < ApplicationController
 
           wait.until { driver.find_elements(:class, 'collapseTable').present? }
  
+          date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
+          
           containers = driver.find_elements(:class, 'collapseTable-container')
 
           sanit = ActionView::Base
@@ -100,11 +104,13 @@ class UsersController < ApplicationController
             
             table_text = page.at('div').text.squish
             
-            table_info = page.at('div > .info-text').text.squish if page.at('div > .info-text').present?
+            cont_info = page.at('div > .info-text').text.squish if page.at('div > .info-text').present?
+
+            table_info_arr = page.search('div.notes')
 
             tables_content = page.search('table')
             
-            tables_content.each do |tab|
+            tables_content.each_with_index do |tab, i|
               @tables_h = tab.search('thead > tr').map do |tr|
               {
                 tr: tr.search('th').map do |q| 
@@ -144,10 +150,10 @@ class UsersController < ApplicationController
               }
               end
 
-              @tables << [ table: @tables_h.flatten + @tables_v.flatten, header_count: @tables_h.count]
+              @tables << [table: @tables_h.flatten + @tables_v.flatten, header_count: @tables_h.count, additional_info: (table_info_arr[i].text.squish if table_info_arr[i].present?) ]
             end
             
-            @cont << [name: table_text] + @tables.flatten + [info: table_info]
+            @cont << [name: table_text] + @tables.flatten + [info: cont_info]
             
             # @cont << cont
             @tables = []
@@ -159,12 +165,12 @@ class UsersController < ApplicationController
 
           @cont.each do |cont|
             cont[1..cont.length].each do |con| 
-             @json << User.json_table(con[:table], cont.first[:name], con[:header_count], cont.last[:info])
+             @json << User.json_table(con[:table], cont.first[:name], con[:header_count], con[:additional_info], cont.last[:info])
             end
           end
           
           @json.reject!(&:nil?).reject!{|a| a == false}
-
+          @json = [{'General' => ['ELIGIBILITY AS OF' => date_of_eligibility]}] + @json
         else
           flash[:danger] = "Please enter correct information"
         
@@ -177,14 +183,14 @@ class UsersController < ApplicationController
         redirect_to :back
       end
     
-    rescue Exception=> e
-      puts "77777"*90
-      puts e.inspect
+    # rescue Exception=> e
+    #   puts "77777"*90
+    #   puts e.inspect
       
-      flash[:info] = "Time Out. Please try again later."
+    #   flash[:info] = "Time Out. Please try again later."
       
-      redirect_to :back
-    end 
+    #   redirect_to :back
+    # end 
   end
 
 
