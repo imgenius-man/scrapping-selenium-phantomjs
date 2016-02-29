@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   
 
   def search_data
-    # begin
+    begin
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present?        
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
@@ -183,14 +183,14 @@ class UsersController < ApplicationController
         redirect_to :back
       end
     
-    # rescue Exception=> e
-    #   puts "77777"*90
-    #   puts e.inspect
+    rescue Exception=> e
+      puts "77777"*90
+      puts e.inspect
       
-    #   flash[:info] = "Time Out. Please try again later."
+      flash[:info] = "Time Out. Please try again later."
       
-    #   redirect_to :back
-    # end 
+      redirect_to :back
+    end 
   end
 
 
