@@ -134,7 +134,7 @@ class UsersController < ApplicationController
                         l.children.text.squish
                       
                       elsif l.name == 'div' && l.attributes["class"].present? && l.attributes["class"].value == "icon-notificationsSmall cigna-careDesignation"
-                        l.children.text.squish + " (C)"
+                        l.children.text.squish + " (Special)"
 
                       elsif l.name == 'ul'
                         " " + l.children.text.squish      
@@ -170,7 +170,8 @@ class UsersController < ApplicationController
           end
           
           @json.reject!(&:nil?).reject!{|a| a == false}
-          @json = [{'General' => ['ELIGIBILITY AS OF' => date_of_eligibility]}] + @json
+          @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility}}] + @json
+        
         else
           flash[:danger] = "Please enter correct information"
         

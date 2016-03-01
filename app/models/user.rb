@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
 					key_value_hash_for_1HT(tr, network, value)
 				end
 			end 
-		end << {"Additional Info" => additional_info}
+		end << {"Additional Notes" => additional_info}
 	end
 
 
@@ -47,18 +47,16 @@ class User < ActiveRecord::Base
 		row_length = table_content.first[:tr].length
 		
 		(row_length).times do |cell_i| 
-			# if table_name == 'Patient and Plan Detail' || table_name == 'Maternity' 
+			if table_name == 'Patient and Plan Detail' 
+				arr = traverse_table_columnwise(table_content, row_length, cell_i).reject(&:blank?) 
+				header_arrays << { table_content.first[:tr][cell_i][:th].first => ( arr.is_a?(String) ? arr : arr.reduce({}, :merge) ) } 
+				#|| table_name == 'Maternity'
+			else
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
-			# end
+			end
 		end
 		
-		hash = {}
-
-		header_arrays.each do |arr|
-			hash.merge!(arr)
-		end
-
-		hash
+		header_arrays.reduce({}, :merge)
 	end
 
 
@@ -125,12 +123,12 @@ class User < ActiveRecord::Base
 		if table_content[0][:tr][0][:th].first.present?
 			{ 
 				table_name + " - " +table_content[0][:tr][0][:th].inject(&:+).to_s => 
-					map_keys(table_content, head_count, additional_info).flatten!
+					map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 			}
 			
 		elsif table_content[0][:tr][0][:th].first.nil?
 			{ 
-				table_name => map_keys(table_content, head_count, additional_info).flatten!
+				table_name => map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 			}
 		end
 	end
@@ -140,17 +138,17 @@ class User < ActiveRecord::Base
 		if table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')
 			{ 
 				table_name + " - " + table_content[0][:tr][0][:th].inject(&:+).to_s => 
-					map_keys(table_content, head_count, additional_info).flatten!
+					map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 			}
 
 		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?)  && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')	
 			{ 
-				table_name => map_keys(table_content, head_count, additional_info).flatten!
+				table_name => map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 			}
 		
 		elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? &&(table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)	
 			{ 
-				table_name + " - " + table_content[0][:tr][0][:th].first => map_keys(table_content, head_count, additional_info).flatten!
+				table_name + " - " + table_content[0][:tr][0][:th].first => map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 			}
 		
 		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?) && table_content[0][:tr][1].present? && (table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)  
@@ -159,7 +157,7 @@ class User < ActiveRecord::Base
 			{
 				table_name => table_content[head_count..table_content.length].map do |tr|
 						{tr[:tr][0][:td].inject => tr[:tr][1][:td].inject}
-					end
+					end.reduce({}, :merge)
 			}
 
 		elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.present?  
@@ -174,7 +172,7 @@ class User < ActiveRecord::Base
 	def self.parse_0H_table(table_content, table_name, head_count, additional_info, container_info)      
 		if table_content.length == 1 && table_name.present? && (container_info.present? || additional_info.present?)
 			{
-				table_name => [ {"Additional Notes"=> (additional_info.present? ? additional_info : container_info)} ]
+				table_name => {"Additional Notes"=> (additional_info.present? ? additional_info : container_info)}
 			}
 		end
 	end

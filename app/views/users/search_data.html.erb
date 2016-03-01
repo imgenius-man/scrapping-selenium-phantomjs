@@ -1,8 +1,27 @@
 			<div class="json" id="json">
 			</div>
 
-<%= javascript_include_tag "jquery.min" %>
-<%= javascript_include_tag "jjsonviewer" %>
+<%#= javascript_include_tag "jquery.min" %>
+<%#= javascript_include_tag "jjsonviewer" %>
+<%#= stylesheet_link_tag 'jjsonviewer.css' %>
+
+<div class="my-table" hidden="hidden" >
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#table" aria-controls="home" role="tab" data-toggle="tab">TABLE</a></li>
+    <li role="presentation"><a href="#rawjson" aria-controls="profile" role="tab" data-toggle="tab">JSON</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="table">...</div>
+    <div role="tabpanel" class="tab-pane" id="rawjson">.m.</div>
+  </div>
+
+</div>
+
+<%= javascript_include_tag "prettyprint" %>
 <%= stylesheet_link_tag 'jjsonviewer.css' %>
 
 
@@ -10,6 +29,33 @@
 	$(document).ready( function() {
 		var javascript_side_json = <%= raw(JSON.generate(@json)) %>
 		
-		$("#json").jJsonViewer(javascript_side_json);
+		for(obj in javascript_side_json){
+			var tbl = prettyPrint( javascript_side_json[obj], {
+				styles: {
+					object: {
+						th: {
+							'text-indent': '100%',
+							'white-space': 'nowrap',
+							'overflow': 'hidden'
+						}
+					}
+				}
+			})
+			
+			node = document.createElement("div");
+			node.innerHTML = $('.my-table').html()
+
+			node.children[0].children[0].children[0].href = node.children[0].children[0].children[0].href+obj 
+			node.children[0].children[1].children[0].href = node.children[0].children[1].children[0].href+obj 
+
+			node.children[1].children[0].id = node.children[1].children[0].id+obj 
+			node.children[1].children[0].innerHTML = tbl.outerHTML
+
+			node.children[1].children[1].id = node.children[1].children[1].id+obj
+			
+			document.body.appendChild(node)
+
+			$('#rawjson'+obj).jJsonViewer(javascript_side_json[obj]);
+		}
 	})
 </script>
