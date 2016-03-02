@@ -1,0 +1,11 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Migrating to CreateUsers (20160201125305)
+Migrating to AddTokenToUsers (20160218050101)
+Migrating to CreateDelayedJobs (20160218081320)
+Migrating to AddUnPwToUsers (20160225124230)
+Migrating to AddRawHtmlToUsers (20160229112234)
+Migrating to AddJsonToUsers (20160229112256)
+Connecting to database specified by database.yml

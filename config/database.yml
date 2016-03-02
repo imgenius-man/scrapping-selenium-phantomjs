@@ -24,7 +24,7 @@ development:
   reconnect: false
   database:  scrapping_dev
   username: root
-  password: helloworld91@
+  password: root
 test:
   adapter: mysql2
   encoding: utf8
@@ -33,10 +33,10 @@ test:
   username: root
   password: helloworld91@
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  adapter: postgresql
+  encoding: unicode
   database: scrapping_pro
   pool: 5
-  username: root
-  password: helloworld91@
+  host: localhost
+  username: postgres
+  password: postgres

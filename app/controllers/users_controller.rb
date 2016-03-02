@@ -24,11 +24,12 @@ class UsersController < ApplicationController
   
 
   def search_data
-    begin
+    # begin
       if params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present?        
         wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
-        driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+        driver = Selenium::WebDriver.for :firefox
+        # , :args => ['--ignore-ssl-errors=true']
         # collapseTable-container
         driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
         
@@ -89,88 +90,11 @@ class UsersController < ApplicationController
           
           containers = driver.find_elements(:class, 'collapseTable-container')
 
-          sanit = ActionView::Base
-
-         @tables_v  = {}
-         @tables_h  = {}
-         @tables = []
-
-         @cont = []
-
-         containers.each do |container|
-            cont = container.attribute('innerHTML')
-
-            page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},cont,nil,Mechanize.new)
-            
-            table_text = page.at('div').text.squish
-            
-            cont_info = page.at('div > .info-text').text.squish if page.at('div > .info-text').present?
-
-            table_info_arr = page.search('div.notes')
-
-            tables_content = page.search('table')
-            
-            tables_content.each_with_index do |tab, i|
-              @tables_h = tab.search('thead > tr').map do |tr|
-              {
-                tr: tr.search('th').map do |q| 
-                {
-                  th: q.children.map do |l| 
-                    l.text.squish if l.name == 'text'
-                  end
-                  .reject(&:nil?)
-                }   
-                end
-              }
-              end
-
-              @tables_v = tab.search('tbody > tr').map do |tr|
-              {
-                tr: tr.search('td').map do |q| 
-                {
-                  td: q.children.map do |l| 
-                    if l.children.present?
-                      if l.name == 'p' || l.name == 'a'  
-                        l.children.text.squish
-                      
-                      elsif l.name == 'div' && l.attributes["class"].present? && l.attributes["class"].value == "icon-notificationsSmall cigna-careDesignation"
-                        l.children.text.squish + " (Special)"
-
-                      elsif l.name == 'ul'
-                        " " + l.children.text.squish      
-                      end 
-                    
-                    else
-                      l.text.squish if l.name == 'text'
-                    end
-                  end
-                  .reject(&:nil?)
-                }   
-                end
-              }
-              end
-
-              @tables << [table: @tables_h.flatten + @tables_v.flatten, header_count: @tables_h.count, additional_info: (table_info_arr[i].text.squish if table_info_arr[i].present?) ]
-            end
-            
-            @cont << [name: table_text] + @tables.flatten + [info: cont_info]
-            
-            # @cont << cont
-            @tables = []
-          end
-        
+          @json = User.parse_containers(containers, date_of_eligibility)
+          
           driver.quit
-          
-          @json = []
 
-          @cont.each do |cont|
-            cont[1..cont.length].each do |con| 
-             @json << User.json_table(con[:table], cont.first[:name], con[:header_count], con[:additional_info], cont.last[:info])
-            end
-          end
-          
-          @json.reject!(&:nil?).reject!{|a| a == false}
-          @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility}}] + @json
+         
         
         else
           flash[:danger] = "Please enter correct information"
@@ -184,14 +108,14 @@ class UsersController < ApplicationController
         redirect_to :back
       end
     
-    rescue Exception=> e
-      puts "77777"*90
-      puts e.inspect
+    # rescue Exception=> e
+    #   puts "77777"*90
+    #   puts e.inspect
       
-      flash[:info] = "Time Out. Please try again later."
+    #   flash[:info] = "Time Out. Please try again later."
       
-      redirect_to :back
-    end 
+    #   redirect_to :back
+    # end 
   end
 
 

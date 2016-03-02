@@ -162,6 +162,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
     
     rescue Exception=> e
       puts "77777"*90
+      driver.quit if driver.present?
       puts e.inspect
       
       puts "(=Time Out. Please try again later.=)"*90
