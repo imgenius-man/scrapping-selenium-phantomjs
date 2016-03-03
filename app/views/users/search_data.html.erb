@@ -27,7 +27,7 @@
 
 <script type="text/javascript">
 	$(document).ready( function() {
-		var javascript_side_json = <%= raw(JSON.generate(@json)) %>
+		var javascript_side_json = <%= raw(@json) %>
 		
 		for(obj in javascript_side_json){
 			var tbl = prettyPrint( javascript_side_json[obj], {

@@ -2,7 +2,7 @@ class ParseContainer
 	require 'parsers/parse_table'
 
 
-	def parse_all(containers)
+	def tabelizer(containers)
 		@tables_v  = {}
 		@tables_h  = {}
 		

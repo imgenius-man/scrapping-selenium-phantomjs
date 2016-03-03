@@ -36,7 +36,9 @@ group :assets do
   gem 'execjs'
 end
 
-
+gem "iconv"
+gem 'roo'
+gem 'roo-xls'
 gem 'jquery-rails', '~> 2.2.1'
 gem 'bootstrap-sass', '~> 2.3.2.2'
 gem 'twitter-bootstrap-rails'
@@ -60,6 +62,7 @@ gem 'carrierwave-dropbox'
 group :development do
   gem 'better_errors'
   gem 'quiet_assets'
+  gem 'binding_of_caller'
 end
 group :development, :test do
   gem 'factory_girl_rails'

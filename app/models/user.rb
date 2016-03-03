@@ -3,10 +3,12 @@ class User < ActiveRecord::Base
 	require 'parsers/parse_container'
 
 
-	attr_accessible :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json 
+	attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json 
+
+	serialize :json, JSON
 
 	def self.parse_containers(containers, date_of_eligibility)
-		@cont = ParseContainer.new.parse_all(containers)
+		@cont = ParseContainer.new.tabelizer(containers)
 	
 		@json = []
 
@@ -24,6 +26,24 @@ class User < ActiveRecord::Base
 	end
 	
 
+	def self.import(file)
+      CSV.foreach(file.path, headers: true) do |row|
+      user_hash = row.to_hash
+      str = row.to_s.split(',')
+
+      a= User.find_by_patient_id(str[3])
+      if a
+        a.update_attributes(first_name: str[0],last_name: str[1],dob: str[2],patient_id: str[3])
+      else
+        a=User.new
+        a.first_name = str[0]
+        a.last_name = str[1]
+        a.dob = str[2]
+        a.patient_id = str[3]
+        a.save!
+      end
+    end
+  end
 	
 end
 

@@ -59,6 +59,7 @@ class DashboardController < ApplicationController
   end
 
   def index
+    @users=User.all.sort_by &:first_name
   end
 end
 

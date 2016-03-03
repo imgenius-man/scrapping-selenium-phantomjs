@@ -9,6 +9,9 @@ Academia::Application.routes.draw do
     	collection do
     		post 'search_data'
             post 'access_token'
+            post 'verify_credentials'
+            post 'import'
+
     	end
     end
     # root :to => '/users/sign_in'

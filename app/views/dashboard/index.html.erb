@@ -1,7 +1,21 @@
 <%= stylesheet_link_tag "custom.css" %>
+<%= stylesheet_link_tag "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" %>
+
+
+
+
 <div class="well signup-form">
+	<div class="">
+  <h4>Import Users</h4>
+  <br>
+  <%= form_tag import_users_path, multipart: true do %>
+      <%= file_field_tag :file %><br />
+      <%= submit_tag "Import" %>
+  <% end %>
+</div>
+<hr>
 	<h3 style="text-align: center;">Patient Search</h3>
-	<%= form_for User.new,:url=>search_data_users_path,:html => { :class => 'form-horizontal' } do |f| %>
+	<%= form_for User.new ,:html => { :class => 'form-horizontal' } do |f| %>
 	  <div class="form-group">
 	  	<%= f.label :username, :class => 'control-label' %>
 			<%= f.text_field :username, :class =>'form-control' %>
@@ -15,27 +29,68 @@
 			<%= f.label "Select the Website to Scrap data", :class=> 'control-label' %>
 			<%= f.select :site_to_scrap, options_for_site,{} , {:class=> 'form-control'} %>
 	  </div>
-	  <div class="form-group">
-	   	<%= f.label :first_name, :class => 'control-label' %>
-		 	<%= f.text_field :first_name, :class =>'form-control' %>
-	  </div>
-	  <div class="form-group">
-	  	<%= f.label :last_name, :class => 'control-label' %>
-	 		<%= f.text_field :last_name, :class =>'form-control' %>
-	  </div>
+		<%= submit_tag "", :value => "► save", :class => "pull-right btn btn-lg btn-primary", id: 'submit-button' %>
+					
+  <br>
 
-	  <div class="form-group">
-	  	<%= f.label :patient_id, :class => 'control-label' %>
-	 		<%= f.text_field :patient_id, :class =>'form-control' %>
-	  </div>
 
-	  <div class="form-group">
-	  	<%= f.label :dob, :class => 'control-label' %>
-	 		<%= f.text_field :dob, :class =>'form-control datepicker' %>
-	  </div>
-	  
-	  <%= submit_tag "", :value => "► save", :class => "pull-right btn btn-sm btn-primary", id: 'submit-button' %>
 	<% end %>
+
+
+			<%if @users %>
+			<h4>Patients Detail</h4>
+			<table>
+			  <thead>
+			    <tr>
+			      <th>First name</th>
+			      <th>Last name</th>
+			      <th>Patient</th>
+			      <th>Date of birth</th>
+			      <th colspan="3"></th>
+			    </tr>
+			  </thead>
+
+			  <tbody>
+
+			    <% @users.each do |user,index| %>
+			      <tr>
+
+			        <!-- <td><%= index %></td> -->
+			        <td><%= user.first_name %></td>
+			        <td><%= user.last_name %></td>
+			        <td><%= user.patient_id %></td>
+			        <td><%= user.dob %></td>
+			        <!-- <td><%= form_for(user) do %>
+			          <%= submit_tag "Check", class: "btn btn-small btn-warning" %>
+			          <% end %></td> -->
+			          <% if user.record_available==true%>
+			           <td>
+			           <!-- <span class="glyphicon glyphicon-ok text-success"></span> -->
+			            <%= form_for(user) do %>
+			          					<%= submit_tag "View", class: "btn btn-block btn-small btn-success" %>
+			         				 <% end %>
+			         				 <!--  <%= link_to 'View', user_path(user.id), class: "btn btn-small btn-success" %></td> -->
+			             <%else%>
+			             <td>
+			             		 <%= form_for(user) do %>
+			          					<%= submit_tag "Check", class: "btn btn-block btn-small btn-warning" %>
+			         				 <% end %>
+<!-- 			             <span class="glyphicon glyphicon-remove text-danger"></span><%= link_to 'View', 'javascript:void(0)', class: "btn btn-small btn-success", disabled: true %></td>
+ -->			           <%end %>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+			<br>
+			<br><br>
+
+			  <p>
+			    <span class="glyphicon glyphicon-remove text-danger"></span> means record is not checked or not available if checked.<br />
+			    <span class="glyphicon glyphicon-ok text-success"></span> means record is checked and available if checked.
+			  </p>
+
+			<%end%>
+
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){

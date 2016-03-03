@@ -39,4 +39,4 @@ production:
   pool: 5
   host: localhost
   username: postgres
-  password: postgres
+  password: admin
