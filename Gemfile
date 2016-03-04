@@ -15,7 +15,7 @@ gem 'american_date'
 # gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 # gem 'bootstrap-datetimepicker-rails'
-
+gem 'pg'
 gem 'will_paginate', '~> 3.0.5'
 group :production do
    gem 'pg'

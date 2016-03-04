@@ -19,19 +19,23 @@
 #   <<: *test
 
 development:
-  adapter:  mysql2
-  encoding:  utf8
+  adapter:  postgresql
+  encoding:  unicode
   reconnect: false
   database:  scrapping_dev
-  username: root
-  password: root
+  host: localhost
+  username: postgres
+  password: postgres
 test:
-  adapter: mysql2
-  encoding: utf8
+  adapter:  postgresql
+  encoding: unicode
   reconnect: false
+  host: localhost
   database: scrapping_test
-  username: root
-  password: helloworld91@
+  username: postgres
+  password: postgres
+  # username: root
+  # password: helloworld91@
 production:
   adapter: postgresql
   encoding: unicode

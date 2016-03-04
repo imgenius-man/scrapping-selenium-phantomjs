@@ -23,7 +23,12 @@ private
 					network = table_content[0][:tr][1][:th].first.to_s
 				
 				elsif tr[:tr].length/2 < i
-					network = table_content[0][:tr][2][:th].first.to_s
+					if table_content[0][:tr][2].present?
+						network = table_content[0][:tr][2][:th].first.to_s
+					
+					else
+						network = table_content[0][:tr][1][:th].first.to_s	
+					end
 				end
 
 				value = td[:td].inject(&:+).to_s

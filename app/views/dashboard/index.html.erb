@@ -15,14 +15,14 @@
 </div>
 <hr>
 	<h3 style="text-align: center;">Patient Search</h3>
-	<%= form_for User.new ,:html => { :class => 'form-horizontal' } do |f| %>
+	<%= form_for User.new ,:html => { :class => 'form-horizontal signin' } do |f| %>
 	  <div class="form-group">
 	  	<%= f.label :username, :class => 'control-label' %>
-			<%= f.text_field :username, :class =>'form-control' %>
+			<%= f.text_field :username, value: (session[:username] if session[:username].present?), :class =>'form-control' %>
 	  </div>
 	  <div class="form-group">
 			<%= f.label :password, :class => 'control-label' %>
-			<%= f.password_field :password, :class =>'form-control' %>
+			<%= f.password_field :password, value: (session[:username] if session[:username].present?), :class =>'form-control' %>
 	  </div>
 
 	  <div class="form-group">
@@ -63,16 +63,30 @@
 			        <!-- <td><%= form_for(user) do %>
 			          <%= submit_tag "Check", class: "btn btn-small btn-warning" %>
 			          <% end %></td> -->
-			          <% if user.record_available==true%>
+			          <% if user.record_available=='complete'%>
 			           <td>
 			           <!-- <span class="glyphicon glyphicon-ok text-success"></span> -->
 			            <%= form_for(user) do %>
 			          					<%= submit_tag "View", class: "btn btn-block btn-small btn-success" %>
 			         				 <% end %>
 			         				 <!--  <%= link_to 'View', user_path(user.id), class: "btn btn-small btn-success" %></td> -->
+			             <%elsif user.record_available=='pending'%>
+			             <td>
+			          					<%= button_tag "Pending..", class: "btn btn-block btn-small btn-info" %>
+
+			             <%elsif user.record_available=='failed' %>
+			             <td>
+			             		 <%= form_for user, :html => { :class => 'patient_form' } do |f| %>
+			          					<%= f.hidden_field :username, value: "asd" %>
+			             		 		<%= f.hidden_field :password, value: "asd" %>
+			          					<%= submit_tag "Re-Check", class: "btn btn-block btn-small btn-danger" %>
+			         				 <% end %>
+
 			             <%else%>
 			             <td>
-			             		 <%= form_for(user) do %>
+			             		 <%= form_for user, :html => { :class => 'patient_form' } do |f| %>
+			             		 		<%= f.hidden_field :username, value: "asd" %>
+			             		 		<%= f.hidden_field :password, value: "asd" %>
 			          					<%= submit_tag "Check", class: "btn btn-block btn-small btn-warning" %>
 			         				 <% end %>
 <!-- 			             <span class="glyphicon glyphicon-remove text-danger"></span><%= link_to 'View', 'javascript:void(0)', class: "btn btn-small btn-success", disabled: true %></td>
@@ -84,19 +98,17 @@
 			<br>
 			<br><br>
 
-			  <p>
-			    <span class="glyphicon glyphicon-remove text-danger"></span> means record is not checked or not available if checked.<br />
-			    <span class="glyphicon glyphicon-ok text-success"></span> means record is checked and available if checked.
-			  </p>
 
 			<%end%>
 
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#submit-button").click(function(){
-			$("#submit-button").addClass('disabled');
-			$("#submit-button").val('Please wait...');
-		})
+		$( ".patient_form" ).submit(function( event ) {
+  		event.preventDefault();
+  		$(this).children('#user_username').val($('#user_username').val().trim())
+  		$(this).children('#user_password').val($('#user_password').val().trim())
+			this.submit()
+		});
 	})
 </script>

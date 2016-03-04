@@ -28,6 +28,10 @@ class UsersController < ApplicationController
     
     if driver.current_url.split("/").last.include?('error')
       flash[:danger] = "Please enter correct information"
+    else
+      flash[:success] = 'Login Successful'
+      session[:username] = params[:user][:username]
+      session[:password] = params[:user][:password]
     end
 
     driver.quit
@@ -46,26 +50,26 @@ class UsersController < ApplicationController
     if user.json.present?
       show(user.id)
     else
-      search_data(user)
+      search_data(user, params[:user][:username], params[:user][:password])
     end
   end
 
   
   def show(id)
     user=User.find(id)
-    @json=user.json.to_json
+    @json=user.json
     render "search_data"
   end
 
-  def signin_cigna(username, pass, site_url)
+  def signin_cigna(name, pass, site_url)
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
     
-    driver = Selenium::WebDriver.for :firefox #, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
     
     driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
     
     username = driver.find_element(:name, 'username')
-    username.send_keys username
+    username.send_keys name
 
     password = driver.find_element(:name, 'password')
     password.send_keys pass
@@ -77,103 +81,15 @@ class UsersController < ApplicationController
   end
 
 
-  def search_data(user)
-    begin
-      if user.first_name.present? && user.last_name.present? && user.dob.present? && user.patient_id.present?        
-        wait = Selenium::WebDriver::Wait.new(timeout: 20)
-        
-        driver = Selenium::WebDriver.for :firefox 
-        # , :args => ['--ignore-ssl-errors=true']
-        # collapseTable-container
-        driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
-        
-        username = driver.find_element(:name, 'username')
-        username.send_keys "skedia105"
-
-        password = driver.find_element(:name, 'password')
-        password.send_keys "Empclaims100"
-
-        element = driver.find_element(:id, 'button1')
-        element.submit
-        
-        href_search = ''
-        wait.until { 
-          href_search = driver.find_elements(:class,'patients')[1]
-        }
-        href_search.click
-       
-        member_id = nil
-        wait.until {  
-          member_id = driver.find_element(:name, 'memberDataList[0].memberId')
-        }
-
-        member_id.send_keys user.patient_id
-
-        dob = driver.find_element(:name, 'memberDataList[0].dobDate')
-        dob.send_keys user.dob
-        
-        first_name = driver.find_element(:name, 'memberDataList[0].firstName')
-        first_name.send_keys user.first_name
-        
-        last_name = driver.find_element(:name, 'memberDataList[0].lastName')
-        last_name.send_keys user.last_name
-        
-        ee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
-        ee.submit
-
-        sleep(2)
-        eee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
-        if !eee.present?
-          link = nil
-          wait.until {
-            link = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td > .oep-managed-link')[0]
-          }
-          link.click
-
-          wait.until { driver.find_elements(:class, 'collapseTable').present? }
-
-          if driver.find_elements( :class,"oep-managed-sub-tab").second.displayed?
-            driver.find_elements( :class,"oep-managed-sub-tab").second.click
-          end
-
-          sleep(4)
-
-          wait.until { driver.find_elements(:class, 'collapseTable').present? }
- 
-          date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
-          
-          containers = driver.find_elements(:class, 'collapseTable-container')
-
-          @json = User.parse_containers(containers, date_of_eligibility)
-
-          if @json
-            user.update_attribute('record_available', true)
-          end
-
-          driver.quit
-
-          user.update_attribute('json', @json)
-
-        
-        else
-          flash[:danger] = "Please enter correct information"
-        
-          redirect_to :back
-        end
+  def search_data(user, username, password)
+    if user.first_name.present? && user.last_name.present? && user.dob.present? && user.patient_id.present?        
+      Delayed::Job.enqueue Crawler.new(user.first_name, user.last_name, user.dob, user.patient_id, username, password, nil, user.id)
       
-      else
-        flash[:danger] = "All fields are required."
-        
-        redirect_to :back
-      end
-    
-    rescue Exception=> e
-      puts "77777"*90
-      puts e.inspect
-      
-      flash[:info] = "Time Out. Please try again later."
-      
-      redirect_to :back
+      user.update_attribute('record_available', 'pending')
+
+      flash['info'] = "Process has been initiated for patient = #{user.patient_id}"
+
+      redirect_to :back 
     end 
   end
 

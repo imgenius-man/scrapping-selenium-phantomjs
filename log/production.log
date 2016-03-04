@@ -9,3 +9,43 @@ Migrating to AddUnPwToUsers (20160225124230)
 Migrating to AddRawHtmlToUsers (20160229112234)
 Migrating to AddJsonToUsers (20160229112256)
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+source=rack-timeout id=0c03ffb0c280b59cc38e7f37be83bd9a timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 15:32:57 +0500
+Processing by DashboardController#index as HTML
+Compiled custom.css  (0ms)  (pid 20099)
+  Rendered dashboard/index.html.erb within layouts/application (50.6ms)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/application.css.scssc: can't dump anonymous class #<Class:0x00000003f50890>
+
+Compiled bootstrap.css  (0ms)  (pid 20099)
+Compiled bootstrap-responsive.css  (0ms)  (pid 20099)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap_and_overrides.css.scssc: can't dump anonymous class #<Class:0x00000003f50890>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap.cssc: can't dump anonymous class #<Class:0x00000003f50890>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap-responsive.cssc: can't dump anonymous class #<Class:0x00000003f50890>
+
+Compiled bootstrap_and_overrides.css  (1181ms)  (pid 20099)
+Compiled application.css  (1207ms)  (pid 20099)
+Compiled jquery.js  (3ms)  (pid 20099)
+Compiled jquery_ujs.js  (0ms)  (pid 20099)
+Compiled bootstrap.js  (0ms)  (pid 20099)
+Compiled bootstrap-datepicker.js  (0ms)  (pid 20099)
+Compiled jjsonviewer.js  (0ms)  (pid 20099)
+Compiled jquery.dynatable.js  (0ms)  (pid 20099)
+Compiled prettyprint.js  (0ms)  (pid 20099)
+Compiled application.js  (25ms)  (pid 20099)
+Completed 200 OK in 8425ms (Views: 8019.8ms | ActiveRecord: 391.5ms)
+source=rack-timeout id=0c03ffb0c280b59cc38e7f37be83bd9a timeout=200000ms service=8447ms state=completed
+source=rack-timeout id=a82158a3b450e24245e2b9ea01fc1d35 timeout=200000ms state=ready
+Started GET "/assets/application-55c6df01227ffd8fded884d81e2c0b6e.js" for 127.0.0.1 at 2016-03-04 15:33:05 +0500
+Served asset /application-55c6df01227ffd8fded884d81e2c0b6e.js - 200 OK (0ms)
+source=rack-timeout id=a82158a3b450e24245e2b9ea01fc1d35 timeout=200000ms service=4ms state=completed
+source=rack-timeout id=9cf560da308fde0b7dc7c5153728e51d timeout=200000ms state=ready
+Started GET "/assets/custom-f66b547f79c86c5f7dab2b0642cb0395.css" for 127.0.0.1 at 2016-03-04 15:33:05 +0500
+Served asset /custom-f66b547f79c86c5f7dab2b0642cb0395.css - 200 OK (0ms)
+source=rack-timeout id=9cf560da308fde0b7dc7c5153728e51d timeout=200000ms service=3ms state=completed
+source=rack-timeout id=1924c4c20d04a27bdcce0c540a858494 timeout=200000ms state=ready
+Started GET "/assets/application-e3d05c228bfd6043c1175e88ec2c3fd0.css" for 127.0.0.1 at 2016-03-04 15:33:05 +0500
+Served asset /application-e3d05c228bfd6043c1175e88ec2c3fd0.css - 200 OK (0ms)
+source=rack-timeout id=1924c4c20d04a27bdcce0c540a858494 timeout=200000ms service=3ms state=completed
