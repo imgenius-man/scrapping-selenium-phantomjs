@@ -36,8 +36,8 @@ class User < ActiveRecord::Base
         a.update_attributes(first_name: str[0],last_name: str[1],dob: str[2],patient_id: str[3])
       else
         a=User.new
-        a.first_name = str[0]
-        a.last_name = str[1]
+        a.first_name = str[0].squish
+        a.last_name = str[1].squish
         a.dob = str[2].squish
         a.patient_id = str[3].squish
         a.save!

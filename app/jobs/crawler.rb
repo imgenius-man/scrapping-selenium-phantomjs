@@ -54,7 +54,9 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         }
         link.click
 
-        wait.until { driver.find_elements(:class, 'collapseTable').displayed? }
+        wait.until { driver.find_elements(:class, 'collapseTable').present? }
+
+        sleep(2)
 
         if driver.find_elements( :class,"oep-managed-sub-tab").second.displayed?
           driver.find_elements( :class,"oep-managed-sub-tab").second.click
@@ -62,7 +64,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 
         sleep(4)
 
-        wait.until { driver.find_elements(:class, 'collapseTable').displayed? }
+        wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
         date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
         

@@ -51,7 +51,7 @@ private
 		
 		(row_length).times do |cell_i| 
 			if table_name == 'Patient and Plan Detail' 
-				arr = traverse_table_columnwise(table_content, row_length, cell_i).reject(&:blank?) 
+				arr = traverse_table_columnwise(table_content, row_length, cell_i).reject{|b| b.is_a?(String) || b.blank?} 
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => ( arr.is_a?(String) ? arr : arr.reduce({}, :merge) ) } 
 				#|| table_name == 'Maternity'
 			else
