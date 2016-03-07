@@ -38,8 +38,8 @@ class User < ActiveRecord::Base
         a=User.new
         a.first_name = str[0]
         a.last_name = str[1]
-        a.dob = str[2]
-        a.patient_id = str[3]
+        a.dob = str[2].squish
+        a.patient_id = str[3].squish
         a.save!
       end
     end

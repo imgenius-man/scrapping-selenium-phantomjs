@@ -7,8 +7,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 
       wait = Selenium::WebDriver::Wait.new(timeout: 20)
         
-      driver = Selenium::WebDriver.for :firefox
-      # , :args => ['--ignore-ssl-errors=true']
+      driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
       # collapseTable-container
       driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
       
@@ -55,7 +54,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         }
         link.click
 
-        wait.until { driver.find_elements(:class, 'collapseTable').present? }
+        wait.until { driver.find_elements(:class, 'collapseTable').displayed? }
 
         if driver.find_elements( :class,"oep-managed-sub-tab").second.displayed?
           driver.find_elements( :class,"oep-managed-sub-tab").second.click
@@ -63,7 +62,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 
         sleep(4)
 
-        wait.until { driver.find_elements(:class, 'collapseTable').present? }
+        wait.until { driver.find_elements(:class, 'collapseTable').displayed? }
 
         date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
         
@@ -89,6 +88,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
     rescue Exception=> e
       user.update_attribute('record_available', 'failed')
       puts "77777"*90
+      puts user.inspect
       driver.quit if driver.present?
       puts e.inspect
       
