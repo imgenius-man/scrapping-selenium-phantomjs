@@ -15,11 +15,3 @@
 	width: 60%;
 	margin-left: 20%;
 }
-
-td {
-	  border-spacing: 100px;
-}
-tbody tr:nth-child(odd) {
-  background: #eee;
-}
-

@@ -49,3 +49,331 @@ source=rack-timeout id=1924c4c20d04a27bdcce0c540a858494 timeout=200000ms state=r
 Started GET "/assets/application-e3d05c228bfd6043c1175e88ec2c3fd0.css" for 127.0.0.1 at 2016-03-04 15:33:05 +0500
 Served asset /application-e3d05c228bfd6043c1175e88ec2c3fd0.css - 200 OK (0ms)
 source=rack-timeout id=1924c4c20d04a27bdcce0c540a858494 timeout=200000ms service=3ms state=completed
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+source=rack-timeout id=408abe38e0af080f77a6876baac74a04 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 16:51:20 +0500
+Processing by DashboardController#index as HTML
+Compiled custom.css  (0ms)  (pid 24543)
+  Rendered dashboard/index.html.erb within layouts/application (97.3ms)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/application.css.scssc: can't dump anonymous class #<Class:0x000000027af538>
+
+Compiled bootstrap.css  (0ms)  (pid 24543)
+Compiled bootstrap-responsive.css  (0ms)  (pid 24543)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap_and_overrides.css.scssc: can't dump anonymous class #<Class:0x000000027af538>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap.cssc: can't dump anonymous class #<Class:0x000000027af538>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap-responsive.cssc: can't dump anonymous class #<Class:0x000000027af538>
+
+Compiled bootstrap_and_overrides.css  (1247ms)  (pid 24543)
+Compiled application.css  (1262ms)  (pid 24543)
+Compiled jquery.js  (3ms)  (pid 24543)
+Compiled jquery_ujs.js  (0ms)  (pid 24543)
+Compiled bootstrap.js  (0ms)  (pid 24543)
+Compiled bootstrap-datepicker.js  (0ms)  (pid 24543)
+Compiled jjsonviewer.js  (0ms)  (pid 24543)
+Compiled jquery.dynatable.js  (0ms)  (pid 24543)
+Compiled prettyprint.js  (0ms)  (pid 24543)
+Compiled application.js  (19ms)  (pid 24543)
+Completed 200 OK in 7932ms (Views: 7926.3ms | ActiveRecord: 3.8ms)
+source=rack-timeout id=408abe38e0af080f77a6876baac74a04 timeout=200000ms service=7959ms state=completed
+source=rack-timeout id=8b2149e0a3c1a22ead4708be04cb5365 timeout=200000ms state=ready
+Started POST "/users/import" for 127.0.0.1 at 2016-03-04 16:51:35 +0500
+Processing by UsersController#import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "file"=>#<ActionDispatch::Http::UploadedFile:0x007fdfc55d4588 @original_filename="abc.csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"file\"; filename=\"abc.csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/tmp/RackMultipart20160304-24543-7ek44t>>, "commit"=>"Import"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 1911ms (ActiveRecord: 1409.4ms)
+source=rack-timeout id=8b2149e0a3c1a22ead4708be04cb5365 timeout=200000ms service=1918ms state=completed
+source=rack-timeout id=a5b1ea344c6758ba75c00099c3f2e4de timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 16:51:37 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (7.8ms)
+Completed 500 Internal Server Error in 17ms
+
+ActionView::Template::Error (undefined method `record_available' for #<User:0x007fdfc6274180>):
+    63: 			        <!-- <td><%= form_for(user) do %>
+    64: 			          <%= submit_tag "Check", class: "btn btn-small btn-warning" %>
+    65: 			          <% end %></td> -->
+    66: 			          <% if user.record_available=='complete'%>
+    67: 			           <td>
+    68: 			           <!-- <span class="glyphicon glyphicon-ok text-success"></span> -->
+    69: 			            <%= form_for(user) do %>
+  app/views/dashboard/index.html.erb:66:in `block in _app_views_dashboard_index_html_erb___3673294332180029461_70299521935800'
+  app/views/dashboard/index.html.erb:55:in `each'
+  app/views/dashboard/index.html.erb:55:in `_app_views_dashboard_index_html_erb___3673294332180029461_70299521935800'
+
+
+source=rack-timeout id=a5b1ea344c6758ba75c00099c3f2e4de timeout=200000ms service=22ms state=completed
+Connecting to database specified by database.yml
+Migrating to CreateUsers (20160201125305)
+Migrating to AddTokenToUsers (20160218050101)
+Migrating to CreateDelayedJobs (20160218081320)
+Migrating to AddUnPwToUsers (20160225124230)
+Migrating to AddRawHtmlToUsers (20160229112234)
+Migrating to AddJsonToUsers (20160229112256)
+Migrating to AddRecordAvailableToUsers (20160303103908)
+Migrating to ChangeDobDatatypeOfUsers (20160303111837)
+Migrating to ChangeDobTypeOfUsers (20160304054644)
+Connecting to database specified by database.yml
+Migrating to CreateUsers (20160201125305)
+Migrating to AddTokenToUsers (20160218050101)
+Migrating to CreateDelayedJobs (20160218081320)
+Migrating to AddUnPwToUsers (20160225124230)
+Migrating to AddRawHtmlToUsers (20160229112234)
+Migrating to AddJsonToUsers (20160229112256)
+Migrating to AddRecordAvailableToUsers (20160303103908)
+Migrating to ChangeDobDatatypeOfUsers (20160303111837)
+Migrating to ChangeDobTypeOfUsers (20160304054644)
+Migrating to ChangeRecordAvailableTypeOfUsers (20160304074428)
+Connecting to database specified by database.yml
+source=rack-timeout id=7b706a1c59bf32024564de5b092a2552 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 17:09:30 +0500
+Processing by DashboardController#index as HTML
+Compiled custom.css  (0ms)  (pid 25597)
+  Rendered dashboard/index.html.erb within layouts/application (190.9ms)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/application.css.scssc: can't dump anonymous class #<Class:0x00000004af4ca0>
+
+Compiled bootstrap.css  (0ms)  (pid 25597)
+Compiled bootstrap-responsive.css  (0ms)  (pid 25597)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap_and_overrides.css.scssc: can't dump anonymous class #<Class:0x00000004af4ca0>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap.cssc: can't dump anonymous class #<Class:0x00000004af4ca0>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap-responsive.cssc: can't dump anonymous class #<Class:0x00000004af4ca0>
+
+Compiled bootstrap_and_overrides.css  (1208ms)  (pid 25597)
+Compiled application.css  (1221ms)  (pid 25597)
+Compiled jquery.js  (3ms)  (pid 25597)
+Compiled jquery_ujs.js  (0ms)  (pid 25597)
+Compiled bootstrap.js  (0ms)  (pid 25597)
+Compiled bootstrap-datepicker.js  (0ms)  (pid 25597)
+Compiled jjsonviewer.js  (0ms)  (pid 25597)
+Compiled jquery.dynatable.js  (0ms)  (pid 25597)
+Compiled prettyprint.js  (0ms)  (pid 25597)
+Compiled application.js  (36ms)  (pid 25597)
+Completed 200 OK in 8109ms (Views: 8073.9ms | ActiveRecord: 5.5ms)
+source=rack-timeout id=7b706a1c59bf32024564de5b092a2552 timeout=200000ms service=8137ms state=completed
+source=rack-timeout id=0a0fcd6e2150ac8a044c14cd0c3b68b0 timeout=200000ms state=ready
+Started PUT "/users/28" for 127.0.0.1 at 2016-03-04 17:10:03 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"asd", "password"=>"[FILTERED]"}, "commit"=>"Check", "id"=>"28"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 96ms (ActiveRecord: 81.0ms)
+source=rack-timeout id=0a0fcd6e2150ac8a044c14cd0c3b68b0 timeout=200000ms service=101ms state=completed
+source=rack-timeout id=d7423a77b72446aee64da3a7630b9568 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 17:10:03 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (198.2ms)
+Completed 200 OK in 211ms (Views: 199.6ms | ActiveRecord: 2.6ms)
+source=rack-timeout id=d7423a77b72446aee64da3a7630b9568 timeout=200000ms service=216ms state=completed
+Connecting to database specified by database.yml
+2016-03-04T17:11:23+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] Starting job worker
+2016-03-04T17:11:23+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] Job Crawler (id=1) RUNNING
+2016-03-04T17:12:10+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] Job Crawler (id=1) COMPLETED after 46.5221
+2016-03-04T17:12:10+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] 1 jobs processed at 0.0215 j/s, 0 failed
+source=rack-timeout id=299eb93aa886ef2374d60c75ddfada2e timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:31:31 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (164.4ms)
+Completed 200 OK in 170ms (Views: 165.6ms | ActiveRecord: 0.9ms)
+source=rack-timeout id=299eb93aa886ef2374d60c75ddfada2e timeout=200000ms service=173ms state=completed
+source=rack-timeout id=67d4a19f6f3c956c5eec3f2ff415494c timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:31:58 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (214.8ms)
+Completed 200 OK in 228ms (Views: 216.1ms | ActiveRecord: 1.3ms)
+source=rack-timeout id=67d4a19f6f3c956c5eec3f2ff415494c timeout=200000ms service=231ms state=completed
+source=rack-timeout id=f9ca9844bd35957140ee3005fd9342ba timeout=200000ms state=ready
+Started POST "/users/import" for 127.0.0.1 at 2016-03-04 20:39:43 +0500
+Processing by UsersController#import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "file"=>#<ActionDispatch::Http::UploadedFile:0x007f098497d210 @original_filename="abc.csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"file\"; filename=\"abc.csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/tmp/RackMultipart20160304-25597-7qlavu>>, "commit"=>"Import"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 4292ms (ActiveRecord: 3869.7ms)
+source=rack-timeout id=f9ca9844bd35957140ee3005fd9342ba timeout=200000ms service=4299ms state=completed
+source=rack-timeout id=4069379da86fb67f023a036ec1b63100 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:39:47 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (164.1ms)
+Completed 200 OK in 174ms (Views: 165.1ms | ActiveRecord: 1.5ms)
+source=rack-timeout id=4069379da86fb67f023a036ec1b63100 timeout=200000ms service=177ms state=completed
+source=rack-timeout id=af544626790cc73039377f7386709ea2 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:43:56 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (174.7ms)
+Completed 200 OK in 182ms (Views: 175.7ms | ActiveRecord: 1.5ms)
+source=rack-timeout id=af544626790cc73039377f7386709ea2 timeout=200000ms service=184ms state=completed
+Connecting to database specified by database.yml
+source=rack-timeout id=56b9da193aa4b356434313fae519e344 timeout=200000ms state=ready
+Started PUT "/users/60" for 127.0.0.1 at 2016-03-04 20:44:48 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"skedia105", "password"=>"[FILTERED]"}, "commit"=>"Check", "id"=>"60"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 68ms (ActiveRecord: 34.8ms)
+source=rack-timeout id=56b9da193aa4b356434313fae519e344 timeout=200000ms service=110ms state=completed
+source=rack-timeout id=aa8e61c846d564815a65aaa57f9173ee timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:44:48 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (177.4ms)
+Completed 200 OK in 202ms (Views: 197.0ms | ActiveRecord: 0.9ms)
+source=rack-timeout id=aa8e61c846d564815a65aaa57f9173ee timeout=200000ms service=205ms state=completed
+2016-03-04T20:44:52+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] Job Crawler (id=2) RUNNING
+2016-03-04T20:45:14+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] Exiting...
+2016-03-04T20:45:14+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] Job Crawler (id=2) FAILED (0 prior attempts) with Errno::ECONNREFUSED: Connection refused - connect(2) for "127.0.0.1" port 8910
+2016-03-04T20:45:14+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:25708)] 1 jobs processed at 0.0436 j/s, 1 failed
+source=rack-timeout id=28d4ac52aeb36bf4dbb1f4f776a4bc4a timeout=200000ms state=ready
+Started PUT "/users/112" for 127.0.0.1 at 2016-03-04 20:50:34 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"asd", "password"=>"[FILTERED]"}, "commit"=>"Check", "id"=>"112"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 35ms (ActiveRecord: 28.6ms)
+source=rack-timeout id=28d4ac52aeb36bf4dbb1f4f776a4bc4a timeout=200000ms service=39ms state=completed
+source=rack-timeout id=13cfae64588eb801e17d0b07788935b1 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:50:34 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (154.5ms)
+Completed 200 OK in 165ms (Views: 156.4ms | ActiveRecord: 1.4ms)
+source=rack-timeout id=13cfae64588eb801e17d0b07788935b1 timeout=200000ms service=170ms state=completed
+source=rack-timeout id=5242f513658c92aa91b07e291e491351 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:53:45 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (141.1ms)
+Completed 200 OK in 149ms (Views: 142.1ms | ActiveRecord: 1.5ms)
+source=rack-timeout id=5242f513658c92aa91b07e291e491351 timeout=200000ms service=151ms state=completed
+source=rack-timeout id=772f04e6db09b49ca3ed210f29968857 timeout=200000ms state=ready
+Started PUT "/users/37" for 127.0.0.1 at 2016-03-04 20:53:48 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"asd", "password"=>"[FILTERED]"}, "commit"=>"Check", "id"=>"37"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 33ms (ActiveRecord: 28.2ms)
+source=rack-timeout id=772f04e6db09b49ca3ed210f29968857 timeout=200000ms service=35ms state=completed
+source=rack-timeout id=e1c0042b9d8455d3b5c62ac8de7bd6fe timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 20:53:48 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (143.4ms)
+Completed 200 OK in 156ms (Views: 144.5ms | ActiveRecord: 1.0ms)
+source=rack-timeout id=e1c0042b9d8455d3b5c62ac8de7bd6fe timeout=200000ms service=161ms state=completed
+Connecting to database specified by database.yml
+2016-03-04T20:54:55+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Starting job worker
+2016-03-04T20:54:55+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=2) RUNNING
+2016-03-04T20:55:42+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=2) COMPLETED after 47.2769
+2016-03-04T20:55:42+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=3) RUNNING
+2016-03-04T20:56:16+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=3) COMPLETED after 33.3676
+2016-03-04T20:56:16+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=4) RUNNING
+2016-03-04T20:56:40+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=4) FAILED (0 prior attempts) with Errno::ECONNREFUSED: Connection refused - connect(2) for "127.0.0.1" port 7055
+2016-03-04T20:56:40+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] 3 jobs processed at 0.0286 j/s, 1 failed
+2016-03-04T20:56:50+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=4) RUNNING
+2016-03-04T20:57:24+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=4) COMPLETED after 33.8999
+2016-03-04T20:57:24+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] 1 jobs processed at 0.0295 j/s, 0 failed
+source=rack-timeout id=d797cee1f635cdf670e4ae6195fae320 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 21:11:46 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (179.8ms)
+Completed 200 OK in 187ms (Views: 180.9ms | ActiveRecord: 1.2ms)
+source=rack-timeout id=d797cee1f635cdf670e4ae6195fae320 timeout=200000ms service=190ms state=completed
+source=rack-timeout id=cb87d350c466be4fd3910001222afdce timeout=200000ms state=ready
+Started PUT "/users/112" for 127.0.0.1 at 2016-03-04 21:19:14 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"asd", "password"=>"[FILTERED]"}, "commit"=>"Re-Check", "id"=>"112"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 36ms (ActiveRecord: 29.6ms)
+source=rack-timeout id=cb87d350c466be4fd3910001222afdce timeout=200000ms service=40ms state=completed
+source=rack-timeout id=edc01b018a9d6cfc005dfbc1ee62c999 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 21:19:14 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (147.0ms)
+Completed 200 OK in 155ms (Views: 148.0ms | ActiveRecord: 1.1ms)
+source=rack-timeout id=edc01b018a9d6cfc005dfbc1ee62c999 timeout=200000ms service=158ms state=completed
+2016-03-04T21:19:15+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=5) RUNNING
+source=rack-timeout id=579ad54b97d4b4ecb09ac2ecffdabf40 timeout=200000ms state=ready
+Started POST "/users" for 127.0.0.1 at 2016-03-04 21:19:37 +0500
+Processing by UsersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"skedia105", "password"=>"[FILTERED]", "site_to_scrap"=>"Cigna HCP"}, "commit"=>"► save"}
+2016-03-04T21:19:40+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=5) FAILED (0 prior attempts) with Errno::ECONNREFUSED: Connection refused - connect(2) for "127.0.0.1" port 7055
+2016-03-04T21:19:40+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] 1 jobs processed at 0.0397 j/s, 1 failed
+2016-03-04T21:19:50+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=5) RUNNING
+Redirected to http://localhost:3000/
+Completed 302 Found in 16777ms (ActiveRecord: 0.0ms)
+source=rack-timeout id=579ad54b97d4b4ecb09ac2ecffdabf40 timeout=200000ms service=16779ms state=completed
+source=rack-timeout id=09e7e97f9c29a841b3044f021bb1ddd0 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 21:19:53 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (181.4ms)
+Completed 200 OK in 190ms (Views: 182.7ms | ActiveRecord: 0.9ms)
+source=rack-timeout id=09e7e97f9c29a841b3044f021bb1ddd0 timeout=200000ms service=194ms state=completed
+2016-03-04T21:19:59+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=5) FAILED (1 prior attempts) with Errno::ECONNREFUSED: Connection refused - connect(2) for "127.0.0.1" port 7055
+2016-03-04T21:19:59+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] 1 jobs processed at 0.1137 j/s, 1 failed
+source=rack-timeout id=5ca59d27f87e41fa038322972558b49f timeout=200000ms state=ready
+Started PUT "/users/37" for 127.0.0.1 at 2016-03-04 21:20:02 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"skedia105", "password"=>"[FILTERED]"}, "commit"=>"Re-Check", "id"=>"37"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 28ms (ActiveRecord: 21.7ms)
+source=rack-timeout id=5ca59d27f87e41fa038322972558b49f timeout=200000ms service=30ms state=completed
+source=rack-timeout id=c0c91107929a5728fc4e72d63e6130ee timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 21:20:02 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (152.5ms)
+Completed 200 OK in 162ms (Views: 153.7ms | ActiveRecord: 1.4ms)
+source=rack-timeout id=c0c91107929a5728fc4e72d63e6130ee timeout=200000ms service=166ms state=completed
+2016-03-04T21:20:04+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=6) RUNNING
+2016-03-04T21:20:55+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=6) COMPLETED after 51.1136
+2016-03-04T21:20:55+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=5) RUNNING
+2016-03-04T21:21:05+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Job Crawler (id=5) FAILED (2 prior attempts) with Errno::ECONNREFUSED: Connection refused - connect(2) for "127.0.0.1" port 7055
+2016-03-04T21:21:05+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] 2 jobs processed at 0.0324 j/s, 1 failed
+2016-03-04T21:21:11+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Exiting...
+2016-03-04T21:21:11+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:27930)] Exiting...
+Connecting to database specified by database.yml
+2016-03-04T21:21:18+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Starting job worker
+source=rack-timeout id=109fe205c8b8e2094d7f66037c496738 timeout=200000ms state=ready
+Started PUT "/users/112" for 127.0.0.1 at 2016-03-04 21:21:32 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"skedia105", "password"=>"[FILTERED]"}, "commit"=>"Re-Check", "id"=>"112"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 37ms (ActiveRecord: 30.0ms)
+source=rack-timeout id=109fe205c8b8e2094d7f66037c496738 timeout=200000ms service=39ms state=completed
+source=rack-timeout id=cceca8095e511e460b508f7e10a71491 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 21:21:32 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (161.8ms)
+Completed 200 OK in 173ms (Views: 163.1ms | ActiveRecord: 1.9ms)
+source=rack-timeout id=cceca8095e511e460b508f7e10a71491 timeout=200000ms service=176ms state=completed
+2016-03-04T21:21:33+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=7) RUNNING
+2016-03-04T21:21:57+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=7) COMPLETED after 23.2592
+2016-03-04T21:21:57+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] 1 jobs processed at 0.0429 j/s, 0 failed
+2016-03-04T21:22:32+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=5) RUNNING
+2016-03-04T21:22:41+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=5) FAILED (3 prior attempts) with EOFError: end of file reached
+2016-03-04T21:22:41+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] 1 jobs processed at 0.1069 j/s, 1 failed
+source=rack-timeout id=61f8fd310ff63c14c109094ec25e0a73 timeout=200000ms state=ready
+Started PUT "/users/37" for 127.0.0.1 at 2016-03-04 21:27:02 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wvee4IuUmwH9YjgxvDdbhX2sSFMLW1BO35zUFYWdZao=", "user"=>{"username"=>"skedia105", "password"=>"[FILTERED]"}, "commit"=>"Re-Check", "id"=>"37"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 47ms (ActiveRecord: 41.8ms)
+source=rack-timeout id=61f8fd310ff63c14c109094ec25e0a73 timeout=200000ms service=50ms state=completed
+source=rack-timeout id=01ae405d182e7ae1534263e68fa2167b timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 21:27:02 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (179.6ms)
+Completed 200 OK in 188ms (Views: 180.8ms | ActiveRecord: 1.3ms)
+source=rack-timeout id=01ae405d182e7ae1534263e68fa2167b timeout=200000ms service=192ms state=completed
+2016-03-04T21:27:06+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) RUNNING
+2016-03-04T21:28:02+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) FAILED (0 prior attempts) with Selenium::WebDriver::Error::TimeOutError: timed out after 20 seconds
+2016-03-04T21:28:02+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=5) RUNNING
+2016-03-04T21:28:34+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=5) FAILED (4 prior attempts) with Selenium::WebDriver::Error::TimeOutError: timed out after 20 seconds
+2016-03-04T21:28:34+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) RUNNING
+2016-03-04T21:28:40+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) FAILED (1 prior attempts) with EOFError: end of file reached
+2016-03-04T21:28:40+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] 3 jobs processed at 0.0320 j/s, 3 failed
+2016-03-04T21:29:06+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) RUNNING
+2016-03-04T21:29:15+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) FAILED (2 prior attempts) with EOFError: end of file reached
+2016-03-04T21:29:15+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] 1 jobs processed at 0.0993 j/s, 1 failed
+2016-03-04T21:30:45+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) RUNNING
+2016-03-04T21:31:29+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Job Crawler (id=8) FAILED (3 prior attempts) with Selenium::WebDriver::Error::TimeOutError: timed out after 20 seconds
+2016-03-04T21:31:29+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] 1 jobs processed at 0.0226 j/s, 1 failed
+2016-03-04T21:32:42+0500: [Worker(host:ittsel-HP-ProBook-450-G1 pid:29242)] Exiting...
+source=rack-timeout id=1895eb5666ae1c70f36c5d9dee12ee29 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-04 23:41:25 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (150.0ms)
+Completed 200 OK in 161ms (Views: 151.0ms | ActiveRecord: 0.9ms)
+source=rack-timeout id=1895eb5666ae1c70f36c5d9dee12ee29 timeout=200000ms service=164ms state=completed

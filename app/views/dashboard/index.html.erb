@@ -4,17 +4,18 @@
 
 
 
-<div class="well signup-form">
+<div class="container well">
 	<div class="">
-  <h4>Import Users</h4>
+  <h4>Import Patients</h4>
   <br>
   <%= form_tag import_users_path, multipart: true do %>
       <%= file_field_tag :file %><br />
-      <%= submit_tag "Import" %>
+      <%= submit_tag "Import" ,:class => "btn btn-danger"%>
   <% end %>
 </div>
 <hr>
-	<h3 style="text-align: center;">Patient Search</h3>
+	<h3 style="text-align: center;">
+	Sign In</h3>
 	<%= form_for User.new ,:html => { :class => 'form-horizontal signin' } do |f| %>
 	  <div class="form-group">
 	  	<%= f.label :username, :class => 'control-label' %>
@@ -22,14 +23,14 @@
 	  </div>
 	  <div class="form-group">
 			<%= f.label :password, :class => 'control-label' %>
-			<%= f.password_field :password, value: (session[:username] if session[:username].present?), :class =>'form-control' %>
+			<%= f.password_field :password, value: (session[:password] if session[:password].present?), :class =>'form-control' %>
 	  </div>
 
 	  <div class="form-group">
 			<%= f.label "Select the Website to Scrap data", :class=> 'control-label' %>
 			<%= f.select :site_to_scrap, options_for_site,{} , {:class=> 'form-control'} %>
 	  </div>
-		<%= submit_tag "", :value => "► save", :class => "pull-right btn btn-lg btn-primary", id: 'submit-button' %>
+		<%= submit_tag "", :value => "► check & save credentials", :class => "pull-right btn btn-lg btn-primary", id: 'submit-button' %>
 					
   <br>
 
@@ -39,7 +40,8 @@
 
 			<%if @users %>
 			<h4>Patients Detail</h4>
-			<table>
+		<div class="table-responsive">
+			<table class="table table-striped">
 			  <thead>
 			    <tr>
 			      <th>First name</th>
@@ -95,6 +97,7 @@
 			    <% end %>
 			  </tbody>
 			</table>
+			</div>
 			<br>
 			<br><br>
 

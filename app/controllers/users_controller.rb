@@ -24,10 +24,14 @@ class UsersController < ApplicationController
   
 
   def create
-    driver = signin_cigna(params[:user][:username], params[:user][:password], params[:user][:site_to_scrap])
+    obj = signin_cigna(params[:user][:username], params[:user][:password], params[:user][:site_to_scrap])
     
-    if driver.current_url.split("/").last.include?('error')
+    driver = obj[:driver]
+    previous_url = obj[:previous_url]
+
+    if driver.current_url.split("/").last.include?('error') || driver.current_url == previous_url
       flash[:danger] = "Please enter correct information"
+    
     else
       flash[:success] = 'Login Successful'
       session[:username] = params[:user][:username]
@@ -67,7 +71,9 @@ class UsersController < ApplicationController
     driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
     
     driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
-    
+
+    current_url = driver.current_url
+
     username = driver.find_element(:name, 'username')
     username.send_keys name
 
@@ -77,7 +83,7 @@ class UsersController < ApplicationController
     element = driver.find_element(:id, 'button1')
     element.submit
 
-    driver
+    {driver: driver, previous_url: current_url}
   end
 
 
