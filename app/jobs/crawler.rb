@@ -2,7 +2,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 	
 
 	def perform
-    # begin
+    begin
       user = User.find(usrid) 
 
       wait = Selenium::WebDriver::Wait.new(timeout: 20)
@@ -86,13 +86,13 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         
       end
     
-    # rescue Exception=> e
-    #   user.update_attribute('record_available', 'failed')
-    #   puts "77777"*90
-    #   driver.quit if driver.present?
-    #   puts e.inspect
+    rescue Exception=> e
+      user.update_attribute('record_available', 'failed')
+      puts "77777"*90
+      driver.quit if driver.present?
+      puts e.inspect
       
-    #   puts "(=Time Out. Please try again later.=)"*90
-    # end 
+      puts "(=Time Out. Please try again later.=)"*90
+    end 
   end
 end
