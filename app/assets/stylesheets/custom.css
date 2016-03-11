@@ -1,6 +1,6 @@
 .signup-form {
 	width: 50%;
-	margin: 120px auto 0;
+	margin: 30px auto 0;
 	padding: 20px 50px 20px;
 	overflow: hidden;
 }
@@ -14,4 +14,7 @@
 .show-list{
 	width: 60%;
 	margin-left: 20%;
+}
+.signin-form{
+	margin-top: 30px;
 }

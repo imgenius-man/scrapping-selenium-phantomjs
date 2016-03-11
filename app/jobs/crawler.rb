@@ -1,24 +1,15 @@
-class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :pass, :token, :usrid)
+class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :pass, :token, :usrid, :site_url)
 	
 
 	def perform
     begin
       user = User.find(usrid) 
-
-      wait = Selenium::WebDriver::Wait.new(timeout: 20)
-        
-      driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
-      # collapseTable-container
-      driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
       
-      username = driver.find_element(:name, 'username')
-      username.send_keys userid
-
-      password = driver.find_element(:name, 'password')
-      password.send_keys pass
-
-      element = driver.find_element(:id, 'button1')
-      element.submit
+      obj = UsersController.new.signin_cigna(userid, pass, site_url)
+    
+      driver = obj[:driver]
+      
+      wait = obj[:wait]
       
       href_search = ''
       wait.until { 

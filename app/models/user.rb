@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 	require 'csv'
 	require 'parsers/parse_container'
 
+	extend UsersHelper
 
 	attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json 
 
@@ -26,6 +27,20 @@ class User < ActiveRecord::Base
 	end
 	
 
+	def self.retrieve_signin_fields(site_url)
+		options = User.options_for_site
+
+		if site_url == options[0][1]
+			fields = {user_field: 'username', pass_field: 'password', submit_button: '#button1', error_string: 'error'}  
+		
+		elsif site_url == options[1][1]  
+			fields = {user_field: 'portletInstance_6{actionForm.userId}', pass_field: 'portletInstance_6{actionForm.password}', submit_button: '.button_submit', error_string: 'login'}  
+		end
+
+		fields
+	end
+
+
 	def self.import(file)
       CSV.foreach(file.path, headers: true) do |row|
       user_hash = row.to_hash
@@ -36,10 +51,10 @@ class User < ActiveRecord::Base
         a.update_attributes(first_name: str[0],last_name: str[1],dob: str[2],patient_id: str[3])
       else
         a=User.new
-        a.first_name = str[0].squish
-        a.last_name = str[1].squish
-        a.dob = str[2].squish
-        a.patient_id = str[3].squish
+        a.first_name = str[0].squish if str[0]
+        a.last_name = str[1].squish if str[1]
+        a.dob = str[2].squish if str[2]
+        a.patient_id = str[3].squish if str[3]
         a.save!
       end
     end

@@ -1,44 +1,40 @@
 <%= stylesheet_link_tag "custom.css" %>
 <%= stylesheet_link_tag "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" %>
 
-
-
-
-<div class="container well">
-	<div class="">
-  <h4>Import Patients</h4>
-  <br>
-  <%= form_tag import_users_path, multipart: true do %>
-      <%= file_field_tag :file %><br />
-      <%= submit_tag "Import" ,:class => "btn btn-danger"%>
-  <% end %>
-</div>
-<hr>
-	<h3 style="text-align: center;">
-	Sign In</h3>
-	<%= form_for User.new ,:html => { :class => 'form-horizontal signin' } do |f| %>
+<div class="container well signin-form">
+	<h3>	Sign In</h3>
+	<br>
+	<%= form_for User.new ,:html => { :class => 'form-inline signin' } do |f| %>
 	  <div class="form-group">
 	  	<%= f.label :username, :class => 'control-label' %>
-			<%= f.text_field :username, value: (session[:username] if session[:username].present?), :class =>'form-control' %>
+			<%= f.text_field :username, :class =>'form-control', :placeholder => 'Credentials not saved' %>
 	  </div>
 	  <div class="form-group">
 			<%= f.label :password, :class => 'control-label' %>
-			<%= f.password_field :password, value: (session[:password] if session[:password].present?), :class =>'form-control' %>
+			<%= f.password_field :password, :class =>'form-control', :placeholder => 'Credentials not saved' %>
 	  </div>
 
 	  <div class="form-group">
-			<%= f.label "Select the Website to Scrap data", :class=> 'control-label' %>
+			<%= f.label "Website to Scrap data", :class=> 'control-label' %>
 			<%= f.select :site_to_scrap, options_for_site,{} , {:class=> 'form-control'} %>
 	  </div>
-		<%= submit_tag "", :value => "► check & save credentials", :class => "pull-right btn btn-lg btn-primary", id: 'submit-button' %>
-					
+		<%= submit_tag "", :value => "► check & save credentials", :class => "btn btn-sm btn-primary", id: 'submit-button' %>
   <br>
-
-
 	<% end %>
+	</div>
 
+	<div class="well signup-form">
+	<h4>Import Patients</h4>
+	<br>
+	<%= form_tag import_users_path, multipart: true do %>
+			<%= file_field_tag :file %><br />
+			<%= submit_tag "Import" ,:class => "btn btn-danger"%>
+	<% end %>
+	</div>
 
-			<%if @users %>
+<%if !@users.first.nil? %>
+<div class="container well">
+
 			<h4>Patients Detail</h4>
 		<div class="table-responsive">
 			<table class="table table-striped">
@@ -48,7 +44,7 @@
 			      <th>Last name</th>
 			      <th>Patient</th>
 			      <th>Date of birth</th>
-			      <th colspan="3"></th>
+			      <th colspan="3">    <%= link_to 'Delete All', delete_all_users_path, data: { confirm: 'Are you sure?' }  ,class: "btn btn-xs btn-danger"%></th>
 			    </tr>
 			  </thead>
 
@@ -62,16 +58,12 @@
 			        <td><%= user.last_name %></td>
 			        <td><%= user.patient_id %></td>
 			        <td><%= user.dob %></td>
-			        <!-- <td><%= form_for(user) do %>
-			          <%= submit_tag "Check", class: "btn btn-small btn-warning" %>
-			          <% end %></td> -->
+			        
 			          <% if user.record_available=='complete'%>
 			           <td>
-			           <!-- <span class="glyphicon glyphicon-ok text-success"></span> -->
 			            <%= form_for(user) do %>
 			          					<%= submit_tag "View", class: "btn btn-block btn-small btn-success" %>
 			         				 <% end %>
-			         				 <!--  <%= link_to 'View', user_path(user.id), class: "btn btn-small btn-success" %></td> -->
 			             <%elsif user.record_available=='pending'%>
 			             <td>
 			          					<%= button_tag "Pending..", class: "btn btn-block btn-small btn-info" %>
@@ -81,6 +73,7 @@
 			             		 <%= form_for user, :html => { :class => 'patient_form' } do |f| %>
 			          					<%= f.hidden_field :username, value: "asd" %>
 			             		 		<%= f.hidden_field :password, value: "asd" %>
+			             		 		<%= f.hidden_field :site_to_scrap, value: "asd" %>
 			          					<%= submit_tag "Re-Check", class: "btn btn-block btn-small btn-danger" %>
 			         				 <% end %>
 
@@ -89,10 +82,10 @@
 			             		 <%= form_for user, :html => { :class => 'patient_form' } do |f| %>
 			             		 		<%= f.hidden_field :username, value: "asd" %>
 			             		 		<%= f.hidden_field :password, value: "asd" %>
+			             		 		<%= f.hidden_field :site_to_scrap, value: "asd" %>
 			          					<%= submit_tag "Check", class: "btn btn-block btn-small btn-warning" %>
 			         				 <% end %>
-<!-- 			             <span class="glyphicon glyphicon-remove text-danger"></span><%= link_to 'View', 'javascript:void(0)', class: "btn btn-small btn-success", disabled: true %></td>
- -->			           <%end %>
+ 			           <%end %>
 			      </tr>
 			    <% end %>
 			  </tbody>
@@ -100,17 +93,39 @@
 			</div>
 			<br>
 			<br><br>
-
-
-			<%end%>
-
 </div>
+<%end%>
 <script type="text/javascript">
+	
+	
+	function fillup_signin_fields(){
+		selected_val = $('#user_site_to_scrap option:selected').val()
+			
+		if(session_arr[selected_val]) {
+			$('#user_username').val(session_arr[selected_val]['username'])
+			$('#user_password').val(session_arr[selected_val]['password'])
+		} 
+		else {
+			$('#user_username').val("")
+			$('#user_password').val("")
+		}
+	}
+	
+
 	$(document).ready(function(){
+		session_arr = <%= raw(session.to_json) %>
+
+		setTimeout(function() { fillup_signin_fields(); }, 300);
+
+		$('#user_site_to_scrap').on('change', function(){
+			fillup_signin_fields()	
+		})
+		
 		$( ".patient_form" ).submit(function( event ) {
   		event.preventDefault();
   		$(this).children('#user_username').val($('#user_username').val().trim())
   		$(this).children('#user_password').val($('#user_password').val().trim())
+  		$(this).children('#user_site_to_scrap').val($('#user_site_to_scrap option:selected').val().trim())
 			this.submit()
 		});
 	})

@@ -10,11 +10,11 @@ class ParseContainer
 		@cont = []
 
 		containers.each do |container|
-		  cont = container.attribute('innerHTML')
+		  cont = container.is_a?(String) ? container : container.attribute('innerHTML')
 
 		  page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},cont,nil,Mechanize.new)
 		  
-		  table_text = page.at('div').text.squish
+		  table_text = page.at('div').text.squish if page.at('div').present?
 		  
 		  cont_info = page.at('div > .info-text').text.squish if page.at('div > .info-text').present?
 

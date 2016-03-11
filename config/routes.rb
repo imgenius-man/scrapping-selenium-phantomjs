@@ -11,6 +11,7 @@ Academia::Application.routes.draw do
             post 'access_token'
             post 'verify_credentials'
             post 'import'
+            get 'delete_all'
 
     	end
     end
