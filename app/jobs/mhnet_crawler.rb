@@ -52,6 +52,99 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
         container_name = page.at('h3').text.squish if page.at('h3').present?
         container_name = container_name.to_s
 
+        if container_name.include?('Accumulating Deductible Information')
+          html = table.attribute('innerHTML')
+          
+          table_name=[]
+          
+          ul = page.search('ul')
+          
+          ul.first.search('li').each_with_index { |u,i|
+            table_name[i] = container_name +" - "+u.text.squish
+          }
+          
+          div_table=[]
+          
+          div_table[0]= page.search("#eligibility_accumulatingDeductibleInformation_deductibleDollars_deductibleDollars")
+          div_table[1]= page.search("#eligibility_accumulatingDeductibleInformation_deductibleDollars_outOfPocket")
+          
+          data=[]
+          
+          div_table.each { |div_tbl|
+            key=[]
+          
+            in_or_out = div_tbl.search('h5')
+          
+            div_name = div_tbl.at('h4')
+
+            in_or_out.each_with_index { |in_r_out,m|
+              key[m] = div_name.text.squish+" - "+in_r_out.text.squish
+            }
+
+            uper_headers=[]
+            
+            uper_headers_content= div_tbl.search('table>thead>tr>th')
+            
+            uper_headers_content[0..(uper_headers_content.length/2)-1].each_with_index {|tbl_cont,k|
+              uper_headers[k]= tbl_cont.text.squish
+            }
+
+            table=div_tbl.search('table')
+            
+            p=0
+            
+            table.each { |tbl|
+              data << parse_table(tbl,key[p],uper_headers)
+              p=p+1
+            }
+          }
+
+          table_json = { table_name[0] => data.reduce({}, :merge)}
+          @json << table_json
+        end
+
+        if container_name.include?('Copay Information')
+          html = table.attribute('innerHTML')
+          
+          if html.scan('<h4').present?
+
+            headers = page.search('h4')
+            values = page.search('.definition')
+
+            data = headers.map.with_index(0) { |r, i|
+              {r.text.squish => values[i].text.squish}
+            }.reduce({}, :merge)
+          
+          else
+            data = {'Additional notes' => html.squish.split(/[<p>,<\/p>]/).last}
+          end
+
+          table_json = { container_name => data}
+          @json << table_json
+        end
+
+        if container_name.include?('Patient Information')
+          html = table.attribute('innerHTML')
+          
+          if html.scan('<h5').present?
+            address = page.at('.address').text.squish.split("Address ")
+            address=address[1]
+
+            headers = page.search('h5')
+            values = page.search('.definition')
+
+            data = headers.map.with_index(0) { |r, i|
+              {r.text.squish => values[i].text.squish}
+            }.reduce({}, :merge)
+          
+          else
+            data = {'Additional notes' => html.squish.split(/[<p>,<\/p>]/).last}
+          end
+
+          table_json = { container_name => data}
+          @json << table_json
+        end
+
         if container_name.include?('Family Information')
           @cont = ParseContainer.new.tabelizer([open_tables[1]]).flatten
 
@@ -70,7 +163,7 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
 
         
         if container_name.include?('Primary Care Physician Information')
-          if pcpHistory.scan('<tr>').present?
+          if pcpHistory.scan('<tr').present?
             @cont = ParseContainer.new.tabelizer([pcpHistory]).flatten
 
             table = @cont[1][:table]
@@ -148,4 +241,24 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
       puts "(=Time Out. Please try again later.=)"*90
     end 
   end
+
+
+  def parse_table(tbl,key,uper_headers)
+  table_hash={}
+  
+  rows=tbl.search('tr')
+  
+  rows[1..rows.count].map.with_index(1) {|r,n|
+    row_data = r.search('td')
+    
+    uper_headers[1..uper_headers.length].map.with_index(1) {|upr_hdr,l|
+      new_key = key+" - "+row_data.first.text.squish+" - "+upr_hdr
+      
+      table_hash[new_key]=row_data[l].text.squish
+    }
+  }
+  
+  
+  table_hash
+  end 
 end
