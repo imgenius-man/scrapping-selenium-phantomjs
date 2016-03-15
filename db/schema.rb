@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160304074428) do
+ActiveRecord::Schema.define(:version => 20160315070804) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0, :null => false
@@ -29,20 +29,7 @@ ActiveRecord::Schema.define(:version => 20160304074428) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-  create_table "users", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "dob"
-    t.string   "patient_id"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-    t.string   "token"
-    t.string   "site_to_scrap"
-    t.string   "password"
-    t.string   "username"
-    t.text     "raw_html"
-    t.text     "json"
-    t.string   "record_available", :default => false
-  end
+# Could not dump table "users" because of following StandardError
+#   Unknown type 'json' for column 'json'
 
 end

@@ -5,7 +5,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
     begin
       user = User.find(usrid) 
       
-      obj = UsersController.new.signin_cigna(userid, pass, site_url)
+      obj = UsersController.new.sign_in(userid, pass, site_url)
     
       driver = obj[:driver]
       
@@ -72,20 +72,23 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         driver.quit
 
         user.update_attribute('json', JSON.generate(@json))
+        
+        response = RestClient.post 'http://statpaymd.net/gopher/scraped_data', {data: JSON.generate(@json), token: token}
       
       else
-        puts "(=Please enter correct information)"*90
+        UserMailer::exception_email("UserID(#{user.id}) ==> Please enter correct information \n WebSite = #{site_url}").deliver
         
+        driver.quit if driver.present?
+        
+        user.update_attribute('record_available', 'failed')
       end
     
     rescue Exception=> e
       user.update_attribute('record_available', 'failed')
-      puts "77777"*90
-      puts user.inspect
-      driver.quit if driver.present?
-      puts e.inspect
       
-      puts "(=Time Out. Please try again later.=)"*90
+      UserMailer::exception_email("UserID(#{user.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
+      
+      driver.quit if driver.present?
     end 
   end
 end

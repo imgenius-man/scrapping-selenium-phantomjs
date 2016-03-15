@@ -2,10 +2,10 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
 	
 
 	def perform
-    # begin
+    begin
       user = User.find(usrid) 
       
-      obj = UsersController.new.signin_cigna(userid, pass, site_url)
+      obj = UsersController.new.sign_in(userid, pass, site_url)
     
       driver = obj[:driver]
       
@@ -18,7 +18,9 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
       member_id.send_keys pat_id
 
       service_type = driver.find_element(:id, 'serviceDateStart_memberIdSearch')
-      driver.execute_script("$('#serviceDateStart_memberIdSearch').val('03/16/2017')")
+      
+      date = 7.days.from_now.strftime("%m/%d/%Y")
+      driver.execute_script("$('#serviceDateStart_memberIdSearch').val('#{date}')")
 
       btn_click = driver.find_element(:name, 'singleMemberSubmit')
       btn_click.click
@@ -139,6 +141,7 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
               {r.text.squish => values[i].text.squish}
             }.reduce({}, :merge)
           
+            data.merge!({'Address' => address})
           else
             data = {'Additional notes' => html.squish.split(/[<p>,<\/p>]/).last}
           end
@@ -231,17 +234,17 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
 
       driver.quit
 
+      response = RestClient.post 'http://statpaymd.net/gopher/scraped_data', {data: JSON.generate(@json), token: token}
 
-
-    # rescue Exception=> e
-    #   user.update_attribute('record_available', 'failed')
-    #   puts "77777"*90
-    #   puts user.inspect
-    #   driver.quit if driver.present?
-    #   puts e.inspect
+      puts "==="*30
+      puts response
+    rescue Exception=> e
+      user.update_attribute('record_available', 'failed')
       
-    #   puts "(=Time Out. Please try again later.=)"*90
-    # end 
+      driver.quit if driver.present?
+      
+      UserMailer::exception_email("UserID(#{user.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
+    end 
   end
 
 

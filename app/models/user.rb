@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
 	extend UsersHelper
 
-	attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json 
+	attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url
 
 	serialize :json, JSON
 

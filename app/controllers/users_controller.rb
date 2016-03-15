@@ -2,17 +2,27 @@ class UsersController < ApplicationController
 
 	
   def access_token
-    if params[:user].present? && params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present?        
+    if params[:user].present? && params[:user][:first_name] && params[:user][:last_name] && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present? && params[:user][:site_url].present?      
+      site_url = params[:user][:site_url]
       token = SecureRandom.base64(24)
       
       params[:user].merge!({token: token})
       
-      created = User.create(params[:user])
+      user = User.create(params[:user])
       
-      if created
+      if user
         result = params[:user]
 
-        Delayed::Job.enqueue Crawler.new(result[:first_name], result[:last_name], result[:dob], result[:patient_id], result[:username], result[:password], token)
+        if site_url.include?('cignaforhcp')
+          Delayed::Job.enqueue Crawler.new(user.first_name, user.last_name, user.dob, user.patient_id, user.username, user.password, user.token, user.id, user.site_url)
+          
+          user.update_attribute('record_available', 'pending')
+        
+        elsif site_url.include?('mhnetprovider')
+          Delayed::Job.enqueue MhnetCrawler.new(user.patient_id, user.username, user.password, user.token, user.id, user.site_url)
+          
+          user.update_attribute('record_available', 'pending')
+        end  
       end
     
     else
@@ -26,7 +36,7 @@ class UsersController < ApplicationController
   def create
     site_url = params[:user][:site_to_scrap]
 
-    obj = signin_cigna(params[:user][:username], params[:user][:password], site_url)
+    obj = sign_in(params[:user][:username], params[:user][:password], site_url)
     
     driver = obj[:driver]
     previous_url = obj[:previous_url]
@@ -72,12 +82,13 @@ class UsersController < ApplicationController
   end
 
 
-  def signin_cigna(name, pass, site_url)
+  def sign_in(name, pass, site_url)
     fields = User.retrieve_signin_fields(site_url)
     
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
     
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox
+    # , :args => ['--ignore-ssl-errors=true']
     
     driver.navigate.to site_url
 

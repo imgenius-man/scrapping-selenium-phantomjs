@@ -12,6 +12,7 @@ Academia::Application.routes.draw do
             post 'verify_credentials'
             post 'import'
             get 'delete_all'
+            get 'lolo'
 
     	end
     end
