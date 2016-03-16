@@ -37,18 +37,19 @@ task :cigna_test => :environment do
 
   wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
-  page = driver.find_element(:css, 'body').attribute('innerHTML').squish
+  page = driver.find_element(:class, 'detachable-container').attribute('innerHTML').squish
 
   driver.quit
 
   sleep(5)
 
   page_body = Sanitize.clean( page,
-	  :elements => ['div', 'a', 'span', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'ul', 'li', 'button' ],
+	  :elements => ['div', 'a', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'ul', 'li', 'button' ],
 
 	  :attributes => {
 	    'button' => ['class'],
-	    'a' => ['class']  
+	    'a' => ['class'],
+      'div' => ['class']  
 	  },
 
 	  :remove_contents => ['script', 'style', 'input', 'span']
@@ -65,7 +66,7 @@ task :cigna_test => :environment do
     UserMailer::HTML_validation_notification("CIGNA is OK").deliver
   	
   else
-    UserMailer::HTML_validation_notification("Incosistency has been found in the layout of CIGNA").deliver
+    UserMailer::HTML_validation_notification("Inconsistency has been found in the layout of CIGNA").deliver
   end
 end
 
@@ -96,7 +97,7 @@ task :mhnet_test => :environment do
   sleep(5)
 
   page_body = Sanitize.clean( page,
-	  :elements => ['div', 'a', 'span', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'ul', 'li', 'input', 'button' ],
+	  :elements => ['div', 'span', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'ul', 'li', 'input', 'button' ],
 
 	  :attributes => {
 	    'input' => ['class', 'name'],
@@ -104,7 +105,7 @@ task :mhnet_test => :environment do
 	    'a' => ['class']  
 	  },
 
-	  :remove_contents => ['script', 'style', 'p']
+	  :remove_contents => ['script', 'style', 'p', 'a']
 	)
 
  #  path = 'mhnet_html.txt'
@@ -118,7 +119,7 @@ task :mhnet_test => :environment do
     UserMailer::HTML_validation_notification("MHNET Provider is OK").deliver
 
   else
-    UserMailer::HTML_validation_notification("Incosistency has been found in the layout of MHNET Provider").deliver
+    UserMailer::HTML_validation_notification("Inconsistency has been found in the layout of MHNET Provider").deliver
   end
 end
 	

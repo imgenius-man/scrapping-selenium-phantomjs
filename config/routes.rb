@@ -11,9 +11,9 @@ Academia::Application.routes.draw do
             post 'access_token'
             post 'verify_credentials'
             post 'import'
+            post 'authenticate_token'
+            
             get 'delete_all'
-            get 'lolo'
-
     	end
     end
     # root :to => '/users/sign_in'

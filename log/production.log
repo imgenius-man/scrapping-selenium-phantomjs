@@ -377,3 +377,216 @@ Processing by DashboardController#index as HTML
   Rendered dashboard/index.html.erb within layouts/application (150.0ms)
 Completed 200 OK in 161ms (Views: 151.0ms | ActiveRecord: 0.9ms)
 source=rack-timeout id=1895eb5666ae1c70f36c5d9dee12ee29 timeout=200000ms service=164ms state=completed
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Migrating to CreateUsers (20160201125305)
+Migrating to AddTokenToUsers (20160218050101)
+Migrating to CreateDelayedJobs (20160218081320)
+Migrating to AddUnPwToUsers (20160225124230)
+Migrating to AddRawHtmlToUsers (20160229112234)
+Migrating to AddJsonToUsers (20160229112256)
+Migrating to AddRecordAvailableToUsers (20160303103908)
+Migrating to ChangeDobDatatypeOfUsers (20160303111837)
+Migrating to ChangeDobTypeOfUsers (20160304054644)
+Migrating to ChangeRecordAvailableTypeOfUsers (20160304074428)
+Migrating to AddSiteUrlToUsers (20160315070804)
+Connecting to database specified by database.yml
+source=rack-timeout id=a75879c8bc805b46025127f0446bc7c7 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:20:02 +0500
+Processing by DashboardController#index as HTML
+Compiled custom.css  (0ms)  (pid 22260)
+  Rendered dashboard/index.html.erb within layouts/application (104.8ms)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/application.css.scssc: can't dump anonymous class #<Class:0x00000001bd9a38>
+
+Compiled bootstrap.css  (0ms)  (pid 22260)
+Compiled bootstrap-responsive.css  (0ms)  (pid 22260)
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap_and_overrides.css.scssc: can't dump anonymous class #<Class:0x00000001bd9a38>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap.cssc: can't dump anonymous class #<Class:0x00000001bd9a38>
+
+Warning. Error encountered while saving cache /home/ittsel/projects/scrapping-selenium-phantomjs/tmp/cache/sass/c518517683195fce2c98c624137843634d0c67aa/bootstrap-responsive.cssc: can't dump anonymous class #<Class:0x00000001bd9a38>
+
+Compiled bootstrap_and_overrides.css  (1215ms)  (pid 22260)
+Compiled application.css  (1234ms)  (pid 22260)
+Compiled jquery.js  (3ms)  (pid 22260)
+Compiled jquery_ujs.js  (0ms)  (pid 22260)
+Compiled bootstrap.js  (0ms)  (pid 22260)
+Compiled bootstrap-datepicker.js  (0ms)  (pid 22260)
+Compiled jjsonviewer.js  (0ms)  (pid 22260)
+Compiled jquery.dynatable.js  (0ms)  (pid 22260)
+Compiled prettyprint.js  (0ms)  (pid 22260)
+Compiled application.js  (21ms)  (pid 22260)
+Completed 200 OK in 8535ms (Views: 8443.8ms | ActiveRecord: 79.1ms)
+source=rack-timeout id=a75879c8bc805b46025127f0446bc7c7 timeout=200000ms service=8558ms state=completed
+source=rack-timeout id=5565d75eae825716135a4770155a5c60 timeout=200000ms state=ready
+Started GET "/assets/custom-8f8e062d8ae9a30fc2564b934e953793.css" for 127.0.0.1 at 2016-03-15 16:20:11 +0500
+Served asset /custom-8f8e062d8ae9a30fc2564b934e953793.css - 200 OK (0ms)
+source=rack-timeout id=5565d75eae825716135a4770155a5c60 timeout=200000ms service=2ms state=completed
+source=rack-timeout id=6e7877b7c40cbb972d8dd115b5dbc942 timeout=200000ms state=ready
+Started GET "/users/delete_all" for 127.0.0.1 at 2016-03-15 16:20:20 +0500
+Processing by UsersController#delete_all as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1940ms (ActiveRecord: 1791.1ms)
+source=rack-timeout id=6e7877b7c40cbb972d8dd115b5dbc942 timeout=200000ms service=1943ms state=completed
+source=rack-timeout id=cbd912609cdc0c8f969a3924dab789c2 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:20:22 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 4ms (Views: 3.5ms | ActiveRecord: 0.2ms)
+source=rack-timeout id=cbd912609cdc0c8f969a3924dab789c2 timeout=200000ms service=7ms state=completed
+source=rack-timeout id=ebdd185e1a93a2dd0c55fabf9c53d72e timeout=200000ms state=ready
+Started POST "/users/import" for 127.0.0.1 at 2016-03-15 16:20:38 +0500
+Processing by UsersController#import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "file"=>#<ActionDispatch::Http::UploadedFile:0x007f7ea18bdba8 @original_filename="abc.1.csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"file\"; filename=\"abc.1.csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/tmp/RackMultipart20160315-22260-j37lnm>>, "commit"=>"Import"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 2379ms (ActiveRecord: 1876.4ms)
+source=rack-timeout id=ebdd185e1a93a2dd0c55fabf9c53d72e timeout=200000ms service=2384ms state=completed
+source=rack-timeout id=4ae30a178c3439044c04d606c8fa11e6 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:20:40 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (93.8ms)
+Completed 200 OK in 102ms (Views: 94.9ms | ActiveRecord: 1.6ms)
+source=rack-timeout id=4ae30a178c3439044c04d606c8fa11e6 timeout=200000ms service=107ms state=completed
+source=rack-timeout id=fb8f78e65f0af29c6a08d5604f2ebfc9 timeout=200000ms state=ready
+Started PUT "/users/220" for 127.0.0.1 at 2016-03-15 16:20:44 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "user"=>{"username"=>"", "password"=>"[FILTERED]", "site_to_scrap"=>"https://www.mhnetprovider.com/"}, "commit"=>"Check", "id"=>"220"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 146ms (ActiveRecord: 121.4ms)
+source=rack-timeout id=fb8f78e65f0af29c6a08d5604f2ebfc9 timeout=200000ms service=152ms state=completed
+source=rack-timeout id=76b84967885da12c842467c7a6902bbf timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:20:44 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (120.6ms)
+Completed 200 OK in 131ms (Views: 121.7ms | ActiveRecord: 4.8ms)
+source=rack-timeout id=76b84967885da12c842467c7a6902bbf timeout=200000ms service=134ms state=completed
+source=rack-timeout id=14f3b11ca105294d59dd08a35709da97 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:21:36 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (135.3ms)
+Completed 200 OK in 143ms (Views: 136.6ms | ActiveRecord: 1.4ms)
+source=rack-timeout id=14f3b11ca105294d59dd08a35709da97 timeout=200000ms service=146ms state=completed
+source=rack-timeout id=748eb079bbb7c659b0e15f2a6192ec5d timeout=200000ms state=ready
+Started PUT "/users/274" for 127.0.0.1 at 2016-03-15 16:21:45 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "user"=>{"username"=>"", "password"=>"[FILTERED]", "site_to_scrap"=>"https://www.mhnetprovider.com/"}, "commit"=>"Check", "id"=>"274"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 20ms (ActiveRecord: 14.2ms)
+source=rack-timeout id=748eb079bbb7c659b0e15f2a6192ec5d timeout=200000ms service=23ms state=completed
+source=rack-timeout id=84f71a5adfd54863a38303ce73b0f019 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:21:45 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (103.3ms)
+Completed 200 OK in 113ms (Views: 104.5ms | ActiveRecord: 2.1ms)
+source=rack-timeout id=84f71a5adfd54863a38303ce73b0f019 timeout=200000ms service=118ms state=completed
+Connecting to database specified by database.yml
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Starting job worker
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job Crawler (id=8) RUNNING
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job Crawler (id=8) FAILED (4 prior attempts) with NoMethodError: undefined method `update_attribute' for nil:NilClass
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job Crawler (id=8) REMOVED permanently because of 5 consecutive failures
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job Crawler (id=5) RUNNING
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job Crawler (id=5) FAILED (5 prior attempts) with NoMethodError: undefined method `update_attribute' for nil:NilClass
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job Crawler (id=5) REMOVED permanently because of 6 consecutive failures
+2016-03-15T16:22:20+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=9) RUNNING
+
+Sent mail to rehan@statpaymd.com (4ms)
+2016-03-15T16:22:48+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=9) COMPLETED after 27.1898
+2016-03-15T16:22:48+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=10) RUNNING
+
+Sent mail to rehan@statpaymd.com (4ms)
+2016-03-15T16:23:13+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=10) COMPLETED after 25.1231
+2016-03-15T16:23:13+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] 4 jobs processed at 0.0762 j/s, 2 failed
+source=rack-timeout id=b83ed1c5bdad23500c193943a4a560ad timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:24:38 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (111.1ms)
+Completed 200 OK in 118ms (Views: 112.2ms | ActiveRecord: 1.0ms)
+source=rack-timeout id=b83ed1c5bdad23500c193943a4a560ad timeout=200000ms service=120ms state=completed
+source=rack-timeout id=79596fa04abf1d385387b96b380fda52 timeout=200000ms state=ready
+Started PUT "/users/220" for 127.0.0.1 at 2016-03-15 16:24:43 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "user"=>{"username"=>"", "password"=>"[FILTERED]", "site_to_scrap"=>"https://www.mhnetprovider.com/"}, "commit"=>"Re-Check", "id"=>"220"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 31ms (ActiveRecord: 23.1ms)
+source=rack-timeout id=79596fa04abf1d385387b96b380fda52 timeout=200000ms service=35ms state=completed
+source=rack-timeout id=4dea689b137be17d22ce93f158e43ba6 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:24:43 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (148.3ms)
+Completed 200 OK in 160ms (Views: 149.6ms | ActiveRecord: 1.5ms)
+source=rack-timeout id=4dea689b137be17d22ce93f158e43ba6 timeout=200000ms service=163ms state=completed
+2016-03-15T16:24:48+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=11) RUNNING
+
+Sent mail to rehan@statpaymd.com (3ms)
+2016-03-15T16:25:12+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=11) COMPLETED after 24.0434
+2016-03-15T16:25:12+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] 1 jobs processed at 0.0416 j/s, 0 failed
+source=rack-timeout id=c1d5dbc5923a12441a52ee3d638f2e0c timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:26:50 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (140.0ms)
+Completed 200 OK in 151ms (Views: 141.2ms | ActiveRecord: 2.6ms)
+source=rack-timeout id=c1d5dbc5923a12441a52ee3d638f2e0c timeout=200000ms service=154ms state=completed
+source=rack-timeout id=bb40c174f429079c26a82e46e94d8ae5 timeout=200000ms state=ready
+Started PUT "/users/220" for 127.0.0.1 at 2016-03-15 16:26:53 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "user"=>{"username"=>"", "password"=>"[FILTERED]", "site_to_scrap"=>"https://www.mhnetprovider.com/"}, "commit"=>"Re-Check", "id"=>"220"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 30ms (ActiveRecord: 24.5ms)
+source=rack-timeout id=bb40c174f429079c26a82e46e94d8ae5 timeout=200000ms service=34ms state=completed
+source=rack-timeout id=0ce5235ac9669ca273899001de0c6a85 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:26:53 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (86.9ms)
+Completed 200 OK in 96ms (Views: 88.2ms | ActiveRecord: 1.6ms)
+source=rack-timeout id=0ce5235ac9669ca273899001de0c6a85 timeout=200000ms service=99ms state=completed
+2016-03-15T16:26:57+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=12) RUNNING
+
+Sent mail to rehan@statpaymd.com (3ms)
+2016-03-15T16:27:19+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=12) COMPLETED after 22.2652
+2016-03-15T16:27:19+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] 1 jobs processed at 0.0449 j/s, 0 failed
+source=rack-timeout id=8d31627c426081e8a8e3bac3fbb5cb51 timeout=200000ms state=ready
+Started PUT "/users/274" for 127.0.0.1 at 2016-03-15 16:28:38 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "user"=>{"username"=>"", "password"=>"[FILTERED]", "site_to_scrap"=>"https://www.mhnetprovider.com/"}, "commit"=>"Re-Check", "id"=>"274"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 31ms (ActiveRecord: 25.0ms)
+source=rack-timeout id=8d31627c426081e8a8e3bac3fbb5cb51 timeout=200000ms service=33ms state=completed
+source=rack-timeout id=adca7efb4003a2cea23228206d3a9cdf timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:28:38 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (111.1ms)
+Completed 200 OK in 122ms (Views: 112.3ms | ActiveRecord: 1.1ms)
+source=rack-timeout id=adca7efb4003a2cea23228206d3a9cdf timeout=200000ms service=125ms state=completed
+2016-03-15T16:28:39+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=13) RUNNING
+
+Sent mail to rehan@statpaymd.com (4ms)
+2016-03-15T16:28:46+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Job MhnetCrawler (id=13) COMPLETED after 7.0985
+2016-03-15T16:28:46+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] 1 jobs processed at 0.1406 j/s, 0 failed
+2016-03-15T16:28:51+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:22477)] Exiting...
+Connecting to database specified by database.yml
+2016-03-15T16:28:56+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:23029)] Starting job worker
+source=rack-timeout id=79ddcbeec098fd683d240131de7470f6 timeout=200000ms state=ready
+Started PUT "/users/220" for 127.0.0.1 at 2016-03-15 16:29:12 +0500
+Processing by UsersController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"P/kx+VrXZY/2bZusFzaKdAYjerXvPzZpOhNOKufS96s=", "user"=>{"username"=>"", "password"=>"[FILTERED]", "site_to_scrap"=>"https://www.mhnetprovider.com/"}, "commit"=>"Re-Check", "id"=>"220"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 36ms (ActiveRecord: 29.2ms)
+source=rack-timeout id=79ddcbeec098fd683d240131de7470f6 timeout=200000ms service=39ms state=completed
+source=rack-timeout id=ba7be215a202edd6319f7b979e873bbb timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:29:12 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (106.4ms)
+Completed 200 OK in 117ms (Views: 107.4ms | ActiveRecord: 2.4ms)
+source=rack-timeout id=ba7be215a202edd6319f7b979e873bbb timeout=200000ms service=121ms state=completed
+2016-03-15T16:29:16+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:23029)] Job MhnetCrawler (id=14) RUNNING
+
+Sent mail to rehan@statpaymd.com (3294ms)
+2016-03-15T16:29:42+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:23029)] Job MhnetCrawler (id=14) COMPLETED after 26.4812
+2016-03-15T16:29:42+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:23029)] 1 jobs processed at 0.0377 j/s, 0 failed
+source=rack-timeout id=07e64ba6286b8f51ce2edcda4491c5f7 timeout=200000ms state=ready
+Started GET "/" for 127.0.0.1 at 2016-03-15 16:32:49 +0500
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (102.2ms)
+Completed 200 OK in 108ms (Views: 103.1ms | ActiveRecord: 0.8ms)
+source=rack-timeout id=07e64ba6286b8f51ce2edcda4491c5f7 timeout=200000ms service=111ms state=completed
+2016-03-15T17:15:11+0500: [Worker(delayed_job host:ittsel-HP-ProBook-450-G1 pid:23029)] Exiting...

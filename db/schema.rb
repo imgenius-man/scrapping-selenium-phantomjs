@@ -29,7 +29,21 @@ ActiveRecord::Schema.define(:version => 20160315070804) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-# Could not dump table "users" because of following StandardError
-#   Unknown type 'json' for column 'json'
+  create_table "users", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "dob"
+    t.string   "patient_id"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.string   "token"
+    t.string   "site_to_scrap"
+    t.string   "password"
+    t.string   "username"
+    t.text     "raw_html"
+    t.text     "json"
+    t.string   "record_available", :default => false
+    t.string   "site_url"
+  end
 
 end

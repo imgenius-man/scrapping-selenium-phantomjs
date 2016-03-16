@@ -7,11 +7,11 @@ class UserMailer < ActionMailer::Base
    end
 
    def exception_email(body)
-     mail(:to => 'rehan@statpaymd.com', :subject => 'Exception', :body => body)
+     mail(:to => 'rehan@statpaymd.com', :subject => 'Exception',:from => "eifion@asciicasts.com", :body => body)
    end
 
    def HTML_validation_notification(body)
-     mail(:to => 'rehan@statpaymd.com', :subject => 'HTML Validation', :body => body)
+     mail(:to => 'rehan@statpaymd.com', :subject => 'HTML Validation',:from => "eifion@asciicasts.com", :body => body)
    end
 
 end
