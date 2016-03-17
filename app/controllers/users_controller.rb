@@ -2,14 +2,16 @@ class UsersController < ApplicationController
 
 	
   def access_token
-    if params[:user].present? && params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present? && params[:user][:site_url].present?      
+    if params[:user].present? && params[:user][:first_name] && params[:user][:last_name] && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present? && params[:user][:site_url].present?      
       site_url = params[:user][:site_url]
-      token = SecureRandom.base64(24)
+      token = SecureRandom.urlsafe_base64(24)
       
       params[:user].merge!({token: token})
       
       user = User.create(params[:user])
       
+      result = params[:user]
+    
     else
       result = 'Not permitted'
     end
@@ -22,11 +24,11 @@ class UsersController < ApplicationController
     if params[:user].present? && params[:user][:first_name].present? && params[:user][:last_name].present? && params[:user][:dob].present? && params[:user][:patient_id].present? && params[:user][:password].present? && params[:user][:username].present? && params[:user][:site_url].present? && params[:user][:token].present?      
       res = params[:user]
 
-      site_url = res[:site_url]
-
-      user = User.find(:all, :conditions => ['token=? AND username=? AND password=? AND patient_id=? AND dob=? AND first_name=? AND last_name=?', res[:token], res[:username], res[:password], res[:patient_id], res[:dob], res[:first_name], res[:last_name]]).last
+      user = User.find(:all, :conditions => ['token=?', res[:token]]).last
       
       if user.present?
+        site_url = user.site_url
+
         result = 'Your requested process has been initiated'
 
         if site_url.include?('cignaforhcp')

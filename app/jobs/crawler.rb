@@ -73,7 +73,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 
         user.update_attribute('json', JSON.generate(@json))
         
-        response = RestClient.post 'http://statpaymd.net/gopher/scraped_data', {data: JSON.generate(@json), token: token}
+        response = RestClient.post 'http://3c91a4bd.ngrok.io/gopher/scraped_data', {data: JSON.generate(@json), token: token}
       
       else
         UserMailer::exception_email("UserID(#{user.id}) ==> Please enter correct information \n WebSite = #{site_url}").deliver
