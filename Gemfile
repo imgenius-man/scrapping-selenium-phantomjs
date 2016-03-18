@@ -3,6 +3,7 @@ ruby '2.1.2'
 gem 'daemons'
 gem 'rails', '3.2.14'
 gem 'selenium-webdriver'
+gem 'whenever'
 gem 'test-unit'
 gem 'headless'
 gem "rack-timeout"
