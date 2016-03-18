@@ -78,4 +78,40 @@ group :test do
   #gem 'launchy'
 end
 
-curl --data 'user[first_name]=PARUL&user[last_name]=PATEL&user[dob]=15/06/1986&user[patient_id]=U5151043002&user[username]=skedia105&user[password]=Empclaims100&user[site_url]=https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1]' http://gooper-dashboard.statpaymd.com/users/access_token
+# {
+# "Plan Level Coinsurance, Deductibles and Maximums": {
+# "Family Deductible Amount - In-Network": "$3,000.00",
+# "Family Deductible Met - In-Network": "$4.04",
+# "Family Deductible Remaining - In-Network": "$2,995.96",
+# "Family Deductible Amount - Out-of-Network": "$6,000.00",
+# "Family Deductible Met - Out-of-Network": "$0.00",
+# "Family Deductible Remaining - Out-of-Network": "$6,000.00",
+# "Family Out-of-Pocket Maximum Amount - In-Network": "$6,000.00",
+# "Family Out-of-Pocket Maximum Met - In-Network": "$4.04",
+# "Family Out-of-Pocket Maximum Remaining - In-Network": "$5,995.96",
+# "Family Out-of-Pocket Maximum Amount - Out-of-Network": "$24,000.00",
+# "Family Out-of-Pocket Maximum Met - Out-of-Network": "$0.00",
+# "Family Out-of-Pocket Maximum Remaining - Out-of-Network": "$24,000.00",
+# "Coinsurance Amount - In-Network": "20%",
+# "Coinsurance Met - In-Network": "--",
+# "Coinsurance Remaining - In-Network": "--",
+# "Coinsurance Amount - Out-of-Network": "40%",
+# "Coinsurance Met - Out-of-Network": "--",
+# "Coinsurance Remaining - Out-of-Network": "--",
+# "Lifetime Maximum Amount - In-Network": "Unlimited",
+# "Lifetime Maximum Met - In-Network": "Not Applicable",
+# "Lifetime Maximum Remaining - In-Network": "Unlimited",
+# "Lifetime Maximum Amount - Out-of-Network": "Does Not Apply",
+# "Lifetime Maximum Met - Out-of-Network": "--",
+# "Lifetime Maximum Remaining - Out-of-Network": "--",
+# "Additional Notes": "In-Network and Out-of-Network Deductible and Out-of-Pocket expenses include Medical, Mental Health and Pharmacy. -- Utilization Data is not available for this benefit."
+# }}
+
+# # dummy array
+# temp = dummy_array.map{|k,v| {k.upcase.gsub(/[-\s+]/, '') => ''}}.reduce({},:merge)
+
+# # data array
+# data_array.each{|k,v| temp[k.upcase.gsub(/[-\s+]/,'')] = v }
+
+# # final
+# dummy_array.each{ |k,v| a[k] = temp[k.upcase.gsub(/[-\s+]/,'')]}

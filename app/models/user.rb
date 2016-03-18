@@ -61,9 +61,3 @@ class User < ActiveRecord::Base
 	
 end
 
-
-				# next if td[:td].inject(&:+).present? && td[:td].inject(&:+) == "--"
-
-# curl --data 'user[token]=x9.xYXVEUy/eaatFmNwiLqzYoEbmYGtu+&user[first_name]=PARUL&user[last_name]=PATEL&user[dob]=15/06/1986&user[patient_id]=U5151043002&user[username]=skedia105&user[password]=Empclaims100&user[site_url]=https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1' http://gooper-dashboard.statpaymd.com/users/authenticate_token
-
-# curl --data 'user[first_name]=PARUL&user[last_name]=PATEL&user[dob]=15/06/1986&user[patient_id]=U5151043002&user[username]=skedia105&user[password]=Empclaims100&user[site_url]=https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1' http://gooper-dashboard.statpaymd.com/users/access_token

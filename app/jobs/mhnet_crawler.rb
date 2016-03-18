@@ -234,7 +234,7 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
 
       driver.quit
 
-      response = RestClient.post 'http://3c91a4bd.ngrok.io/gopher/scraped_data', {data: JSON.generate(@json), token: token}
+      # response = RestClient.post 'http://3c91a4bd.ngrok.io/gopher/scraped_data', {data: JSON.generate(@json), token: token}
 
       puts "==="*30
       puts response
