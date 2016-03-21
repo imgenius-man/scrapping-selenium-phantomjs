@@ -1,4 +1,4 @@
-class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :pass, :token, :usrid, :site_url)
+class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :pass, :token, :usrid, :site_url, :response_url)
 	
 
 	def perform
@@ -73,11 +73,16 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 
         user.update_attribute('json', JSON.generate(@json))
         
-        # response = RestClient.post 'http://3c91a4bd.ngrok.io/gopher/scraped_data', {data: JSON.generate(@json), token: token}
-      
+        if response_url.present?
+          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+        end
       else
         UserMailer::exception_email("UserID(#{user.id}) ==> Please enter correct information \n WebSite = #{site_url}").deliver
         
+        if response_url.present?
+          response = RestClient.post response_url, {error: 'invalid user'), token: token}
+        end
+
         driver.quit if driver.present?
         
         user.update_attribute('record_available', 'failed')
@@ -86,9 +91,14 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
     rescue Exception=> e
       user.update_attribute('record_available', 'failed')
       
+      
       UserMailer::exception_email("UserID(#{user.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
       
       driver.quit if driver.present?
+      
+      if response_url.present?
+        response = RestClient.post response_url, {error: 'please try again'), token: token}
+      end
     end 
   end
 end

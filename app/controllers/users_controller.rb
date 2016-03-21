@@ -32,7 +32,7 @@ class UsersController < ApplicationController
         result = 'Your requested process has been initiated'
 
         if site_url.include?('cignaforhcp')
-          Delayed::Job.enqueue Crawler.new(user.first_name, user.last_name, user.dob, user.patient_id, user.username, user.password, user.token, user.id, user.site_url)
+          Delayed::Job.enqueue Crawler.new(user.first_name, user.last_name, user.dob, user.patient_id, user.username, user.password, user.token, user.id, user.site_url, res[:redirect_url])
           
           user.update_attribute('record_available', 'pending')
         

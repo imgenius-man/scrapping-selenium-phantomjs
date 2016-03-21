@@ -53,7 +53,10 @@ private
 			if table_name == 'Patient and Plan Detail' 
 				arr = traverse_table_columnwise(table_content, row_length, cell_i).reject{|b| b.is_a?(String) || b.blank?} 
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => ( arr.is_a?(String) ? arr : arr.reduce({}, :merge) ) } 
-				#|| table_name == 'Maternity'
+
+			elsif table_name == 'Maternity'
+				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
+			
 			else
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
 			end
@@ -146,9 +149,16 @@ private
 
 	def parse_1H_table(table_content, table_name, head_count, additional_info)
 		if table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')
+			dummy_array = dummy_array_for_h1_table(table_content)
+			
+			data_array = map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
+			
+			filled_array = merge_arrays(dummy_array, data_array)
+			filled_array['PROGRAM NAME'] = table_content[0][:tr][0][:th].inject(&:+).to_s
+			
 			{ 
-				table_name + " - " + table_content[0][:tr][0][:th].inject(&:+).to_s => 
-					map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
+				table_name => filled_array
+					
 			}
 
 		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?)  && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')	
@@ -162,10 +172,24 @@ private
 			}
 		
 		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?) && table_content[0][:tr][1].present? && (table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)  
+			dummy_array = dummy_array_for_h1_table(table_content)
+			
+			data_array = 
+				table_content[head_count..table_content.length].map do |tr|
+					{tr[:tr][0][:td].inject => tr[:tr][1][:td].inject}
+				end.reduce({}, :merge)
+			
+			filled_array = merge_arrays(dummy_array, data_array)
+			
+			name = data_array['Patient Aligned Physician Name'].split(" ")
+			
+			filled_array['CARE COORDINATION PROVIDER'] = data_array['CAC Name']
+			filled_array['PATIENT ALIGNED PHYSICIAN FIRST NAME'] = name[0]
+			filled_array['PATIENT ALIGNED PHYSICIAN MIDDLE NAME'] =	name[1]
+			filled_array['PATIENT ALIGNED PHYSICIAN LAST NAME'] =	name[2]
+
 			{
-				table_name => table_content[head_count..table_content.length].map do |tr|
-						{tr[:tr][0][:td].inject => tr[:tr][1][:td].inject}
-					end.reduce({}, :merge)
+				table_name => filled_array
 			}
 
 		elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.present?  
@@ -289,4 +313,43 @@ private
 			"ADDITIONAL NOTES"=>""
 		}
 	end
+
+
+	def dummy_array_for_h1_table(table_content)
+		if table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')
+			array = 
+			{
+				"PROGRAM NAME"=>"",
+				"FAILURE TO NOTIFY CIGNA- IN NETWORK"=>"",
+				"FAILURE TO NOTIFY CIGNA- OUT OF NETWORK"=>"",
+				"PRECERTIFICATION NOT APPROVED- IN NETWORK"=>"",
+				"PRECERTIFICATION NOT APPROVED- OUT OF NETWORK"=>"",
+				"ADDITIONAL DAYS NOT APPROVED - IN NETWORK"=>"",
+				"ADDITIONAL DAYS NOT APPROVED - OUT OF NETWORK"=>"",
+				"EMERGENCY SERVICE NOTIFICATION - IN NETWORK"=>"",
+				"EMERGENCY SERVICE NOTIFICATION - OUT OF NETWORK"=>"",
+				"OUTPATIENT PRE CERTIFICATION - IN NETWORK"=>"",
+				"OUTPATIENT PRE CERTIFICATION - OUT OF NETWORK"=>"",
+				"CONTINUED STAY REVIEW - IN NETWORK"=>"",
+				"CONTINUED STAY REVIEW - OUT OF NETWORK"=>"",
+				"ADDITIONAL NOTES"=>""
+			}
+		
+		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?) && table_content[0][:tr][1].present? && (table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)  
+			array =
+			{
+				"CARE COORDINATION PROVIDER"=>"",
+				"PATIENT ALIGNED PHYSICIAN FIRST NAME"=>"",
+				"PATIENT ALIGNED PHYSICIAN MIDDLE NAME"=>"",
+				"PATIENT ALIGNED PHYSICIAN LAST NAME"=>"",
+				"PATIENT ALIGNED PHYSICIAN NPI"=>"",
+				"PATIENT ALIGNED MEDICAL GROUP NAME"=>"",
+				"CARE COORDINATION NOTES"=>""
+			}
+		end
+
+
+		array
+	end
 end
+
