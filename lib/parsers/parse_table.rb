@@ -14,6 +14,194 @@ class ParseTable
 	end  
 
 
+	def merge_arrays(dummy_array, data_array)
+		temp = dummy_array.map{|k,v| {k.upcase.gsub(/[-\s+*]/, '') => ''}}.reduce({},:merge)
+
+		data_array.each{|k,v| 
+			if k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCEAMOUNTINNETWORK"
+				temp["COINSURANCE(STANDARD)INNETWORK"] = v
+			
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCEAMOUNTOUTOFNETWORK"
+				temp["COINSURANCE(STANDARD)OUTOFNETWORK"] = v
+			
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCE(SPECIAL)AMOUNTOUTOFNETWORK"
+				temp["COINSURANCE(SPECIAL)OUTOFNETWORK"] = v
+			
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCE(SPECIAL)AMOUNTINNETWORK"
+				temp["COINSURANCE(SPECIAL)INNETWORK"] = v
+			
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "MAXIMUM$(PERCALENDARYEAR)AMOUNTINNETWORK" || k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSINNETWORKYEARLYCONTRACTLIMITINDIVIDUAL"
+				temp["INDIVIDUALDEDUCTIBLEAMOUNTINNETWORK"] = v
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSINNETWORKYEARLYCONTRACTLIMITFAMILY"
+				temp["FAMILYDEDUCTIBLEAMOUNTINNETWORK"] = v
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSOUTOFNETWORKYEARLYCONTRACTLIMITFAMILY"
+				temp["FAMILYDEDUCTIBLEAMOUNTOUTOFNETWORK"] = v
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "MAXIMUM$(PERCALENDARYEAR)AMOUNTOUTOFNETWORK" || k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSOUTOFNETWORKYEARLYCONTRACTLIMITINDIVIDUAL"
+				temp["INDIVIDUALDEDUCTIBLEAMOUNTOUTOFNETWORK"] = v
+			
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "COPAYMENT(PERVISIT)AMOUNTINNETWORK"
+				temp["COPAY(PERVISIT)INNETWORK"] = v
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "COPAYMENT(PERVISIT)AMOUNTOUTOFNETWORK"
+				temp["COPAY(PERVISIT)OUTOFNETWORK"] = v
+			
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSINNETWORKREMAININGUSAGEINDIVIDUAL"
+				temp["INDIVIDUALDEDUCTIBLEREMAININGINNETWORK"] = v
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSOUTOFNETWORKREMAININGUSAGEINDIVIDUAL"
+				temp["INDIVIDUALDEDUCTIBLEREMAININGOUTOFNETWORK"] = v	
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSINNETWORKREMAININGUSAGEFAMILY"
+				temp["FAMILYDEDUCTIBLEREMAININGINNETWORK"] = v
+
+			elsif k.upcase.gsub(/[-\s+*]/,'') == "DEDUCTIBLEDOLLARSOUTOFNETWORKREMAININGUSAGEFAMILY"
+				temp["FAMILYDEDUCTIBLEREMAININGOUTOFNETWORK"] = v	
+			end
+
+			temp[k.upcase.gsub(/[-\s+*]/,'')] = v 
+		}
+
+		dummy_array.each{ |k,v| dummy_array[k] = temp[k.upcase.gsub(/[-\s+]/,'')]}
+		
+
+		dummy_array
+	end
+
+
+	def dummy_array_for_h2_table
+		{
+			"EFFECTIVE DATE - IN NETWORK"=>"",
+			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
+			"EFFECTIVE DATE - IN NETWORK"=>"",
+			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
+			"COPAY (PER VISIT)- IN NETWORK"=>"",
+			"COPAY (PER VISIT)- OUT OF NETWORK"=>"",
+			"COPAY (TYPE)- IN NETWORK"=>"",
+			"COPAY (TYPE)- OUT OF NETWORK"=>"",
+			"COINSURANCE (STANDARD)- IN NETWORK"=>"",
+			"COINSURANCE (STANDARD)- OUT OF NETWORK"=>"",
+			"COINSURANCE (SPECIAL)- IN NETWORK"=>"",
+			"COINSURANCE (SPECIAL) - OUT OF NETWORK"=>"",
+			"MAXIMUM VISITS (PER CALENDAR YEAR) AMOUNT- IN NETWORK"=>"",
+			"MAXIMUM VISITS (PER CALENDAR YEAR) MET- IN NETWORK"=>"",
+			"MAXIMUM VISITS (PER CALENDAR YEAR) REMAINING - IN NETWORK"=>"",
+			"MAXIMUM VISITS (PER CALENDAR YEAR) AMOUNT- OUT OF NETWORK"=>"",
+			"MAXIMUM VISITS (PER CALENDAR YEAR) MET- OUT OF NETWORK"=>"",
+			"MAXIMUM VISITS (PER CALENDAR YEAR) REMAINING - OUT OF NETWORK"=>"",
+			"MAXIMUM DAYS (PER POLICY YEAR) AMOUNT- IN NETWORK"=>"",
+			"MAXIMUM DAYS (PER POLICY YEAR) MET- IN NETWORK"=>"",
+			"MAXIMUM DAYS (PER POLICY YEAR) REMAINING - IN NETWORK"=>"",
+			"MAXIMUM DAYS (PER POLICY YEAR) AMOUNT- OUT OF NETWORK"=>"",
+			"MAXIMUM DAYS (PER POLICY YEAR) MET- OUT OF NETWORK"=>"",
+			"MAXIMUM DAYS (PER POLICY YEAR) REMAINING - OUT OF NETWORK"=>"",
+			"INDIVIDUAL DEDUCTIBLE AMOUNT- IN NETWORK"=>"",
+			"INDIVIDUAL DEDUCTIBLE MET- IN NETWORK"=>"",
+			"INDIVIDUAL DEDUCTIBLE REMAINING - IN NETWORK"=>"",
+			"FAMILY DEDUCTIBLE AMOUNT- IN NETWORK"=>"",
+			"FAMILY DEDUCTIBLE MET- IN NETWORK"=>"",
+			"FAMILY DEDUCTIBLE REMAINING - IN NETWORK"=>"",
+			"INDIVIDUAL DEDUCTIBLE AMOUNT- OUT OF NETWORK"=>"",
+			"INDIVIDUAL DEDUCTIBLE MET- OUT OF NETWORK"=>"",
+			"INDIVIDUAL DEDUCTIBLE REMAINING - OUT OF NETWORK"=>"",
+			"FAMILY DEDUCTIBLE AMOUNT- OUT OF NETWORK"=>"",
+			"FAMILY DEDUCTIBLE MET- OUT OF NETWORK"=>"",
+			"FAMILY DEDUCTIBLE REMAINING - OUT OF NETWORK"=>"",
+			"INDIVIDUAL OUT OF POCKET MAXIMUM AMOUNT- IN NETWORK"=>"",
+			"INDIVIDUAL OUT OF POCKET MAXIMUM MET- IN NETWORK"=>"",
+			"INDIVIDUAL OUT OF POCKET MAXIMUM REMAINING - IN NETWORK"=>"",
+			"FAMILY OUT OF POCKET MAXIMUM AMOUNT- IN NETWORK"=>"",
+			"FAMILY OUT OF POCKET MAXIMUM MET- IN NETWORK"=>"",
+			"FAMILY OUT OF POCKET MAXIMUM REMAINING - IN NETWORK"=>"",
+			"INDIVIDUAL OUT OF POCKET MAXIMUM AMOUNT- OUT OF NETWORK"=>"",
+			"INDIVIDUAL OUT OF POCKET MAXIMUM MET- OUT OF NETWORK"=>"",
+			"INDIVIDUAL OUT OF POCKET MAXIMUM REMAINING - OUT OF NETWORK"=>"",
+			"FAMILY OUT OF POCKET MAXIMUM AMOUNT- OUT OF NETWORK"=>"",
+			"FAMILY OUT OF POCKET MAXIMUM MET- OUT OF NETWORK"=>"",
+			"FAMILY OUT OF POCKET MAXIMUM REMAINING - OUT OF NETWORK"=>"",
+			"INDIVIDUAL LIFETIME MAXIMUM AMOUNT- IN NETWORK"=>"",
+			"INDIVIDUAL LIFETIME MAXIMUM MET- IN NETWORK"=>"",
+			"INDIVIDUAL LIFETIME MAXIMUM REMAINING - IN NETWORK"=>"",
+			"FAMILY LIFETIME MAXIMUM AMOUNT- IN NETWORK"=>"",
+			"FAMILY LIFETIME MAXIMUM MET- IN NETWORK"=>"",
+			"FAMILY LIFETIME MAXIMUM REMAINING - IN NETWORK"=>"",
+			"INDIVIDUAL LIFETIME MAXIMUM AMOUNT- OUT OF NETWORK"=>"",
+			"INDIVIDUAL LIFETIME MAXIMUM MET- OUT OF NETWORK"=>"",
+			"INDIVIDUAL LIFETIME MAXIMUM REMAINING - OUT OF NETWORK"=>"",
+			"FAMILY LIFETIME MAXIMUM AMOUNT- OUT OF NETWORK"=>"",
+			"FAMILY LIFETIME MAXIMUM MET- OUT OF NETWORK"=>"",
+			"FAMILY LIFETIME MAXIMUM REMAINING - OUT OF NETWORK"=>"",
+			"ADDITIONAL NOTES"=>""
+		}
+	end
+
+
+	def dummy_array_for_patient_detail
+			{
+			"Patient Detail"=>{
+				"Patient ID"=>"",
+				"Group No."=>"",
+				"Prefix"=>"",
+				"First Name"=>"",
+				"Middle Name"=>"",
+				"Last Name"=>"",
+				"Suffix"=>"",
+				"Gender"=>"",
+				"DOB"=>"",
+				"Address 1"=>"",
+				"Address 2"=>"",
+				"City"=>"",
+				"State"=>"",
+				"Zip"=>"",
+				"Relationship to Subscriber"=>"",
+				"PHONE NO."=>"",
+				"FAX NO."=>"",
+				"EMAIL"=>""
+				},
+			"Subscriber Detail"=>{
+				"Prefix"=>"",
+				"First Name"=>"",
+				"Middle Name"=>"",
+				"Last Name"=>"",
+				"Gender"=>"",
+				"DOB"=>"",
+				"Address 1"=>"",
+				"Address 2"=>"",
+				"City"=>"",
+				"State "=>"",
+				"Zip"=>"",
+				"PHONE NO."=>"",
+				"FAX NO."=>"",
+				"EMAIL"=>""
+				},
+			"Plan and Network Detail"=>{
+				"Plan Type"=>"",
+				"Account Name"=>"",
+				"Account No."=>"",
+				"Initial Coverage Date"=>"",
+				"Current Coverage From"=>"",
+				"Current Coverage To"=>"",
+				"Other Insurance Verified"=>"",
+				"ADDITIONAL NOTES"=>""
+				},
+			"Contacts"=>{
+				"Provider Services"=>"",
+				"Member Services"=>"",
+				"Claims Address 1"=>"",
+				"CLAIMS ADDRESS 2"=>"",
+				"CLAIMS CITY"=>"",
+				"CLAIMS STATE"=>"",
+				"CLAIMS ZIP"=>"",
+				"ELECTRONIC CLAIMS"=>"",
+				"ADDITIONAL NOTES"=>""
+			}
+		}
+
+	end
+
+
 private	
 	def map_keys(table_content, head_count, additional_info)
 		table_content[head_count..table_content.length].map do |tr|
@@ -49,14 +237,28 @@ private
 		
 		row_length = table_content.first[:tr].length
 		
+		data_array = []
+		notes = []
+
+		
 		(row_length).times do |cell_i| 
 			if table_name == 'Patient and Plan Detail' 
 				arr = traverse_table_columnwise(table_content, row_length, cell_i).reject{|b| b.is_a?(String) || b.blank?} 
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => ( arr.is_a?(String) ? arr : arr.reduce({}, :merge) ) } 
 
 			elsif table_name == 'Maternity'
-				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
-			
+				
+				dummy_array = dummy_array_for_h2_table()
+				
+				data_array << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i).inject(&:+) } 
+				
+				notes << data_array.reduce({}, :merge).map{|k,v| "#{k}-#{v};"}
+				
+				strng = notes.inject(&:+)
+
+				dummy_array['ADDITIONAL NOTES'] = strng.inject(&:+)
+				
+				header_arrays << {table_name => dummy_array}
 			else
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
 			end
@@ -158,7 +360,6 @@ private
 			
 			{ 
 				table_name => filled_array
-					
 			}
 
 		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?)  && table_content[0][:tr][1][:th].first.to_s.include?('In-Network')	
@@ -206,112 +407,6 @@ private
 				table_name => {"Additional Notes"=> (additional_info.present? ? additional_info : container_info)}
 			}
 		end
-	end
-
-
-	def merge_arrays(dummy_array, data_array)
-		temp = dummy_array.map{|k,v| {k.upcase.gsub(/[-\s+*]/, '') => ''}}.reduce({},:merge)
-
-		data_array.each{|k,v| 
-			if k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCEAMOUNTINNETWORK"
-				temp["COINSURANCE(STANDARD)INNETWORK"] = v
-			
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCEAMOUNTOUTOFNETWORK"
-				temp["COINSURANCE(STANDARD)OUTOFNETWORK"] = v
-			
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCE(SPECIAL)AMOUNTOUTOFNETWORK"
-				temp["COINSURANCE(SPECIAL)OUTOFNETWORK"] = v
-			
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "COINSURANCE(SPECIAL)AMOUNTINNETWORK"
-				temp["COINSURANCE(SPECIAL)INNETWORK"] = v
-			
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "MAXIMUM$(PERCALENDARYEAR)AMOUNTINNETWORK"
-				temp["INDIVIDUALDEDUCTIBLEAMOUNTINNETWORK"] = v
-
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "MAXIMUM$(PERCALENDARYEAR)AMOUNTOUTOFNETWORK"
-				temp["INDIVIDUALDEDUCTIBLEAMOUNTINNETWORK"] = v
-			
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "COPAYMENT(PERVISIT)AMOUNTINNETWORK"
-				temp["COPAY(PERVISIT)INNETWORK"] = v
-
-			elsif k.upcase.gsub(/[-\s+*]/,'') == "COPAYMENT(PERVISIT)AMOUNTOUTOFNETWORK"
-				temp["COPAY(PERVISIT)OUTOFNETWORK"] = v
-			end
-
-			temp[k.upcase.gsub(/[-\s+*]/,'')] = v 
-		}
-
-		dummy_array.each{ |k,v| dummy_array[k] = temp[k.upcase.gsub(/[-\s+]/,'')]}
-		
-
-		dummy_array
-	end
-
-
-	def dummy_array_for_h2_table
-		{
-			"EFFECTIVE DATE - IN NETWORK"=>"",
-			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
-			"EFFECTIVE DATE - IN NETWORK"=>"",
-			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
-			"COPAY (PER VISIT)- IN NETWORK"=>"",
-			"COPAY (PER VISIT)- OUT OF NETWORK"=>"",
-			"COPAY (TYPE)- IN NETWORK"=>"",
-			"COPAY (TYPE)- OUT OF NETWORK"=>"",
-			"COINSURANCE (STANDARD)- IN NETWORK"=>"",
-			"COINSURANCE (STANDARD)- OUT OF NETWORK"=>"",
-			"COINSURANCE (SPECIAL)- IN NETWORK"=>"",
-			"COINSURANCE (SPECIAL) - OUT OF NETWORK"=>"",
-			"MAXIMUM VISITS (PER CALENDAR YEAR) AMOUNT- IN NETWORK "=>"",
-			"MAXIMUM VISITS (PER CALENDAR YEAR) MET- IN NETWORK "=>"",
-			"MAXIMUM VISITS (PER CALENDAR YEAR) REMAINING - IN NETWORK"=>"",
-			"MAXIMUM VISITS (PER CALENDAR YEAR) AMOUNT- OUT OF NETWORK "=>"",
-			"MAXIMUM VISITS (PER CALENDAR YEAR) MET- OUT OF NETWORK "=>"",
-			"MAXIMUM VISITS (PER CALENDAR YEAR) REMAINING - OUT OF NETWORK"=>"",
-			"MAXIMUM DAYS (PER POLICY YEAR) AMOUNT- IN NETWORK "=>"",
-			"MAXIMUM DAYS (PER POLICY YEAR) MET- IN NETWORK "=>"",
-			"MAXIMUM DAYS (PER POLICY YEAR) REMAINING - IN NETWORK"=>"",
-			"MAXIMUM DAYS (PER POLICY YEAR) AMOUNT- OUT OF NETWORK "=>"",
-			"MAXIMUM DAYS (PER POLICY YEAR) MET- OUT OF NETWORK "=>"",
-			"MAXIMUM DAYS (PER POLICY YEAR) REMAINING - OUT OF NETWORK"=>"",
-			"INDIVIDUAL DEDUCTIBLE AMOUNT- IN NETWORK "=>"",
-			"INDIVIDUAL DEDUCTIBLE MET- IN NETWORK "=>"",
-			"INDIVIDUAL DEDUCTIBLE REMAINING - IN NETWORK"=>"",
-			"FAMILY DEDUCTIBLE AMOUNT- IN NETWORK "=>"",
-			"FAMILY DEDUCTIBLE MET- IN NETWORK "=>"",
-			"FAMILY DEDUCTIBLE REMAINING - IN NETWORK"=>"",
-			"INDIVIDUAL DEDUCTIBLE AMOUNT- OUT OF NETWORK "=>"",
-			"INDIVIDUAL DEDUCTIBLE MET- OUT OF NETWORK "=>"",
-			"INDIVIDUAL DEDUCTIBLE REMAINING - OUT OF NETWORK"=>"",
-			"FAMILY DEDUCTIBLE AMOUNT- OUT OF NETWORK "=>"",
-			"FAMILY DEDUCTIBLE MET- OUT OF NETWORK "=>"",
-			"FAMILY DEDUCTIBLE REMAINING - OUT OF NETWORK"=>"",
-			"INDIVIDUAL OUT OF POCKET MAXIMUM AMOUNT- IN NETWORK "=>"",
-			"INDIVIDUAL OUT OF POCKET MAXIMUM MET- IN NETWORK "=>"",
-			"INDIVIDUAL OUT OF POCKET MAXIMUM REMAINING - IN NETWORK"=>"",
-			"FAMILY OUT OF POCKET MAXIMUM AMOUNT- IN NETWORK "=>"",
-			"FAMILY OUT OF POCKET MAXIMUM MET- IN NETWORK "=>"",
-			"FAMILY OUT OF POCKET MAXIMUM REMAINING - IN NETWORK"=>"",
-			"INDIVIDUAL OUT OF POCKET MAXIMUM AMOUNT- OUT OF NETWORK "=>"",
-			"INDIVIDUAL OUT OF POCKET MAXIMUM MET- OUT OF NETWORK "=>"",
-			"INDIVIDUAL OUT OF POCKET MAXIMUM REMAINING - OUT OF NETWORK"=>"",
-			"FAMILY OUT OF POCKET MAXIMUM AMOUNT- OUT OF NETWORK "=>"",
-			"FAMILY OUT OF POCKET MAXIMUM MET- OUT OF NETWORK "=>"",
-			"FAMILY OUT OF POCKET MAXIMUM REMAINING - OUT OF NETWORK"=>"",
-			"INDIVIDUAL LIFETIME MAXIMUM AMOUNT- IN NETWORK "=>"",
-			"INDIVIDUAL LIFETIME MAXIMUM MET- IN NETWORK "=>"",
-			"INDIVIDUAL LIFETIME MAXIMUM REMAINING - IN NETWORK"=>"",
-			"FAMILY LIFETIME MAXIMUM AMOUNT- IN NETWORK "=>"",
-			"FAMILY LIFETIME MAXIMUM MET- IN NETWORK "=>"",
-			"FAMILY LIFETIME MAXIMUM REMAINING - IN NETWORK"=>"",
-			"INDIVIDUAL LIFETIME MAXIMUM AMOUNT- OUT OF NETWORK "=>"",
-			"INDIVIDUAL LIFETIME MAXIMUM MET- OUT OF NETWORK "=>"",
-			"INDIVIDUAL LIFETIME MAXIMUM REMAINING - OUT OF NETWORK"=>"",
-			"FAMILY LIFETIME MAXIMUM AMOUNT- OUT OF NETWORK "=>"",
-			"FAMILY LIFETIME MAXIMUM MET- OUT OF NETWORK "=>"",
-			"FAMILY LIFETIME MAXIMUM REMAINING - OUT OF NETWORK"=>"",
-			"ADDITIONAL NOTES"=>""
-		}
 	end
 
 

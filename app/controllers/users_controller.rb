@@ -37,7 +37,7 @@ class UsersController < ApplicationController
           user.update_attribute('record_available', 'pending')
         
         elsif site_url.include?('mhnetprovider')
-          Delayed::Job.enqueue MhnetCrawler.new(user.patient_id, user.username, user.password, user.token, user.id, user.site_url)
+          Delayed::Job.enqueue MhnetCrawler.new(user.patient_id, user.username, user.password, user.token, user.id, user.site_url, res[:redirect_url])
           
           user.update_attribute('record_available', 'pending')
         end  

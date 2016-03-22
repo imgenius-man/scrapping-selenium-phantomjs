@@ -80,7 +80,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         UserMailer::exception_email("UserID(#{user.id}) ==> Please enter correct information \n WebSite = #{site_url}").deliver
         
         if response_url.present?
-          response = RestClient.post response_url, {error: 'invalid user'), token: token}
+          response = RestClient.post response_url, {error: 'invalid user', token: token}
         end
 
         driver.quit if driver.present?
@@ -97,7 +97,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
       driver.quit if driver.present?
       
       if response_url.present?
-        response = RestClient.post response_url, {error: 'please try again'), token: token}
+        response = RestClient.post response_url, {error: 'please try again', token: token}
       end
     end 
   end

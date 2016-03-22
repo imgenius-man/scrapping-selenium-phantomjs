@@ -1,4 +1,4 @@
-class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_url)
+class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_url, :response_url)
 	
 
 	def perform
@@ -47,6 +47,8 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
       open_tables = driver.find_elements(:class, 'information')
       
       @json = []
+
+      parse = ParseTable.new
       
       open_tables.each do |table|
         page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},table.attribute('innerHTML'),nil,Mechanize.new)
@@ -99,11 +101,18 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
               }
             }
 
-            table_json = { table_name[0] => data.reduce({}, :merge)}
-          else
-            data = [{'Additional notes' => page.at('p').text}]
+            
+            data_array = data.reduce({}, :merge)
+            
+            dummy_array = parse.dummy_array_for_h2_table()
 
-            table_json = { container_name => data.reduce({}, :merge)}
+            table_json = { 'PLAN LEVEL BENEFITS' => parse.merge_arrays(dummy_array, data_array)}
+          
+          else
+            dummy_array = parse.dummy_array_for_h2_table()
+            dummy_array['ADDITIONAL NOTES'] = page.at('p').text
+            
+            table_json = { 'PLAN LEVEL BENEFITS' => dummy_array }
           end
 
           @json << table_json
@@ -120,20 +129,33 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
               {r.text.squish => values[i].text.squish}
             }.reduce({}, :merge)
           
+            dummy_array = parse.dummy_array_for_h2_table()
+            
+            dummy_array['COPAY (TYPE)- IN NETWORK'] = data['Office Visit']
+
           else
-            data = {'Additional notes' => html.squish.split(/[<p>,<\/p>]/).last}
+            dummy_array = parse.dummy_array_for_h2_table()
+          
+            dummy_array['ADDITIONAL NOTES'] = html.squish.split(/[<p>,<\/p>]/).last
           end
 
-          table_json = { container_name => data}
+          table_json = { 'PLAN LEVEL BENEFITS' => dummy_array }
+          
           @json << table_json
         end
 
         if container_name.include?('Patient Information')
           
-          if page.search('h5').present?
-            address = page.at('.address').text.squish.split("Address ")
-            address=address[1]
+          name = ''
 
+          if page.search('h5').present?
+            faddress = page.at('.address')
+            patient_address = faddress.search('p')
+            address = ""
+            patient_address[1..patient_address.length].each  {|_address| address = address + " "+_address }
+            address_line = address.split(",").first
+            address = address.split(" ")
+            name  = patient_address[0].text
             headers = page.search('h5')
             values = page.search('.definition')
 
@@ -142,12 +164,52 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
             }.reduce({}, :merge)
           
             data.merge!({'Address' => address})
+            
           else
             data = {'Additional notes' => html.squish.split(/[<p>,<\/p>]/).last}
           end
+          puts "---"*100
+          puts address.inspect
 
-          table_json = { container_name => data}
-          @json << table_json
+          zip = []
+          state = []
+
+          address.each_with_index do |v,i| 
+            if v.to_i != 0
+              zip << v
+              state << i
+            end
+          end
+          puts "==="*100
+          puts zip.inspect
+          puts state.inspect
+
+          dummy_array = parse.dummy_array_for_patient_detail() 
+          
+          dummy_array['Patient Detail']['Patient ID'] = data['Member ID:']  
+          
+          dummy_array['Patient Detail']['First Name'] = name.split(",").first
+
+          dummy_array['Patient Detail']['Last Name'] = name.split(",").last  
+          
+          dummy_array['Patient Detail']['DOB'] = data['Date Of Birth']  
+
+          dummy_array['Patient Detail']['Address 1'] = address_line   
+
+          dummy_array['Patient Detail']['City'] =  address[(state.last.to_i-3)]+ " " + address[(state.last.to_i-2)]  
+          
+          dummy_array['Patient Detail']['State'] = address[(state.last.to_i-1)]
+
+          dummy_array['Patient Detail']['Zip'] = zip.last 
+
+          dummy_array['Plan and Network Detail']['Plan Type'] = data['Benefit Plan'] 
+          
+          dummy_array['Plan and Network Detail']['Account Name'] = data['Group Name:'] 
+          
+          dummy_array['Plan and Network Detail']['Account No.'] = data['Group ID:']   
+
+          # table_json = { container_name => data}
+          @json << dummy_array
         end
 
         if container_name.include?('Family Information')
@@ -229,21 +291,34 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
       if @json
           user.update_attribute('record_available', 'complete')
       end
-      
+      a = []
+
+      @json.each_with_index{|v,i| a << i if v['PLAN LEVEL BENEFITS'].present?}
+
+      if a.count == 2
+        @json[a.last]['PLAN LEVEL BENEFITS']['COPAY (TYPE)- IN NETWORK'] = @json[a.first]['PLAN LEVEL BENEFITS']['COPAY (TYPE)- IN NETWORK']
+        @json[a.last]['PLAN LEVEL BENEFITS']['ADDITIONAL NOTES'] = @json[a.first]['PLAN LEVEL BENEFITS']['ADDITIONAL NOTES']
+        @json.delete_at(a.first)
+      end
+
       user.update_attribute('json', JSON.generate(@json))
 
       driver.quit
 
-      # response = RestClient.post 'http://3c91a4bd.ngrok.io/gopher/scraped_data', {data: JSON.generate(@json), token: token}
-
-      puts "==="*30
-      puts response
+      if response_url.present?
+        response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+      end
+    
     rescue Exception=> e
       user.update_attribute('record_available', 'failed')
       
       driver.quit if driver.present?
       
       UserMailer::exception_email("UserID(#{user.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
+      
+      if response_url.present?
+        response = RestClient.post response_url, {error: 'please try again', token: token}
+      end
     end 
   end
 
