@@ -396,7 +396,13 @@ private
 		elsif table_content[0][:tr][0][:th].first.present? && table_content[0][:tr][1].present? && table_content[0][:tr][1][:th].first.present?  
 			table_content.reject!{ |a| a[:tr].length != table_content[0][:tr].length } 
 			
-			map_keys_complex_table(table_content, table_name, head_count)	
+			hash_comp = map_keys_complex_table(table_content, table_name, head_count)
+			
+			if table_name == 'Patient and Plan Detail' 
+				hash_comp = merge_complex_table(dummy_array_for_complex_table,hash_comp)	
+			end
+
+			hash_comp
 		end
 	end
 
@@ -407,6 +413,156 @@ private
 				table_name => {"Additional Notes"=> (additional_info.present? ? additional_info : container_info)}
 			}
 		end
+	end
+
+
+	def dummy_array_for_complex_table
+		{
+			"Patient Detail"=>{
+					"Patient ID"=>"",
+					"Group No."=>"",
+					"Prefix"=>"",
+					"First Name"=>"",
+					"Middle Name"=>"",
+					"Last Name"=>"",
+					"Suffix"=>"",
+					"Gender"=>"",
+					"DOB"=>"",
+					"Address 1"=>"",
+					"Address 2"=>"",
+					"City"=>"",
+					"State"=>"",
+					"Zip"=>"",
+					"Relationship to Subscriber"=>"",
+					"PHONE NO."=>"",
+					"FAX NO."=>"",
+					"EMAIL"=>""
+				},
+			"Subscriber Detail"=>{
+				"Prefix"=>"",
+				"First Name"=>"",
+				"Middle Name"=>"",
+				"Last Name"=>"",
+				"Gender"=>"",
+				"DOB"=>"",
+				"Address 1"=>"",
+				"Address 2"=>"",
+				"City"=>"",
+				"State"=>"",
+				"Zip"=>"",
+				"PHONE NO."=>"",
+				"FAX NO."=>"",
+				"EMAIL"=>""
+			},
+			"Plan and Network Detail"=>{
+				"Plan Type"=>"",
+				"Account Name"=>"",
+				"Account No."=>"",
+				"Initial Coverage Date"=>"",
+				"Current Coverage From"=>"",
+				"Current Coverage To"=>"",
+				"Other Insurance Verified"=>"",
+				"ADDITIONAL NOTES"=>""
+			},
+			"Contacts"=>{
+				"Provider Services"=>"",
+				"Member Services"=>"",
+				"Claims Address 1"=>"",
+				"CLAIMS ADDRESS 2"=>"",
+				"CLAIMS CITY"=>"",
+				"CLAIMS STATE"=>"",
+				"CLAIMS ZIP"=>"",
+				"ELECTRONIC CLAIMS"=>"",
+				"ADDITIONAL NOTES"=>""
+			}
+		}
+	end
+
+def merge_complex_table(dummy_array,hash_comp)
+
+		hash_comp.each do |key,value|
+			value.each do |val_key,val|
+
+				if key == "Patient Detail"
+					if val_key == "Name"
+						p_name = val.split
+						dummy_array["Patient Detail"]["First Name"]=p_name[0]
+						if p_name.count == 2
+							dummy_array["Patient Detail"]["Last Name"]=p_name[1]
+						elsif p_name.count==3
+							dummy_array["Patient Detail"]["Middle Name"]=p_name[1]
+							dummy_array["Patient Detail"]["Last Name"]=p_name[2]
+						end
+					elsif val_key == "ID#"
+						dummy_array["Patient Detail"]["Patient ID"] = val
+					elsif val_key == "Gender"
+						dummy_array["Patient Detail"]["Gender"] = val
+					elsif val_key == "Date of Birth"
+						dummy_array["Patient Detail"]["DOB"] = val
+					elsif val_key == "Relationship"
+						dummy_array["Patient Detail"]["Relationship to Subscriber"] = val
+					elsif val_key == "Address"
+						dummy_array["Patient Detail"]["Address 1"] = val
+						add = val.split(',')
+						sz = add[1].split
+
+						ct = add[0].split
+						len=ct.count
+						dummy_array["Patient Detail"]["City"] = ct[len-2]+" "+ct[len-1]
+						dummy_array["Patient Detail"]["State"] = sz[0]
+						dummy_array["Patient Detail"]["Zip"] = sz[1]
+
+					end
+
+				elsif key == "Subscriber Detail"
+
+					if val_key == "Name"
+						p_name = val.split
+						dummy_array["Subscriber Detail"]["First Name"] = p_name[0]
+						if p_name.count == 2
+							dummy_array["Subscriber Detail"]["Last Name"] =p_name[1]
+						elsif p_name.count==3
+							dummy_array["Subscriber Detail"]["Middle Name"] = p_name[1]
+							dummy_array["Subscriber Detail"]["Last Name"] = p_name[2]
+						end
+
+					elsif val_key == "Date of Birth"
+						dummy_array["Subscriber Detail"]["DOB"] = val
+					end
+
+				elsif key == "Plan and Network Detail"
+
+					if val_key == "Plan Type"
+						dummy_array["Plan and Network Detail"]["Plan Type"] = val
+					elsif val_key == "Plan Funding Type"
+
+					elsif val_key == "Initial Coverage Date"
+						dummy_array["Plan and Network Detail"]["Initial Coverage Date"] = val
+					elsif val_key == "Current Coverage From"
+						dummy_array["Plan and Network Detail"]["Current Coverage From"] = val
+					elsif val_key == "Current Coverage To"
+						dummy_array["Plan and Network Detail"]["Current Coverage To"] = val
+					elsif val_key == "Other Insurance Verified"
+						dummy_array["Plan and Network Detail"]["Other Insurance Verified"] = val
+					elsif val_key == "Account #"
+						dummy_array["Plan and Network Detail"]["Account No."] = val
+					elsif val_key == "Account Name"
+						dummy_array["Plan and Network Detail"]["Account Name"] = val
+					end
+
+				elsif key == "Contacts"
+
+					if val_key == "Provider Services"
+						dummy_array["Contacts"]["Provider Services"] = val
+					elsif val_key == "Member Services"
+						dummy_array["Contacts"]["Member Services"] = val
+
+					end
+				end
+			end
+
+		end
+		dummy_array
 	end
 
 
