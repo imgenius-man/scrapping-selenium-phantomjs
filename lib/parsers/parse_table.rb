@@ -342,7 +342,7 @@ private
 				filled_array["CODE"] = 'SHORT TERM REHABILITATOIN/THERAPY - ZZ03'
 			
 			elsif table_name == 'Chiropractic Care'
-				final_array["CODE"] = 'CHIROPRACTIC CARE -33'
+				filled_array["CODE"] = 'CHIROPRACTIC CARE -33'
 			end
 
 			{ 
