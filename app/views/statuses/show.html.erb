@@ -1,0 +1,87 @@
+<br /><br /><br /><br />
+<div class="row">
+<div class="col-md-2">
+
+</div>
+<div class="col-md-8">
+
+
+<div class="">
+
+<p id="notice"><%= notice %></p>
+
+<br ><br >
+<p>
+  <h3> Site Url: <%= @status.site_url %> </h3>
+
+  <br />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>
+          Details of test
+        </th>
+        <th>
+          
+        </th>
+        <th>
+          Status
+        </th>
+        <th>
+          Dated
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>
+          <h5>Login Test</h5>
+        <th>
+        <td>
+          <% if @status.login_status%>
+            <span class="text-info">Login test is OK.</span>
+          <% else %>
+            <span class="text-danger">Login test failed.</span>
+          <% end %>
+        </td>
+        <td>
+          <%= @status.date_checked %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <h5>Patient Searchable Test</h5>
+        <th>
+        <td>
+          <% if @status.patient_search_status%>
+            <span class="text-info">Patient Searching test OK.</span>
+          <% else %>
+            <span class="text-danger">Patient Searching test is failed.</span>
+          <% end %>
+        </td>
+        <td>
+          <%= @status.date_checked %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <h5>Patient Detail Structure Test</h5>
+        <th>
+        <td>
+          <% if @status.site_status%>
+            <span class="text-info">Site structure is OK.</span>
+          <% else %>
+            <span class="text-danger">Site structure is changed. </span>
+          <% end %>
+        </td>
+        <td>
+          <%= @status.date_checked %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<%= link_to 'Back', statuses_path %>
+</div></div>
+</div>

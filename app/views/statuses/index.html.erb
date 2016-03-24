@@ -1,0 +1,30 @@
+<div class="show-list">
+<h3>Status of websites</h3>
+<br />
+
+<table class="table">
+  <tr>
+    <th></th>
+    <th>Site url</th>
+    <th>Status</th>
+    <th>Date checked</th>
+    <th></th>
+  </tr>
+
+<% @statuses.each do |status| %>
+  <tr>
+    <td> </td>
+    <td><%= status.site_url %></td>
+    <% if status.status %>
+    <td class="text-success"> Site is OK </td>
+    <%else%>
+    <td class="text-danger"> Tests are Failing </td>
+    <%end%>
+    <td><%= status.date_checked %></td>
+    <td><%= link_to 'View Site Status', status, class: "btn btn-info" %></td>
+    <!-- <td><%= link_to 'Edit', edit_status_path(status) %></td> -->
+    <!-- <td><%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+  </tr>
+<% end %>
+</table>
+</div>

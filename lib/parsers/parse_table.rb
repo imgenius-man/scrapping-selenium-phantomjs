@@ -73,6 +73,7 @@ class ParseTable
 
 	def dummy_array_for_h2_table
 		{
+			"CODE"=>"",
 			"EFFECTIVE DATE - IN NETWORK"=>"",
 			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
 			"EFFECTIVE DATE - IN NETWORK"=>"",
@@ -257,7 +258,9 @@ private
 				strng = notes.inject(&:+)
 
 				dummy_array['ADDITIONAL NOTES'] = strng.inject(&:+)
-				
+				dummy_array['CODE'] = 'MATERNITY- 69'
+
+
 				header_arrays << {table_name => dummy_array}
 			else
 				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) } 
@@ -333,17 +336,32 @@ private
 		
 			data_array = map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 			
+			filled_array = merge_arrays(dummy_array, data_array)
+
+			if table_name == 'Short Term Rehabilitation/Therapy'
+				filled_array["CODE"] = 'SHORT TERM REHABILITATOIN/THERAPY - ZZ03'
+			
+			elsif table_name == 'Chiropractic Care'
+				final_array["CODE"] = 'CHIROPRACTIC CARE -33'
+			end
+
 			{ 
-				table_name + " - " +table_content[0][:tr][0][:th].inject(&:+).to_s => merge_arrays(dummy_array, data_array)
+				table_name + " - " + table_content[0][:tr][0][:th].inject(&:+).to_s => filled_array
 			}
 			
 		elsif table_content[0][:tr][0][:th].first.nil?
 			dummy_array = dummy_array_for_h2_table()
-		
+			
 			data_array = map_keys(table_content, head_count, additional_info).flatten!.reduce({}, :merge)
 
+			final_array = merge_arrays(dummy_array, data_array)
+			
+			if table_name == 'Specialist Services'
+				final_array["CODE"] = 'Specialist Services- ZZ01'
+			end
+			
 			{ 
-				table_name => merge_arrays(dummy_array, data_array)
+				table_name => final_array
 			}
 		end
 	end
@@ -384,6 +402,7 @@ private
 			
 			name = data_array['Patient Aligned Physician Name'].split(" ")
 			
+			filled_array['CODE'] = 'CAC-NAME'
 			filled_array['CARE COORDINATION PROVIDER'] = data_array['CAC Name']
 			filled_array['PATIENT ALIGNED PHYSICIAN FIRST NAME'] = name[0]
 			filled_array['PATIENT ALIGNED PHYSICIAN MIDDLE NAME'] =	name[1]
@@ -589,6 +608,7 @@ def merge_complex_table(dummy_array,hash_comp)
 		elsif (table_content[0][:tr][0][:th].first.blank? || table_content[0][:tr][0][:th].first.nil?) && table_content[0][:tr][1].present? && (table_content[0][:tr][1][:th].first.blank? || table_content[0][:tr][1][:th].first.nil?)  
 			array =
 			{
+				"CODE"=>"",
 				"CARE COORDINATION PROVIDER"=>"",
 				"PATIENT ALIGNED PHYSICIAN FIRST NAME"=>"",
 				"PATIENT ALIGNED PHYSICIAN MIDDLE NAME"=>"",

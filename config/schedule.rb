@@ -1,7 +1,3 @@
-every :friday, :at => "03:27pm" do
-  rake "mhnet_test"
-end
-
-every 5.minutes do
-  rake "mhnet_test"
+every 1.day, :at => '1:30 am' do
+  rake "web_html_test"
 end
