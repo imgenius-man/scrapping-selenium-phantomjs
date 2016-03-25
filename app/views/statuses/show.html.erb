@@ -28,7 +28,7 @@
           Status
         </th>
         <th>
-          Dated
+          Date &amp; Time
         </th>
       </tr>
     </thead>
@@ -45,7 +45,7 @@
           <% end %>
         </td>
         <td>
-          <%= @status.date_checked %>
+          <%= @status.date_checked.to_s(:long) %>
         </td>
       </tr>
       <tr>
@@ -59,8 +59,8 @@
             <span class="text-danger">Patient Searching test is failed.</span>
           <% end %>
         </td>
-        <td>
-          <%= @status.date_checked %>
+        <td>    
+          <%= @status.date_checked.to_s(:long) %>
         </td>
       </tr>
       <tr>
@@ -75,7 +75,7 @@
           <% end %>
         </td>
         <td>
-          <%= @status.date_checked %>
+          <%= @status.date_checked.to_s(:long) %>
         </td>
       </tr>
     </tbody>

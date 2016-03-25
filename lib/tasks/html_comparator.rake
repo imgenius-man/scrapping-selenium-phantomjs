@@ -7,6 +7,7 @@
   rescue Exception=>e
     cig.login_status = false
   end
+  cig.date_checked= DateTime.now
   cig.save!
 
   begin
@@ -100,6 +101,7 @@ task :mhnet_test => :environment do
   rescue Exception=>e
     mhnet.login_status = false
   end
+    mhnet.date_checked= DateTime.now
     mhnet.save!
   wait = obj[:wait]
 

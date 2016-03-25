@@ -2,6 +2,9 @@
 <%= stylesheet_link_tag "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" %>
 
 <div class="container well signin-form">
+	<span class="pull-right">
+		<%= link_to 'Visit Status Page', statuses_path  ,class: "text-danger"%>		
+	</span>
 	<h3>	Sign In</h3>
 	<br>
 	<%= form_for User.new ,:html => { :class => 'form-inline signin' } do |f| %>

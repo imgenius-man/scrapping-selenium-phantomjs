@@ -49,7 +49,7 @@ class ParseContainer
 		              l.children.text.squish + " (Special)"
 
 		            elsif l.name == 'ul'
-		              " " + l.children.text.squish      
+		              # " " + l.children.text.squish      
 		            end 
 		          
 		          else

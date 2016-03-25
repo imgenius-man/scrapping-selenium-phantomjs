@@ -298,6 +298,7 @@ class MhnetCrawler < Struct.new(:pat_id, :userid, :pass, :token, :usrid, :site_u
       if a.count == 2
         @json[a.last]['PLAN LEVEL BENEFITS']['COPAY (TYPE)- IN NETWORK'] = @json[a.first]['PLAN LEVEL BENEFITS']['COPAY (TYPE)- IN NETWORK']
         @json[a.last]['PLAN LEVEL BENEFITS']['ADDITIONAL NOTES'] = @json[a.first]['PLAN LEVEL BENEFITS']['ADDITIONAL NOTES']
+        @json[a.last]['PLAN LEVEL BENEFITS']['CODE'] = 'MH'
         @json.delete_at(a.first)
       end
 
