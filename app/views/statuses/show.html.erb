@@ -13,7 +13,10 @@
 <br ><br >
 <p>
   <h3> Site Url: <%= @status.site_url %> </h3>
+  <span style="display:none" class="pull-right">
 
+    <%= link_to 'Run Test Cases Again', edit_status_path, class: "btn btn-danger" %>
+  </span>
   <br />
   <table class="table table-striped">
     <thead>
@@ -22,7 +25,7 @@
           Details of test
         </th>
         <th>
-          
+
         </th>
         <th>
           Status
@@ -59,7 +62,7 @@
             <span class="text-danger">Patient Searching test is failed.</span>
           <% end %>
         </td>
-        <td>    
+        <td>
           <%= @status.date_checked.to_s(:long) %>
         </td>
       </tr>
