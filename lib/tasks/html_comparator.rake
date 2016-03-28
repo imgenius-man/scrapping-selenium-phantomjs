@@ -6,6 +6,7 @@
     cig.login_status = true
   rescue Exception=>e
     cig.login_status = false
+    UserMailer::HTML_validation_notification("Login failed of CIGNA").deliver
   end
   cig.date_checked= DateTime.now
   cig.save!
@@ -46,6 +47,7 @@
     cig.patient_search_status = true
   rescue Exception=>e
     cig.patient_search_status = false
+    UserMailer::HTML_validation_notification("Patient Search failed of CIGNA").deliver
   end
 
   wait.until { driver.find_elements(:class, 'collapseTable').present? }
@@ -100,6 +102,7 @@ task :mhnet_test => :environment do
     mhnet.login_status = true
   rescue Exception=>e
     mhnet.login_status = false
+    UserMailer::HTML_validation_notification("Login failed of MHNET").deliver
   end
     mhnet.date_checked= DateTime.now
     mhnet.save!
@@ -122,6 +125,7 @@ task :mhnet_test => :environment do
     mhnet.patient_search_status = true
   rescue Exception=>e
     mhnet.patient_search_status = false
+    UserMailer::HTML_validation_notification("Patient Search failed of MHNET").deliver
   end
 
   driver.quit
