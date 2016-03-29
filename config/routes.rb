@@ -11,9 +11,11 @@ Academia::Application.routes.draw do
     resources :users do
     	collection do
     		post 'search_data'
+            post 'sign_in_api'
             post 'access_token'
             post 'verify_credentials'
             post 'import'
+            post 'import_mapping'
             post 'authenticate_token'
             
             get 'delete_all'

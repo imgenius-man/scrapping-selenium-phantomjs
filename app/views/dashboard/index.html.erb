@@ -3,7 +3,7 @@
 
 <div class="container well signin-form">
 	<span class="pull-right">
-		<%= link_to 'Visit Status Page', statuses_path  ,class: "text-danger"%>		
+		<%= link_to 'Visit Status Page', statuses_path  ,class: "text-danger"%>
 	</span>
 	<h3>	Sign In</h3>
 	<br>
@@ -25,16 +25,30 @@
   <br>
 	<% end %>
 	</div>
+	<div class="row">
+		<div class="col-md-2">
 
-	<div class="well signup-form">
-	<h4>Import Patients</h4>
-	<br>
-	<%= form_tag import_users_path, multipart: true do %>
-			<%= file_field_tag :file %><br />
-			<%= submit_tag "Import" ,:class => "btn btn-danger"%>
-	<% end %>
+		</div>
+		<div class="well col-md-3 signup-form">
+		<h4>Import Patients</h4>
+		<br>
+		<%= form_tag import_users_path, multipart: true do %>
+				<%= file_field_tag :file %><br />
+				<%= submit_tag "Import Patients" ,:class => "btn btn-danger"%>
+		<% end %>
+		</div>
+		<div class="col-md-1">
+
+		</div>
+		<div class="well col-md-3 signup-form">
+		<h4>Import Service type mapping</h4>
+		<br>
+		<%= form_tag import_mapping_users_path, multipart: true do %>
+				<%= file_field_tag :file %><br />
+				<%= submit_tag "Import Service Type Mapping" ,:class => "btn btn-danger"%>
+		<% end %>
+		</div>
 	</div>
-
 <%if !@users.first.nil? %>
 <div class="container well">
 
@@ -61,7 +75,7 @@
 			        <td><%= user.last_name %></td>
 			        <td><%= user.patient_id %></td>
 			        <td><%= user.dob %></td>
-			        
+
 			          <% if user.record_available=='complete'%>
 			           <td>
 			            <%= form_for(user) do %>
@@ -99,21 +113,21 @@
 </div>
 <%end%>
 <script type="text/javascript">
-	
-	
+
+
 	function fillup_signin_fields(){
 		selected_val = $('#user_site_to_scrap option:selected').val()
-			
+
 		if(session_arr[selected_val]) {
 			$('#user_username').val(session_arr[selected_val]['username'])
 			$('#user_password').val(session_arr[selected_val]['password'])
-		} 
+		}
 		else {
 			$('#user_username').val("")
 			$('#user_password').val("")
 		}
 	}
-	
+
 
 	$(document).ready(function(){
 		session_arr = <%= raw(session.to_json) %>
@@ -121,9 +135,9 @@
 		setTimeout(function() { fillup_signin_fields(); }, 300);
 
 		$('#user_site_to_scrap').on('change', function(){
-			fillup_signin_fields()	
+			fillup_signin_fields()
 		})
-		
+
 		$( ".patient_form" ).submit(function( event ) {
   		event.preventDefault();
   		$(this).children('#user_username').val($('#user_username').val().trim())
