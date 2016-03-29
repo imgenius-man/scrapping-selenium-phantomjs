@@ -1,6 +1,7 @@
 Academia::Application.routes.draw do
 
   resources :statuses
+  resources :service_types
 
 
   # devise_for :admin_users, ActiveAdmin::Devise.config
@@ -17,10 +18,10 @@ Academia::Application.routes.draw do
             post 'import'
             post 'import_mapping'
             post 'authenticate_token'
-            
+
             get 'delete_all'
     	end
     end
     # root :to => '/users/sign_in'
-    
+
 end
