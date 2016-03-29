@@ -16,7 +16,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         href_search = driver.find_elements(:class,'patients')[1]
       }
       href_search.click
-     
+      
       member_id = nil
       wait.until {  
         member_id = driver.find_element(:name, 'memberDataList[0].memberId')
@@ -70,6 +70,22 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
         end
 
         driver.quit
+
+        service_types = ServiceType.all
+        
+        @json.each_with_index do |(table_name, table_content), index|
+          service_types.each do |serv_type|
+            
+            if  serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '')
+              puts "---"*100
+              puts index
+              puts table_name.keys.first
+
+              @json[index][@json[index].keys.first]['CODE'] = serv_type.type_code
+              puts @json[index]
+            end
+          end
+        end
 
         user.update_attribute('json', JSON.generate(@json))
         

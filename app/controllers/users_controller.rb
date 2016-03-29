@@ -97,13 +97,19 @@ class UsersController < ApplicationController
   end
 
   
+  def import_mapping
+    User.import_mapping(params[:file])
+    redirect_to root_url, notice: "Mapping Code updated."
+  end
+
+
   def delete_all
     User.destroy_all
     redirect_to :back
   end
 
 
-  def sign_in(name, pass, site_url)
+  def s_in(name, pass, site_url)
     fields = User.retrieve_signin_fields(site_url)
     
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
@@ -122,8 +128,34 @@ class UsersController < ApplicationController
 
     element = driver.find_element(:css, fields[:submit_button])
     element.submit
-
+    
     {driver: driver, previous_url: current_url, wait: wait, error: fields[:error_string]}
+  end
+  
+  def sign_in_api
+    user = params[:user]
+    if user[:username].present? && user[:password].present? && user[:site_url].present?
+      result = s_in(user[:username], user[:password], user[:site_url])
+      
+      if result[:driver].current_url.split("/").last.include?(result[:error]) || result[:driver].current_url == result[:previous_url]
+        render json: false
+  
+      else 
+        render json: true
+      end
+      
+      result[:driver].quit
+
+    else
+      render json: "not permitted"
+    end
+  end
+
+
+  def sign_in(name, pass, site_url)
+    result = s_in(name, pass, site_url)
+    
+    {driver: result[:driver], previous_url: result[:previous_url], wait: result[:wait], error: result[:error]}
   end
 
 
