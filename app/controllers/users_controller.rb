@@ -100,7 +100,7 @@ class UsersController < ApplicationController
   def import_mapping
     id = params[:format]
     User.import_mapping(params[:file],id)
-    redirect_to root_url, notice: "Mapping Code updated."
+    redirect_to :back, notice: "Mapping Code updated."
   end
 
 
@@ -115,7 +115,8 @@ class UsersController < ApplicationController
     
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
     
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox
+    # , :args => ['--ignore-ssl-errors=true']
     
     driver.navigate.to site_url
 

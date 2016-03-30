@@ -71,7 +71,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :userid, :
 
         driver.quit
 
-        service_types = ServiceType.all
+        service_types = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types
         
         @json.each_with_index do |(table_name, table_content), index|
           service_types.each do |serv_type|
