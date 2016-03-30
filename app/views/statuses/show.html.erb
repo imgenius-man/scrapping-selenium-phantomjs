@@ -1,4 +1,4 @@
-<br /><br /><br /><br />
+ <br /><br /><br /><br />
 <div class="row">
 <div class="col-md-2">
 
@@ -86,5 +86,27 @@
 
 
 <%= link_to 'Back', statuses_path %>
-</div></div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-3">
+    
+  </div> 
+    
+
+  <div class="well col-md-6 signup-form">
+
+    <span class="pull-right">
+    <%= link_to 'Download CSV',  service_type_path(@status.id)+".csv" ,class: "text-danger"%>
+    </span>
+    
+    <h4>Import Service type mapping</h4>
+    <br>
+    <%=   form_tag import_mapping_users_path(@status.id), multipart: true do %>
+        <%= file_field_tag :file %><br />
+        <%= submit_tag "Import Service Type Mapping" ,:class => "btn btn-danger"%>
+    <% end %>
+  </div>  
 </div>

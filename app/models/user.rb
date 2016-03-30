@@ -59,20 +59,16 @@ class User < ActiveRecord::Base
     end
   end 
 
-  def self.import_mapping(file)
+  def self.import_mapping(file,id)
+ 		obj = Status.find(id).service_types
+ 		ServiceType.where(status_id: id).destroy_all
+		
 		CSV.foreach(file.path, headers: true) do |row|
 			user_hash = row.to_hash
 			str = row.to_s.split(',')
-
-			a = ServiceType.find_by_type_name(str[0])
-			if a
-				a.update_attributes(type_name: str[0], type_code: str[1])
-			else
-				a=ServiceType.new
-				a.type_name = str[0].squish if str[0]
-				a.type_code = str[1].squish if str[1]
-				a.save!
-			end
+ 			
+			obj.create(type_name: (str[0].squish if str[0].present?), type_code: (str[1].squish if str[1].present?))
+ 
 		end
 	end
 	

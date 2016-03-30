@@ -1,7 +1,12 @@
 Academia::Application.routes.draw do
 
   resources :statuses
-  resources :service_types
+  resources :service_types do
+    member do
+      get 'index'
+    end
+  end
+
 
 
   # devise_for :admin_users, ActiveAdmin::Devise.config

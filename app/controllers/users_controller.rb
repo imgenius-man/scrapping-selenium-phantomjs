@@ -98,7 +98,8 @@ class UsersController < ApplicationController
 
   
   def import_mapping
-    User.import_mapping(params[:file])
+    id = params[:format]
+    User.import_mapping(params[:file],id)
     redirect_to root_url, notice: "Mapping Code updated."
   end
 
