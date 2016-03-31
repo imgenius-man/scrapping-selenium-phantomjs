@@ -2,13 +2,13 @@ class DashboardController < ApplicationController
   def new
   	require 'headless'
     require "selenium-webdriver"
-    
+
     head = Headless.new
     head.start
-    
+
     driver = Selenium::WebDriver.for :firefox
     driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
-    
+
     username = driver.find_element(:name, 'username')
     username.send_keys "skedia105"
 
@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
     password.send_keys "Empclaims100"
 
     element = driver.find_element(:id, 'button1')
-    # element.send_keys "Empclaims100" 
+    # element.send_keys "Empclaims100"
     element.submit
     # driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     sleep(3)
@@ -25,17 +25,17 @@ class DashboardController < ApplicationController
     href_search[1].click
     sleep(1)
     member_id = driver.find_element(:name, 'memberDataList[0].memberId')
-    member_id.send_keys params[:user][:patient_id]
+    member_id.send_keys params[:patient][:patient_id]
 
     dob = driver.find_element(:name, 'memberDataList[0].dobDate')
-    dob.send_keys params[:user][:dob]
+    dob.send_keys params[:patient][:dob]
 
     first_name = driver.find_element(:name, 'memberDataList[0].firstName')
-    first_name.send_keys params[:user][:first_name]
+    first_name.send_keys params[:patient][:first_name]
 
     last_name = driver.find_element(:name, 'memberDataList[0].lastName')
-    last_name.send_keys params[:user][:last_name]
-    
+    last_name.send_keys params[:patient][:last_name]
+
 
     ee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
     ee.submit
@@ -53,13 +53,13 @@ class DashboardController < ApplicationController
     @table5 = tables[4].attribute('innerHTML').gsub("\t","").gsub("\n","")
     @table6 = tables[5].attribute('innerHTML').gsub("\t","").gsub("\n","")
 
-    driver.quit 
+    driver.quit
     head.destroy
 
   end
 
   def index
-    @users=User.all.sort_by &:first_name
+    @patients = Patient.order('first_name asc')
   end
 end
 

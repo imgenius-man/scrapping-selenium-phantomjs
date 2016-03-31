@@ -1,7 +1,12 @@
  task :cigna_test => :environment do
   cig = Status.find_by_site_url("https://cignaforhcp.cigna.com/")
   begin
-    obj = UsersController.new.sign_in('skedia105','pkbuster905', 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
+    if !cig
+      cig = Patient.new
+      cig.site_url = "https://cignaforhcp.cigna.com/"
+      cig.save!
+    end
+    obj = PatientsController.new.sign_in('skedia105','pkbuster905', 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
     driver = obj[:driver]
     cig.login_status = true
   rescue Exception=>e
@@ -9,7 +14,7 @@
     cig.patient_search_status = false
     cig.site_status = false
     cig.status = false
-    UserMailer::HTML_validation_notification("Login failed of CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Login failed of CIGNA").deliver
   end
 
   begin
@@ -52,7 +57,7 @@
     cig.patient_search_status = false
     cig.site_status = false
     cig.status = false
-    UserMailer::HTML_validation_notification("Patient Search failed of CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Patient Search failed of CIGNA").deliver
   end
 
   begin
@@ -83,16 +88,16 @@
     if body_to_match == page_body
       cig.status = true
       cig.site_status = true
-      UserMailer::HTML_validation_notification("CIGNA is OK").deliver
+      PatientMailer::HTML_validation_notification("CIGNA is OK").deliver
 
     else
       cig.status = false
       cig.site_status = false
-      UserMailer::HTML_validation_notification("Inconsistency has been found in the layout of CIGNA").deliver
+      PatientMailer::HTML_validation_notification("Inconsistency has been found in the layout of CIGNA").deliver
     end
     cig.save!
   rescue Exception=>e
-    UserMailer::HTML_validation_notification("Exception: Inconsistency has been found in the layout of CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Exception: Inconsistency has been found in the layout of CIGNA").deliver
   end
 end
 
@@ -100,7 +105,7 @@ end
 task :mhnet_test => :environment do
   mhnet = Status.find_by_site_url("https://www.mhnetprovider.com/")
   begin
-    obj = UsersController.new.sign_in('ka2002pa','Pcc63128', 'https://www.mhnetprovider.com/')
+    obj = PatientsController.new.sign_in('ka2002pa','Pcc63128', 'https://www.mhnetprovider.com/')
     driver = obj[:driver]
     mhnet.login_status = true
   rescue Exception=>e
@@ -108,7 +113,7 @@ task :mhnet_test => :environment do
     mhnet.patient_search_status = false
     mhnet.site_status = false
     mhnet.status = false
-    UserMailer::HTML_validation_notification("Login failed of MHNET").deliver
+    PatientMailer::HTML_validation_notification("Login failed of MHNET").deliver
   end
 
   begin
@@ -134,7 +139,7 @@ task :mhnet_test => :environment do
     mhnet.patient_search_status = false
     mhnet.site_status = false
     mhnet.status = false
-    UserMailer::HTML_validation_notification("Patient Search failed of MHNET").deliver
+    PatientMailer::HTML_validation_notification("Patient Search failed of MHNET").deliver
   end
 
   begin
@@ -153,22 +158,22 @@ task :mhnet_test => :environment do
 
       :remove_contents => ['script', 'style', 'p', 'a']
     )
-    
+
     body_to_match = File.read('mhnet_html.txt')
 
     if body_to_match == page_body
       mhnet.status = true
       mhnet.site_status = true
-      UserMailer::HTML_validation_notification("MHNET Provider is OK").deliver
+      PatientMailer::HTML_validation_notification("MHNET Provider is OK").deliver
 
     else
       mhnet.status = false
       mhnet.site_status = false
-      UserMailer::HTML_validation_notification("Inconsistency has been found in the layout of MHNET Provider").deliver
+      PatientMailer::HTML_validation_notification("Inconsistency has been found in the layout of MHNET Provider").deliver
     end
     mhnet.save!
   rescue Exception=>e
-    UserMailer::HTML_validation_notification("Exception: Inconsistency has been found in the layout of MHNET Provider").deliver
+    PatientMailer::HTML_validation_notification("Exception: Inconsistency has been found in the layout of MHNET Provider").deliver
   end
 
 end

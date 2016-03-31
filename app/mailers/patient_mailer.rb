@@ -1,4 +1,4 @@
-class UserMailer < ActionMailer::Base
+class PatientMailer < ActionMailer::Base
 
    def registration_confirmation(user,book)
    	 @user = user

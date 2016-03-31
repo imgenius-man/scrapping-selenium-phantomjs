@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160330073120) do
+ActiveRecord::Schema.define(:version => 20160331075740) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0, :null => false
@@ -29,12 +29,30 @@ ActiveRecord::Schema.define(:version => 20160330073120) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "patients", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "dob"
+    t.string   "patient_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "token"
+    t.string   "site_to_scrap"
+    t.string   "password"
+    t.string   "username"
+    t.text     "raw_html"
+    t.text     "json"
+    t.string   "record_available"
+    t.string   "site_url"
+  end
+
   create_table "service_types", :force => true do |t|
     t.string   "type_name"
     t.string   "type_code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.integer  "status_id"
+    t.boolean  "mapped_service"
   end
 
   create_table "statuses", :force => true do |t|
@@ -47,8 +65,5 @@ ActiveRecord::Schema.define(:version => 20160330073120) do
     t.boolean  "patient_search_status", :default => false
     t.boolean  "site_status",           :default => false
   end
-
-# Could not dump table "users" because of following StandardError
-#   Unknown type 'json' for column 'json'
 
 end
