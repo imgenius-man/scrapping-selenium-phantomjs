@@ -19,11 +19,16 @@
         </div>
       <% end %>
     <% end %>
+    <br /><br />
+    <div class="pull-right" style="margin-right:2%">
+      <% if user_signed_in? %>
+        Logged in as <strong><%= current_user.email %></strong>.
+        <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+      <% end %>
+    </div>
+    <br /><br />
     <div id="content_wrapper" >
-    <% if user_signed_in? %>
-      Logged in as <strong><%= current_user.email %></strong>.
-      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-    <% end %>
+
 
       <div id="content"> <%= yield %> </div>
     </div>

@@ -2,7 +2,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
 
 	def perform
-    begin
+    # begin
       patient = Patient.find(patntid)
 
       obj = PatientsController.new.sign_in(patientid, pass, site_url)
@@ -115,7 +115,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         patient.update_attribute('record_available', 'failed')
       end
 
-    rescue Exception=> e
+    # rescue Exception=> e
       patient.update_attribute('record_available', 'failed')
 
 
@@ -126,6 +126,6 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
       if response_url.present?
         response = RestClient.post response_url, {error: 'please try again', token: token}
       end
-    end
+    # end
   end
 end
