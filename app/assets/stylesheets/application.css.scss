@@ -11,9 +11,14 @@
  *= require bootstrap
  *= require bootstrap-responsive
  *= require bootstrap_and_overrides
- 
+
 */
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
 	    color: #fff;
     background-color: #5cb85c;
+}
+.sign-in-form{
+  top: 50%;
+  width: 40%;
+	margin: 0 auto;
 }

@@ -3,11 +3,11 @@
 <html>
   <head>
     <%# @direction = (rtl?) ? 'rtl/' : '' %>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title><%= "Scrapping" %></title>
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag 'application', media: 'all'%>
-    
+
   </head>
 
   <body>
@@ -20,6 +20,11 @@
       <% end %>
     <% end %>
     <div id="content_wrapper" >
+    <% if user_signed_in? %>
+      Logged in as <strong><%= current_user.email %></strong>.
+      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+    <% end %>
+
       <div id="content"> <%= yield %> </div>
     </div>
   </body>

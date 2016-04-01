@@ -1,5 +1,7 @@
 Academia::Application.routes.draw do
 
+  devise_for :users
+
   resources :statuses
 
   resources :service_types do
