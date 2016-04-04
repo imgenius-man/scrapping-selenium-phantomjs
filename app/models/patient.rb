@@ -16,7 +16,7 @@ class Patient < ActiveRecord::Base
 		a.save
 	end
 
-	def self.parse_containers(containers, date_of_eligibility)
+	def self.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
 		@cont = ParseContainer.new.tabelizer(containers)
 
 		@json = []
@@ -28,7 +28,7 @@ class Patient < ActiveRecord::Base
 		end
 
 		@json.reject!(&:nil?).reject!{|a| a == false}
-    	@json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility}}] + @json
+    	@json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}] + @json
 
 		@json
 	end

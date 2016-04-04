@@ -40,10 +40,21 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
       eee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
       if !eee.present?
         link = nil
+
+        eligibility_status = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td')[7].attribute('innerHTML')
+        
+        transaction_date = Time.now.to_datetime.strftime("%d/%m/%y %H:%M %p")
+        
+        date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
+        
+        patient_flag = true
+
         wait.until {
           link = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td > .oep-managed-link')[0]
         }
         link.click
+
+        patient_flag = false
 
         wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
@@ -57,13 +68,12 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
         wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
-        date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
 
         containers = driver.find_elements(:class, 'collapseTable-container')
 
         patient.update_attribute('raw_html', driver.find_element(:class, 'collapseTable-container').attribute('innerHTML'))
 
-        @json = Patient.parse_containers(containers, date_of_eligibility)
+        @json = Patient.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
 
         if @json
           patient.update_attribute('record_available', 'complete')
@@ -141,15 +151,32 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
       end
 
      rescue Exception=> e
-      patient.update_attribute('record_available', 'failed')
+      if patient_flag
+        PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
+
+        @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}]
+        
+        if response_url.present?
+          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+        end
+
+        driver.quit if driver.present?
+
+        patient.update_attribute('record_available', 'complete')
+        
+        patient.update_attribute('json', JSON.generate(@json))
+
+      else
+        patient.update_attribute('record_available', 'failed')
 
 
-      PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
+        PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
 
-      driver.quit if driver.present?
+        driver.quit if driver.present?
 
-      if response_url.present?
-        response = RestClient.post response_url, {error: 'please try again', token: token}
+        if response_url.present?
+          response = RestClient.post response_url, {error: 'please try again', token: token}
+        end
       end
      end
   end

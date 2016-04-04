@@ -113,7 +113,7 @@ class PatientsController < ApplicationController
 
   def s_in(name, pass, site_url)
     fields = Patient.retrieve_signin_fields(site_url)
-
+   
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
     driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']

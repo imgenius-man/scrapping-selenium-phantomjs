@@ -3,3 +3,9 @@
 #
 # Examples:
 #
+User.create(email: 'admin@goopher.com', password: 'Skedia&&105', password_confirmation: 'Skedia&&105')
+
+Status.create(site_url: 'all', date_checked: Time.now)
+Status.create(site_url: 'https://cignaforhcp.cigna.com/', date_checked: Time.now)
+Status.create(site_url: 'https://www.mhnetprovider.com/', date_checked: Time.now)
+
