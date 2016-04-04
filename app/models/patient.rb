@@ -74,7 +74,19 @@ class Patient < ActiveRecord::Base
 		CSV.foreach(file.path, headers: true) do |row|
 			user_hash = row.to_hash
 			str = row.to_s.split(',')
+
+		if row.to_s.scan(/,/).count > 1
+			new_str=[]
+			new_str[0]=""
+			str[0..str.count-2].each {|d|
+				new_str[0] = new_str[0] + d + " "
+			}
+			new_str[1] = str[str.count-1].strip
+			str = new_str
+		end
+
 				obj.create(type_name: (str[0].squish if str[0].present?), type_code: (str[1].squish if str[1].present?))
+
 		end
 	end
 

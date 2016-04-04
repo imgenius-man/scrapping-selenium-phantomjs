@@ -78,21 +78,24 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
 	          service_types.each do |serv_type|
 
-	            if serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '')
+	            if serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
 	              serv_type.mapped_service=true
 								# serv_type.save!
 
+								# puts "--"*83
+								# puts serv_type.type_name.upcase.gsub(/[-\s+*]/, '')
 	              @json[index][@json[index].keys.first]['CODE'] = serv_type.type_code
-								# puts @json[index][@json[index].keys.first]['CODE']
+
 							else
 								key = @json[index]
 								a = nil
-								a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0])
+								a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
 								if !a.present?
-									puts key.first[0]
 									b = ServiceType.new
 									b.status_id = Status.find_by_site_url("https://cignaforhcp.cigna.com/").id
-									b.type_name = key.first[0]
+									b.type_name = key.first[0].tr(',','')
+									# puts "++"*83
+									# puts b.type_name
 									b.mapped_service = true
 									b.save!
 								end
@@ -104,12 +107,12 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 				if service_types.count == 0
 					@json.each do |key,val|
 						a = nil
-						a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0])
+						a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
 						if !a.present?
 							# puts key.first[0]
 							b = ServiceType.new
 							b.status_id = Status.find_by_site_url("https://cignaforhcp.cigna.com/").id
-							b.type_name = key.first[0]
+							b.type_name = key.first[0].tr(',','')
 							b.mapped_service = true
 							b.save!
 						end

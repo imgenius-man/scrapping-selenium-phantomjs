@@ -6,7 +6,7 @@
       cig.site_url = "https://cignaforhcp.cigna.com/"
       cig.save!
     end
-    obj = PatientsController.new.sign_in('skedia105','pkbuster905', 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
+    obj = PatientsController.new.sign_in('SandyF99','Empclaims100', 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
     driver = obj[:driver]
     cig.login_status = true
   rescue Exception=>e
