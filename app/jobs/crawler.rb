@@ -2,7 +2,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
 
 	def perform
-     begin
+     # begin
       patient = Patient.find(patntid)
 
       obj = PatientsController.new.sign_in(patientid, pass, site_url)
@@ -75,28 +75,20 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
         @json = Patient.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
 
-        if @json
-          patient.update_attribute('record_available', 'complete')
-					patient.update_attribute('json', JSON.generate(@json))
-        end
-
         driver.quit
 
         service_types = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types
 				# kcount = 0
-	        @json.each_with_index do |(table_name, table_content), index|
+	        @json.each_with_index do |table_name, index|
 
 	          service_types.each do |serv_type|
 
-	            if serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
+	            if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
 	              serv_type.mapped_service=true
 								# serv_type.save!
 
-								# puts "--"*83
-								# puts serv_type.type_name.upcase.gsub(/[-\s+*]/, '')
-	              @json[index][@json[index].keys.first]['CODE'] = serv_type.type_code
-
-							else
+                @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
+              else
 								key = @json[index]
 								a = nil
 								a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
@@ -132,6 +124,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
 
 
+        patient.update_attribute('record_available', 'complete')
 
         patient.update_attribute('json', JSON.generate(@json))
 
@@ -150,34 +143,34 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         patient.update_attribute('record_available', 'failed')
       end
 
-     rescue Exception=> e
-      if patient_flag
-        PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
+     # rescue Exception=> e
+     #  if patient_flag
+     #    PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
 
-        @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}]
+     #    @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}]
         
-        if response_url.present?
-          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
-        end
+     #    if response_url.present?
+     #      response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+     #    end
 
-        driver.quit if driver.present?
+     #    driver.quit if driver.present?
 
-        patient.update_attribute('record_available', 'complete')
+     #    patient.update_attribute('record_available', 'complete')
         
-        patient.update_attribute('json', JSON.generate(@json))
+     #    patient.update_attribute('json', JSON.generate(@json))
 
-      else
-        patient.update_attribute('record_available', 'failed')
+     #  else
+     #    patient.update_attribute('record_available', 'failed')
 
 
-        PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
+     #    PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
 
-        driver.quit if driver.present?
+     #    driver.quit if driver.present?
 
-        if response_url.present?
-          response = RestClient.post response_url, {error: 'please try again', token: token}
-        end
-      end
-     end
+     #    if response_url.present?
+     #      response = RestClient.post response_url, {error: 'please try again', token: token}
+     #    end
+     #  end
+     # end
   end
 end

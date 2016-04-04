@@ -116,7 +116,8 @@ class PatientsController < ApplicationController
    
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox
+    # , :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 
