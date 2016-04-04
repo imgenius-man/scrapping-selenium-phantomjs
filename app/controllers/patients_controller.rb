@@ -1,5 +1,6 @@
 class PatientsController < ApplicationController
-
+  skip_before_filter :authenticate_user!
+  
   def access_token
     if params[:patient].present? && params[:patient][:first_name] && params[:patient][:last_name] && params[:patient][:dob].present? && params[:patient][:patient_id].present? && params[:patient][:password].present? && params[:patient][:username].present? && params[:patient][:site_url].present?
       site_url = params[:patient][:site_url]
