@@ -2,7 +2,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
 
 	def perform
-     # begin
+     begin
       patient = Patient.find(patntid)
 
       obj = PatientsController.new.sign_in(patientid, pass, site_url)
@@ -143,34 +143,34 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         patient.update_attribute('record_available', 'failed')
       end
 
-     # rescue Exception=> e
-     #  if patient_flag
-     #    PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
+     rescue Exception=> e
+      if patient_flag
+        PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
 
-     #    @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}]
+        @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}]
         
-     #    if response_url.present?
-     #      response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
-     #    end
+        if response_url.present?
+          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+        end
 
-     #    driver.quit if driver.present?
+        driver.quit if driver.present?
 
-     #    patient.update_attribute('record_available', 'complete')
+        patient.update_attribute('record_available', 'complete')
         
-     #    patient.update_attribute('json', JSON.generate(@json))
+        patient.update_attribute('json', JSON.generate(@json))
 
-     #  else
-     #    patient.update_attribute('record_available', 'failed')
+      else
+        patient.update_attribute('record_available', 'failed')
 
 
-     #    PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
+        PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
 
-     #    driver.quit if driver.present?
+        driver.quit if driver.present?
 
-     #    if response_url.present?
-     #      response = RestClient.post response_url, {error: 'please try again', token: token}
-     #    end
-     #  end
-     # end
+        if response_url.present?
+          response = RestClient.post response_url, {error: 'please try again', token: token}
+        end
+      end
+     end
   end
 end
