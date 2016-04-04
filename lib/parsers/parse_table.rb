@@ -258,7 +258,7 @@ private
 				strng = notes.inject(&:+)
 
 				dummy_array['ADDITIONAL NOTES'] = strng.inject(&:+)
-				dummy_array['CODE'] = 'MATERNITY- 69'
+				dummy_array['CODE'] = ''
 
 
 				header_arrays << {table_name => dummy_array}
@@ -402,7 +402,7 @@ private
 			
 			name = data_array['Patient Aligned Physician Name'].split(" ")
 			
-			filled_array['CODE'] = 'CAC-NAME'
+			filled_array['CODE'] = ''
 			filled_array['CARE COORDINATION PROVIDER'] = data_array['CAC Name']
 			filled_array['PATIENT ALIGNED PHYSICIAN FIRST NAME'] = name[0]
 			filled_array['PATIENT ALIGNED PHYSICIAN MIDDLE NAME'] =	name[1]
