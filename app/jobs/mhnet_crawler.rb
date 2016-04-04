@@ -12,7 +12,9 @@ class MhnetCrawler < Struct.new(:pat_id, :patientid, :pass, :token, :patntid, :s
       wait = obj[:wait]
       wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-      driver.navigate.to 'https://www.mhnetprovider.com:443/providerPortalWeb/appmanager/mhnet/extPatients?_nfpb=true&_pageLabel=eligibility_page_1_mhnet'
+      btn_click = driver.find_elements(:css, '.bea-portal-book-primary-menu-single > li')
+      btn_click[6].click
+      # driver.navigate.to 'https://www.mhnetprovider.com:443/providerPortalWeb/appmanager/mhnet/extPatients?_nfpb=true&_pageLabel=eligibility_page_1_mhnet'
 
       member_id = driver.find_element(:id, 'mem_id')
       member_id.send_keys pat_id
@@ -288,9 +290,7 @@ class MhnetCrawler < Struct.new(:pat_id, :patientid, :pass, :token, :patntid, :s
         end
       end
 
-      if @json
-          patient.update_attribute('record_available', 'complete')
-      end
+      
       a = []
 
       @json.each_with_index{|v,i| a << i if v['PLAN LEVEL BENEFITS'].present?}
@@ -302,6 +302,53 @@ class MhnetCrawler < Struct.new(:pat_id, :patientid, :pass, :token, :patntid, :s
         @json.delete_at(a.first)
       end
 
+      service_types = Status.find_by_site_url('https://www.mhnetprovider.com/').service_types
+        # kcount = 0
+          @json.each_with_index do |table_name, index|
+
+            service_types.each do |serv_type|
+
+              if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
+                serv_type.mapped_service=true
+                # serv_type.save!
+
+                @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
+              else
+                key = @json[index]
+                a = nil
+                a = Status.find_by_site_url('https://www.mhnetprovider.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
+                if !a.present?
+                  b = ServiceType.new
+                  b.status_id = Status.find_by_site_url("https://www.mhnetprovider.com/").id
+                  b.type_name = key.first[0].tr(',','')
+                  # puts "++"*83
+                  # puts b.type_name
+                  b.mapped_service = true
+                  b.save!
+                end
+              end
+            end
+          end
+          # puts "-=-=="*82
+          # puts kcount
+        if service_types.count == 0
+          @json.each do |key,val|
+            a = nil
+            a = Status.find_by_site_url('https://www.mhnetprovider.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
+            if !a.present?
+              # puts key.first[0]
+              b = ServiceType.new
+              b.status_id = Status.find_by_site_url("https://www.mhnetprovider.com/").id
+              b.type_name = key.first[0].tr(',','')
+              b.mapped_service = true
+              b.save!
+            end
+          end
+
+        end
+
+      patient.update_attribute('record_available', 'complete')
+      
       patient.update_attribute('json', JSON.generate(@json))
 
       driver.quit
