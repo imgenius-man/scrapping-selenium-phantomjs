@@ -57,48 +57,103 @@
     cig.patient_search_status = false
     cig.site_status = false
     cig.status = false
-    PatientMailer::HTML_validation_notification("Patient Search failed of CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Failed: Patient Search -- CIGNA").deliver
   end
 
   begin
     cig.save!
+    
+    eligibility_status = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td')[7].attribute('innerHTML')
+        
+    transaction_date = Time.now.to_datetime.strftime("%d/%m/%y %H:%M %p")
+        
+    date_of_eligibility = driver.find_element(:css, '.patient-results-onDate > span').attribute('innerHTML')
+
+    patient_flag = false
 
     wait.until { driver.find_elements(:class, 'collapseTable').present? }
 
-    page = driver.find_element(:class, 'detachable-container').attribute('innerHTML').squish
+    sleep(2)
+
+    if driver.find_elements( :class,"oep-managed-sub-tab").second.displayed?
+      driver.find_elements( :class,"oep-managed-sub-tab").second.click
+    end
+
+    sleep(4)
+
+    wait.until { driver.find_elements(:class, 'collapseTable').present? }
+
+
+    containers = driver.find_elements(:class, 'collapseTable-container')
+
+    @json = Patient.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
 
     driver.quit
 
-    sleep(5)
-
-    page_body = Sanitize.clean( page,
-      :elements => ['div', 'a', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'ul', 'li', 'button' ],
-
-      :attributes => {
-        'button' => ['class'],
-        'a' => ['class'],
-        'div' => ['class']
-      },
-
-      :remove_contents => ['script', 'style', 'input', 'span']
-    )
-
-    body_to_match = File.read('cigna_html.txt')
-
-    if body_to_match == page_body
-      cig.status = true
-      cig.site_status = true
-      PatientMailer::HTML_validation_notification("CIGNA is OK").deliver
-
-    else
-      cig.status = false
-      cig.site_status = false
-      PatientMailer::HTML_validation_notification("Inconsistency has been found in the layout of CIGNA").deliver
-    end
-    cig.save!
+    cig.site_status = true
+    
   rescue Exception=>e
-    PatientMailer::HTML_validation_notification("Exception: Inconsistency has been found in the layout of CIGNA").deliver
+    cig.site_status = false
+
+    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- CIGNA").deliver
   end
+
+
+  #=======================================================
+  begin
+   cig.save!
+
+   service_types = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types
+    @json.each_with_index do |table_name, index|
+
+      service_types.each do |serv_type|
+
+        if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
+          serv_type.mapped_service=true
+
+          @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
+        else
+          key = @json[index]
+          
+          a = nil
+          a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
+          
+          if !a.present?
+            b = ServiceType.new
+            b.status_id = Status.find_by_site_url("https://cignaforhcp.cigna.com/").id
+            b.type_name = key.first[0].tr(',','')
+            b.mapped_service = true
+            b.save!
+          end
+        end
+      end
+    end
+
+    if service_types.count == 0
+      @json.each do |key,val|
+        a = nil
+        a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
+        if !a.present?
+          b = ServiceType.new
+          b.status_id = Status.find_by_site_url("https://cignaforhcp.cigna.com/").id
+          b.type_name = key.first[0].tr(',','')
+          b.mapped_service = true
+          b.save!
+        end
+      end
+    end
+
+    cig.status = true
+    cig.save!
+    PatientMailer::HTML_validation_notification("CIGNA is Working").deliver
+      
+  rescue Exception => e
+    cig.status = false
+    cig.save!
+    
+    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- CIGNA").deliver
+  end
+
 end
 
 
