@@ -1,0 +1,54 @@
+  <div class="col-md-6 col-md-offset-3">
+
+    <h3>Verify your Previous Credintials</h3>
+    <br />
+
+    <%= form_tag do %>
+      <%= label_tag(:p_un, "Previous Username") %>
+      <%= text_field_tag 'p_un',nil ,class: 'form-control' %>
+
+      <br />
+      <%= label_tag(:p_pw, "Previous Password") %>
+      <%= password_field_tag 'p_pw',nil ,class: 'form-control' %>
+
+    <% end %>
+    <br />
+
+
+    <h3>Update your Credintials</h3>
+    <br />
+    <%= form_for(@status) do |f| %>
+
+      <%= f.label :site_username %>
+      <%= f.text_field :site_username, class: 'form-control' %>
+      <br />
+      <%= f.label :site_password %>
+      <%= f.password_field :site_password, class: 'form-control' %>
+      <br />
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+
+
+  </div>
+</div>
+
+
+
+<!--
+
+<script>
+s_un = <% raw(@status.site_username) %>
+s_pw = <% raw(@status.site_password) %>
+
+$('#p_pw').focusout(function a() {
+  if ( $('#p_un').val() === s_un && $('#p_pw').val() === s_pw )
+  {
+    alert('msg');
+  }
+  else
+  {
+    alert('asdf')
+  }
+
+});
+</script> -->

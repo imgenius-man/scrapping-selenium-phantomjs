@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
   skip_before_filter :authenticate_user!
-  
+
   def access_token
     if params[:patient].present? && params[:patient][:first_name] && params[:patient][:last_name] && params[:patient][:dob].present? && params[:patient][:patient_id].present? && params[:patient][:password].present? && params[:patient][:username].present? && params[:patient][:site_url].present?
       site_url = params[:patient][:site_url]
@@ -104,8 +104,6 @@ class PatientsController < ApplicationController
   end
 
 
-
-
   def delete_all
     Patient.destroy_all
     redirect_to :back
@@ -114,10 +112,10 @@ class PatientsController < ApplicationController
 
   def s_in(name, pass, site_url)
     fields = Patient.retrieve_signin_fields(site_url)
-   
+
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox#phantomjs, :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 

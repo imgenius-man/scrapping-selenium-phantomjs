@@ -15,6 +15,10 @@
 <br ><br >
 <p>
   <h3> Site Url: <%= @status.site_url %> </h3>
+  <span class="pull-right">
+    <%= link_to 'Change Credintials for test cases', edit_status_path , class: "btn btn-danger" %>
+  </span>
+
   <span style="display:none" class="pull-right">
 
     <%= link_to 'Run Test Cases Again', edit_status_path, class: "btn btn-danger" %>
