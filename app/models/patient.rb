@@ -1,6 +1,7 @@
 class Patient < ActiveRecord::Base
 	require 'csv'
 	require 'parsers/parse_container'
+	# require 'parsers/parse_availity'
 
 	extend PatientsHelper
 
@@ -8,302 +9,6 @@ class Patient < ActiveRecord::Base
 
 	serialize :json, JSON
 
-	def self.parse_subscriber_info(panel,driver)
-		subscriber_info = []
-		if panel.find_element(:class, 'patientAddress')
-			address = panel.find_element(:class, 'patientAddress').text.split("\n")
-			address_1 = address.first
-			cit_st_zip = address.last.split(',')
-			city = cit_st_zip.first
-			state = cit_st_zip.last.strip.split(' ').first
-			zip_code = cit_st_zip.last.strip.split(' ').last
-
-			subscriber_info << {'ADDRESS 1'=>address_1,'City'=> city,'State'=> state,'Zip'=> zip_code}
-
-		end
-		# sub_info = panel.find_elements(:class, 'span6').last.text.split("\n")
-
-
-		sub_info = panel.find_elements(:css, '.panel-body > div.span6 > ul > li')
-		# sub_info = panel.find_elements(:css, '.panel-body > .span6')
-		if sub_info!=nil
-
-			# li = sub_info[0].find_elements(:tag_name, 'li')
-			keys = ["PLAN NAME","PLAN NUMBER","RELATIONSHIP TO SUBSCRIBER","MEMBER ID","GROUP NUMBER","PLAN SPONSOR NAME","SUBSCRIBER"]
-			li =sub_info
-
-			li.each {|l|
-				keys.each_with_index{|key,index|
-					if l.text.include? key
-						if key != "SUBSCRIBER"
-							subscriber_info << {key => l.text.split(key).last.strip}
-						elsif
-
-							subscriber_name =  l.text.split(key).last.strip
-
-							full_name = subscriber_name.split(',')
-							last_name = full_name.first
-
-							rest_name = full_name.last.split(' ')
-
-							first_name = rest_name.first
-							middle_name = rest_name.last if rest_name.count > 1
-							subscriber_info << {"First Name" => first_name}
-							subscriber_info << {"Last Name" => last_name}
-							subscriber_info << {"Middle Name" => middle_name}
-
-						end
-					end
-				}
-			}
-
-			# li = sub_info[1].find_elements(:tag_name, 'li')
-			# keys = ["PLAN NUMBER","RELATIONSHIP TO SUBSCRIBER","MEMBER ID","GROUP NUMBER","PLAN SPONSOR NAME","SUBSCRIBER"]
-			#
-			# li.each {|l|
-			# 	keys.each_with_index{|key,index|
-			# 		if l.text.include? key
-			# 			if key != "SUBSCRIBER"
-			# 				subscriber_info << {key => l.text.split(key).last.strip}
-			# 			elsif
-			#
-			# 				subscriber_name =  l.text.split(key).last.strip
-			#
-			# 				full_name = subscriber_name.split(',')
-			# 				last_name = full_name.first
-			#
-			# 				rest_name = full_name.last.split(' ')
-			#
-			# 				first_name = rest_name.first
-			# 				middle_name = rest_name.last if rest_name.count > 1
-			# 				subscriber_info << {"First Name" => first_name}
-			# 				subscriber_info << {"Last Name" => last_name}
-			# 				subscriber_info << {"Middle Name" => middle_name}
-			#
-			# 			end
-			# 		end
-			# 	}
-			# }
-
-			# group_no = sub_info[0][0].split('GROUP NUMBER').last.strip
-			# plan_sponsor_name = sub_info[1].split('PLAN SPONSOR NAME').last.strip
-			#
-			# relation = driver.find_element(:css, 'h4.condensed > small').text
-
-		end
-
-		 subscriber_info = subscriber_info.reduce({},:merge)
-
-		# subscriber_info = {'Group No'=>group_no, 'Address 1'=>address_1, 'City'=>city, 'State'=>state, 'Zip'=>zip_code, 'Relationship to Subscriber'=>relation}
-
-		subscriber_info= {'SUBSCRIBER'=>subscriber_info}
-
-	end
-
-	def self.parse_plan_info(panel,driver)
-		plan_info = []
-		li = panel.find_elements(:tag_name, 'li')
-
-		keys = ["INSURANCE TYPE", "PLAN / PRODUCT"]
-
-		li.each {|l|
-			keys.each{|key|
-				if l.text.include? key
-					plan_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-
-		# plan_type = li[0].text.split('INSURANCE TYPE').last.strip
-		# account_name = li[1].text.split('PLAN / PRODUCT').last.strip
-		# plan_info = {'Plan Type'=>plan_type,'Account Name'=>account_name}
-
-		plan_info = {"Plan Details"=>plan_info}
-	end
-
-	def self.parse_payer_info(panel,driver)
-
-		payer_details = panel.find_elements(:class, 'span6')[2] if  panel.find_elements(:class, 'span6').count == 4
-		ul = payer_details.find_elements(:tag_name,'ul')
-		keys  = ["NAME","TYPE"]
-		val_arr=[]
-		payer_info = []
-
-		 if ul.count>1
-			 li = ul[1].find_elements(:tag_name,'li')
-			 li.each {|l|
-				 keys.each{|key|
-					 if l.text.include? key
-						 payer_info << {key => l.text.split(key).last.strip}
-					 end
-				 }
-			 }
-		 end
-
-		 contact_info = panel.find_elements(:class, 'contact-information')
-		 if !contact_info.empty?
-			 payer_contact_name = contact_info.first.text.split("\n").first.strip
-			 payer_contact_number = contact_info.first.text.split(':').last.strip
-			#  payer_info << {'naem'=>payer_contact_name}
-			#  payer_info << {'numb'=>payer_contact_number}
-		 end
-
-
-		 payer_info =payer_info.reduce({},:merge)
-		 payer_info={'PAYeR'=>payer_info}
-
-
-	end
-
-	def self.parse_provider_info(panel,driver)
-		provider_info = []
-		p_detail = panel.find_elements(:class,'span6').last
-		p_address = p_detail.find_elements(:tag_name, 'div').first
-		if p_address != nil
-			provider_address = p_address.text.split("\n")
-			address_1 = provider_address[0]+" "+provider_address[1]
-
-			cit_st_zip = provider_address[2].split(',')
-			city = cit_st_zip[0]
-			state = cit_st_zip[1].strip.split(' ').first
-			zip_code = cit_st_zip[1].strip.split(' ').last
-
-			provider_info << {'ADDRESS 1'=>address_1,'City'=> city,'State'=> state,'Zip'=> zip_code}
-
-		end
-
-		li = p_detail.find_elements(:tag_name, 'li')
-		keys = ["NAME", "TYPE", "ROLE", "NPI" , "PLACE OF SERVICE"]
-		# li = ul[1].find_elements(:tag_name,'li')
-
-		li.each {|l|
-			keys.each{|key|
-				if l.text.include? key
-					provider_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-
-
-
-
-		provider_info = provider_info.reduce({},:merge)
-		# starter = 0
-		# starter = 1 if provider_details.first.attribute('innerHTML').include? 'label'
-
-		# spliting_array=["NAME", "TYPE", "ROLE", "NPI" , "PLACE OF SERVICE"]
-		# val_arr = ["","","","","",""]
-
-
-
-		# provider_details[starter..provider_details.length].map.with_index(starter) do |provider_detail,index|
-		# 	val_arr[index] = provider_detail.text.split(spliting_array[index]).last.strip
-		# end
-
-
-		# spliting_array.delete_at(0) if starter == 1
-		# val_arr.delete_at(0) if starter == 1
-
-		# provider_info = { spliting_array[0]=> val_arr[0], spliting_array[1]=> val_arr[1], spliting_array[2]=> val_arr[2], spliting_array[3]=> val_arr[3], spliting_array[4]=> val_arr[4],spliting_array[5]=> val_arr[5],
-		#  provider_info = { val_arr[0]=> spliting_array[0], val_arr[1] => spliting_array[1], val_arr[2]=> spliting_array[2], val_arr[3]=> spliting_array[3], spliting_array[4]=> val_arr[4],val_arr[5] => spliting_array[5],
-			#  'ADDRESS 1'=>address_1,'City'=> city,'State'=> state,'Zip'=> zip_code}
-
-
-		provider_info = {"PLAN PROVIDER"=>provider_info}
-		# [provider_info,spliting_array,starter,val_arr]
-
-	end
-
-	def self.parse_general_info(driver)
-
-	 transaction_details = driver.find_element(:css, '.inline')
-
-	 li = transaction_details.find_elements(:tag_name, 'li')
-
-	 trans_datetime = li[1].text.split('Date:').last.strip.split(' ')
-
-	 transaction_date = trans_datetime[0]+' '+ trans_datetime[1]
-	 transaction_time =  trans_datetime[2]+' '+ trans_datetime[3]
-
-	 status_text = driver.find_element(:css,'div.panel-footer:nth-child(3)').text
-
-	 status = nil
-	 if status_text.include? 'Patient is Inactive'
-		 status = 'Inactive'
-	 else
-		 status = 'Active'
-	 end
-
-	#  eligibility_as_of = driver.find_elements(:css,'.span8 > ul:nth-child(1) > li:nth-child(2)').first.text.split('DATE OF SERVICE').last.strip
-	# 'ELIGIBILITY AS OF'=> eligibility_as_of ,
-	 general_info = {'Eligibility Status'=>status ,'TRANSACTION DATE'=>transaction_date ,'TRANSACTION TIME'=>transaction_time	}
-	 general_info = {'GENERAL'=>general_info}
-	end
-
-
-	def self.parse_patient_info(panel,driver)
-	  patient_info = []
-		# puts "1"
-		panel_heading = panel.find_elements(:class => 'panel-heading')
-		# puts "2"
-	  patient_name_relation = panel_heading[0].find_element(:tag_name=> 'h4')
-		# puts "3"
-		relation = patient_name_relation.find_element(:tag_name, 'small').text
-		# puts "4"
-		patient_name = patient_name_relation.text.split(relation).first.strip
-		# puts "5"
-		full_name = patient_name.split(',')
-		# puts "6"
-		last_name = full_name.first
-		# puts "7"
-		rest_name = full_name.last.split(' ')
-		# puts "8"
-
-		first_name = rest_name.first
-		# puts "9"
-		middle_name = rest_name.last if rest_name.count > 1
-		# puts "10"
-
-	  li = panel_heading[0].find_elements(:class=> 'span4').first.find_elements(:tag_name, 'li')
-		# puts "11"
-
-	  # member_id = patient_info[0].text.split('MEMBER ID').last.strip
-	  # dob = patient_info[1].text.split('DOB').last.strip
-	  # gender = patient_info[2].text.split('GENDER').last.strip
-
-		keys=["MEMBER ID","DOB","GENDER"]
-		# puts "12"
-		val_arr=[]
-		# puts "13"
-		li.each {|l|
-			keys.each_with_index{|key,index|
-				if l.text.include? key
-					patient_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-		# puts "14"
-		li = panel_heading[0].find_elements(:class=> 'span8').first.find_elements(:tag_name, 'li')
-		# puts "15"
-		keys=["PLAN / COVERAGE DATE","DATE OF SERVICE","ELIGIBILITY END DATE"]
-		# puts "16"
-
-		li.each {|l|
-			keys.each_with_index{|key,index|
-				if l.text.include? key
-					patient_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-		# puts "17"
-		patient_info = patient_info.reduce({},:merge)
-
-	  # coverage_date = patient_info[0].text.split('PLAN / COVERAGE DATE').last.strip
-	  # date_of_service = patient_info[1].text.split('DATE OF SERVICE').last.strip
-	  # patient_info = {'First Name'=>first_name,'Middle Name'=>middle_name ,'Last Name'=>last_name,'Patient ID'=>member_id ,'DOB'=>dob,'Gender'=>gender }
-
-		patient_info = { 'PATIENT'=>patient_info}
-	end
 
 	def self.av_code(driver)
 		parse = ParseTable.new
@@ -386,19 +91,19 @@ class Patient < ActiveRecord::Base
 
             row.strip!
 
-            if row.scan('Of Network').present?
+          	if row.scan('Of Network').present?
               key[2] = 'Out Of Network'
 
             elsif row.scan('Network').present?
               key[2] = 'In Network'
             end
 
-            if row.scan('Family').present?
+						if row.scan('Family').present?
               key[0] = 'Family'
 
             elsif row.scan('Individual').present?
               key[0] = 'Individual'
-            end
+						end
 
             row = row.split
 
@@ -478,21 +183,22 @@ class Patient < ActiveRecord::Base
 		data_arr
 	end
 
-	def self.availity(patient_id,patient_dob)
-		driver = Selenium::WebDriver.for :firefox
-		site_url =  'https://apps.availity.com/availity/web/public.elegant.login'
-		driver.navigate.to site_url
-		name = 'prospect99'
-		pass = 'Medicare#20'
-		username = driver.find_element(:name => 'userId')
-		username.send_keys name
-		password = driver.find_element(:name=> 'password')
-		password.send_keys pass
-		login_btn = driver.find_element(:id=> 'loginFormSubmit')
-		login_btn.click
-		sleep(5)
-		# alert_btn = driver.find_element(:id=> 'alerts-continue')
-		# alert_btn.click
+	# def self.availity(patient_id,patient_dob)
+	# 	driver = Selenium::WebDriver.for :firefox
+	# 	site_url =  'https://apps.availity.com/availity/web/public.elegant.login'
+	# 	driver.navigate.to site_url
+	# 	name = 'prospect99'
+	# 	pass = 'Medicare#20'
+	# 	username = driver.find_element(:name => 'userId')
+	# 	username.send_keys name
+	# 	password = driver.find_element(:name=> 'password')
+	# 	password.send_keys pass
+	# 	login_btn = driver.find_element(:id=> 'loginFormSubmit')
+	# 	login_btn.click
+	# 	sleep(5)
+	# 	alert_btn = driver.find_element(:id=> 'alerts-continue')
+	# 	alert_btn.click
+	def self.search_patient_availity(patient_id,patient_dob)
 		eligibility_url = "https://apps.availity.com/public/apps/eligibility/"
 		driver.navigate.to eligibility_url
 		sleep(30)
@@ -579,6 +285,10 @@ class Patient < ActiveRecord::Base
 		a.save
 	end
 
+	def self.parse_availity_panels(driver,panels)
+		josn = ParseAvailityPanel.parse_panels(driver,panels)
+	end
+
 	def self.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
 		@cont = ParseContainer.new.tabelizer(containers)
 
@@ -605,6 +315,8 @@ class Patient < ActiveRecord::Base
 
 		elsif site_url == options[1][1]
 			fields = {user_field: 'portletInstance_6{actionForm.userId}', pass_field: 'portletInstance_6{actionForm.password}', submit_button: '.button_submit', error_string: 'login'}
+		elsif site_url == options[2][1]
+			fields = {user_field: 'userId', pass_field: 'password', submit_button: '#loginFormSubmit', error_string: 'login-failed'}
 		end
 
 		fields

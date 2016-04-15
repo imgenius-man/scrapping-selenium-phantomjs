@@ -55,6 +55,7 @@ class PatientsController < ApplicationController
 
 
   def create
+
     site_url = params[:patient][:site_to_scrap]
 
     obj = sign_in(params[:patient][:username], params[:patient][:password], site_url)
@@ -111,6 +112,7 @@ class PatientsController < ApplicationController
 
 
   def s_in(name, pass, site_url)
+    
     fields = Patient.retrieve_signin_fields(site_url)
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
@@ -167,7 +169,12 @@ class PatientsController < ApplicationController
 
       elsif site_url.include?('mhnetprovider')
         Delayed::Job.enqueue MhnetCrawler.new(patient.patient_id, username, password, nil, patient.id, site_url)
+
+      elsif site_url.include?('availity')
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil)
       end
+
+
 
       patient.update_attribute('record_available', 'pending')
 
