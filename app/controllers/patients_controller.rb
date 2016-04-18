@@ -130,8 +130,14 @@ class PatientsController < ApplicationController
     password.send_keys pass
 
     element = driver.find_element(:css, fields[:submit_button])
-    element.click
-
+    
+    if fields[:user_field] == 'userId'
+      element.click
+      sleep(4)
+    else
+      element.submit
+    end
+    
     {driver: driver, previous_url: current_url, wait: wait, error: fields[:error_string]}
   end
 
