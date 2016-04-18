@@ -117,7 +117,7 @@ class PatientsController < ApplicationController
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :firefox#phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 
@@ -130,7 +130,7 @@ class PatientsController < ApplicationController
     password.send_keys pass
 
     element = driver.find_element(:css, fields[:submit_button])
-    element.submit
+    element.click
 
     {driver: driver, previous_url: current_url, wait: wait, error: fields[:error_string]}
   end

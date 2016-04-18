@@ -3,7 +3,7 @@ class ParseAvaility
 	def parse_panels(driver,panels)
 		data_arr = []
 
-		data_arr << Patient.parse_general_info(driver)
+		data_arr << parse_general_info(driver)
 
 		panels.each_with_index do |panel,index|
 			heading = panel.find_elements(:class, 'panel-heading')
@@ -39,7 +39,9 @@ class ParseAvaility
 		a =driver.find_elements(:css, 'ul.nav-pills:nth-child(1)> li ')
 		a.last.click
 
-		data_arr << coverage_details(driver)
+		sleep(10)
+		
+		data_arr = data_arr + coverage_details(driver)
 
 	end
 
@@ -52,29 +54,29 @@ class ParseAvaility
 
       li_html = html.attribute('innerHTML')
 
-      li_html
-
       table_array = parse.dummy_array_for_h2_table_availity()
 
       page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},li_html,nil,Mechanize.new)
 
-      header = page.at('h3').text.squish
-
+      header = page.at('h3').children[0].text
+      code = page.at('h3').children[1].text.gsub(/[-\s+]/,'')
+      
       key = []
 
       page.search('.panel.panel-condensed').each do |sub_container|
-        string = sub_container.at('h4').text.squish
-        if string.scan('-').count == 1
-          key[1] = string.split(/[-(]/).first # check this - there are more "-" in co=payment and co-insurence
+        key[1] = sub_container.at('h4').children.first.text
+        
+        # if string.scan('-').count == 1
+        #   key[1] = string.split(/[-(]/).first # check this - there are more "-" in co=payment and co-insurence
 
-        elsif string.scan('-').count > 1
-          arr = string.split('-')
-          arr[arr.length-1] = ''
+        # elsif string.scan('-').count > 1
+        #   arr = string.split('-')
+        #   arr[arr.length-1] = ''
 
-          string = arr.inject(:+)
+        #   string = arr.inject(:+)
 
-          key[1] = string.split('(').first # check this - there are more "-" in co=payment and co-insurence
-        end
+        #   key[1] = string.split('(').first # check this - there are more "-" in co=payment and co-insurence
+        # end
 
         data = sub_container.at('div').text.squish.split('Remaining')
         data_sv = sub_container.at('div').text.squish.split(/(In\s+|Out\s+)/).reject{|v| v == 'Out ' || v == 'In ' || v == ''}
@@ -165,13 +167,14 @@ class ParseAvaility
         puts table_array.inspect
       end
 
-      table_array['CODE'] = header.split('-').last
+      table_array['CODE'] = code
 
-      @json << { header.split('-').first.to_s => table_array }
+      @json << { header.to_s => table_array }
 
     end
-    puts @json.inspect
-
+   
+   	@json
+	
 	end
 
 	def parse_subscriber_info(panel,driver)

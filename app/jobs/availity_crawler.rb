@@ -13,9 +13,10 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
 
 		if driver
 			# search patient record
+			sleep(15)
 			eligibility_url = "https://apps.availity.com/public/apps/eligibility/"
 			driver.navigate.to eligibility_url
-			sleep(60)
+			sleep(30)
 			# wait.until { driver.find_element(:css=> '.modal-header').displayed? }
 			a = driver.find_element(:css=> '.modal-header')
 			a.find_element(:class=> 'close').click if a
@@ -97,13 +98,16 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
 
 
 
-			sleep(15)
+			sleep(30)
 			response_container = driver.find_element(:class=> 'response-container')
 			panels = response_container.find_elements(:class => 'panel')
 
 			@json_arr = []
 			@json_arr = Patient.parse_availity_panels(driver,panels)
 
+      		patient.update_attribute('json', JSON.generate(@json_arr))
+      		patient.update_attribute('record_available', 'complete')
+			
 			# @json_arr <<
 
 

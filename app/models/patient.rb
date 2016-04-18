@@ -1,7 +1,7 @@
 class Patient < ActiveRecord::Base
 	require 'csv'
 	require 'parsers/parse_container'
-	# require 'parsers/parse_availity'
+	require 'parsers/parse_availity'
 
 	extend PatientsHelper
 
@@ -286,7 +286,7 @@ class Patient < ActiveRecord::Base
 	end
 
 	def self.parse_availity_panels(driver,panels)
-		josn = ParseAvailityPanel.parse_panels(driver,panels)
+		josn = ParseAvaility.new.parse_panels(driver,panels)
 	end
 
 	def self.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)

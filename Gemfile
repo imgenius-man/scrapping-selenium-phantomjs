@@ -85,3 +85,7 @@ end
 # profile["network.proxy.http_port"] = 31280
 # driver = Selenium::WebDriver.for(:firefox, :profile => profile)
 # driver.navigate.to "https://apps.availity.com/availity/web/public.elegant.login"
+
+# gsettings set org.gnome.system.proxy mode 'manual'
+# gsettings set org.gnome.system.proxy.https port 3128
+# gsettings set org.gnome.system.proxy.https host '40.118.209.103
