@@ -54,6 +54,7 @@ gem 'activeadmin'
 gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem 'carrierwave'
 gem 'carrierwave-dropbox'
+gem 'crack'
 # gem 'mailchimp'
 # gem "mandrill-api", "~> 1.0.42"
 # gem 'mandrill_mailer'

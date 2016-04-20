@@ -9,6 +9,53 @@ class Patient < ActiveRecord::Base
 
 	serialize :json, JSON
 
+  def self.new_cvg(hash)
+
+    @json = []
+    benefits = hash['Coverage']['plans']['plans']['benefits']['benefits']
+    benefits.each do |benefit|
+      @array = {}
+      
+      if benefit['amounts'].present?
+        benefit['amounts'].each do |nam_key, name|
+          name.each do |n_key, network|
+            if network.present? && network[n_key].present? && network[n_key][0].nil?
+              data_management(nam_key, n_key, network[n_key])
+            end
+            
+            if network.present? && network[n_key].present? && network[n_key][0].present?
+              network[n_key].each do |data|
+                data_management(nam_key, n_key, data)
+              end
+            end
+          end
+        end
+      
+      @array['CODE'] = benefit['type']
+      
+      @json << {benefit['name'] => @array}
+      end
+    end
+    @json
+  end
+
+  def self.data_management(nam_key, n_key, data)
+    level ||= data['level']
+    remaining ||= data['remaining']
+    
+    if nam_key == 'coPayment'
+      @array['COPAY (TYPE)- IN NETWORK'] = data['amount']
+    
+    elsif nam_key == 'coInsurance'
+      @array['COINSURANCE (STANDARD)- IN NETWORK'] = data['amount']
+    end
+    
+    if remaining.present?
+      @array["#{level.to_s}#{nam_key}amount#{n_key}"] = data['amount']
+      @array["#{level.to_s}#{nam_key}met#{n_key}"] = data['remaining']
+      @array["#{level.to_s}#{nam_key}remaining#{n_key}"] = data['total']
+    end
+  end
 
 	def self.av_code(driver)
 		parse = ParseTable.new
@@ -183,21 +230,81 @@ class Patient < ActiveRecord::Base
 		data_arr
 	end
 
-	# def self.availity(patient_id,patient_dob)
-	# 	driver = Selenium::WebDriver.for :firefox
-	# 	site_url =  'https://apps.availity.com/availity/web/public.elegant.login'
-	# 	driver.navigate.to site_url
-	# 	name = 'prospect99'
-	# 	pass = 'Medicare#20'
-	# 	username = driver.find_element(:name => 'userId')
-	# 	username.send_keys name
-	# 	password = driver.find_element(:name=> 'password')
-	# 	password.send_keys pass
-	# 	login_btn = driver.find_element(:id=> 'loginFormSubmit')
-	# 	login_btn.click
-	# 	sleep(5)
-	# 	alert_btn = driver.find_element(:id=> 'alerts-continue')
-	# 	alert_btn.click
+  def self.new_availity(patient_id,patient_dob,u_name,pass,site_url)#,name_of_organiztion,payer_name,provider_name,place_service_val,benefit_val)
+    
+    puts "=="*42
+    puts u_name
+    puts "--"*42
+    puts pass
+    puts "++"*42   
+    puts site_url
+
+    fields = Patient.retrieve_signin_fields(site_url)
+
+    capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
+    capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '388016'
+    browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
+
+    browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
+
+    username = browser.element(:name, fields[:user_field])
+    username.send_keys u_name
+
+    password = browser.element(:name, fields[:pass_field])
+    password.send_keys pass
+
+    element = browser.element(:css, fields[:submit_button])
+    element.click
+
+    sleep(5)
+
+    browser.goto 'https://apps.availity.com/public/apps/eligibility/'
+
+    # patient_id 
+    pat_dob = patient_dob.split("/")
+
+    pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
+
+    request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=BCBSIL&placeOfService=11&providerLastName=NORTHWEST+MEDICAL+CARE&providerNpi=1447277447&providerType=AT&providerUserId=aka61272640622&serviceType=30&subscriberRelationship=18"
+
+    browser.goto request_url 
+
+    ret = Crack::XML.parse(browser.html)
+    browser.goto ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
+ 
+    new_jsn(Crack::XML.parse(browser.html))
+
+    
+  end
+
+
+  def self.new_jsn(json_obj)
+
+    json = ParseAvaility.new.parse_panels(json_obj)
+
+  end
+
+
+
+	def self.availity(patient_id,patient_dob)
+		# driver = Selenium::WebDriver.for :firefox
+    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+		site_url =  'https://apps.availity.com/availity/web/public.elegant.login'
+		driver.navigate.to site_url
+		name = 'prospect99'
+		pass = 'Medicare#20'
+		username = driver.find_element(:name => 'userId')
+		username.send_keys name
+		password = driver.find_element(:name=> 'password')
+		password.send_keys pass
+		login_btn = driver.find_element(:id=> 'loginFormSubmit')
+		login_btn.click
+		sleep(5)
+		alert_btn = driver.find_element(:id=> 'alerts-continue')
+		alert_btn.click
+    driver
+  end
+
 	def self.search_patient_availity(patient_id,patient_dob)
 		eligibility_url = "https://apps.availity.com/public/apps/eligibility/"
 		driver.navigate.to eligibility_url
@@ -285,9 +392,9 @@ class Patient < ActiveRecord::Base
 		a.save
 	end
 
-	def self.parse_availity_panels(driver,panels)
-		josn = ParseAvaility.new.parse_panels(driver,panels)
-	end
+	# def self.parse_availity_panels(driver,panels)
+	# 	josn = ParseAvaility.new.parse_panels(driver,panels)
+	# end
 
 	def self.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
 		@cont = ParseContainer.new.tabelizer(containers)

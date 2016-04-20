@@ -1,391 +1,250 @@
 class ParseAvaility
 
-	def parse_panels(driver,panels)
+	def parse_panels(json_obj)
 		data_arr = []
+        
+    data_arr << parse_general_info(json_obj["Coverage"])
 
-		data_arr << parse_general_info(driver)
 
-		panels.each_with_index do |panel,index|
-			heading = panel.find_elements(:class, 'panel-heading')
-			if !heading.empty?
-				heading = heading.first.text
-				if heading.downcase.tr(' ','') == "Subscriber Information".downcase.tr(' ','') || heading.downcase.squish.tr(' ','') == "Patient Information Subscriber Information".downcase.tr(' ','') ||  heading.downcase.tr(' ','') == "Patient Information".downcase.tr(' ','')
-					puts "Going in Subscriber Deatil"
-					data_arr <<  parse_subscriber_info(panel,driver)
-					puts 'Subscriber Deatil'
-				elsif heading.downcase.tr(' ','').tr('/','') == "Plan / Product Information".downcase.tr(' ','').tr('/','')
-					puts "Going in Plan Detail"
-					data_arr <<  parse_plan_info(panel,driver)
-					puts "Plan Detail"
-				elsif heading.downcase.squish.tr(' ','') == "Payer Details\nOther or Additional Payers".downcase.squish.tr(' ','')
-					puts "Going in Payer Deatil"
-					data_arr <<  parse_payer_info(panel,driver)
-					puts 'Payer Deatil'
-				elsif heading.downcase.tr(' ','') == "Provider Details".downcase.tr(' ','')
-					puts "Going in Provider Deatil"
-					data_arr <<  parse_provider_info(panel,driver)
-					puts 'Provider Deatil'
-				elsif index == 0
-					puts "Going in Patient Deatil"
-					data_arr << parse_patient_info(panel,driver)
-					puts 'Patient Detail'
-				end
-			end
-		end
+    json_obj["Coverage"].each {|key,value|
+      puts key
+      if key == "patient"
+        data_arr << parse_patient_info(json_obj["Coverage"][key])
+        
+      
+      elsif key == "subscriber"
+        data_arr << parse_subscriber_info(json_obj["Coverage"][key])
+        
+      # elsif key == "payer"
+      #   data_arr << parse_payer_info(json_obj["Coverage"][key])
 
-		a =driver.find_elements(:css, '#tab > li:nth-child(2) > a:nth-child(1)').first.click
-		sleep(2)
+      elsif key == "plans"
+        data_arr << parse_plan_info(json_obj["Coverage"][key])
+        
 
-		a =driver.find_elements(:css, 'ul.nav-pills:nth-child(1)> li ')
-		a.last.click
+      elsif key == "requestingProvider"
+        data_arr << parse_provider_info(json_obj["Coverage"][key])
+        
+          
+      end
+    }
 
-		sleep(10)
-		
-		data_arr = data_arr + coverage_details(driver)
+    coverage_details(json_obj).each do |hash|
+      data_arr << hash  
+    end    
 
+    data_arr
 	end
 
-	def coverage_details(driver)
-		parse = ParseTable.new
-
+	def coverage_details(hash)
+		
     @json = []
+    benefits = hash['Coverage']['plans']['plans']['benefits']['benefits']
+    
+    parse = ParseTable.new
 
-    driver.find_elements(:css, '.service-types-container > .unstyled > li').each do |html|
-
-      li_html = html.attribute('innerHTML')
+    benefits.each do |benefit|
+      @array = {}
 
       table_array = parse.dummy_array_for_h2_table_availity()
-
-      page = Mechanize::Page.new(nil,{'content-type'=>'text/html'},li_html,nil,Mechanize.new)
-
-      header = page.at('h3').children[0].text
-      code = page.at('h3').children[1].text.gsub(/[-\s+]/,'')
       
-      key = []
-
-      page.search('.panel.panel-condensed').each do |sub_container|
-        key[1] = sub_container.at('h4').children.first.text
-        
-        # if string.scan('-').count == 1
-        #   key[1] = string.split(/[-(]/).first # check this - there are more "-" in co=payment and co-insurence
-
-        # elsif string.scan('-').count > 1
-        #   arr = string.split('-')
-        #   arr[arr.length-1] = ''
-
-        #   string = arr.inject(:+)
-
-        #   key[1] = string.split('(').first # check this - there are more "-" in co=payment and co-insurence
-        # end
-
-        data = sub_container.at('div').text.squish.split('Remaining')
-        data_sv = sub_container.at('div').text.squish.split(/(In\s+|Out\s+)/).reject{|v| v == 'Out ' || v == 'In ' || v == ''}
-
-        arr = []
-        if data[0].scan('$').count == 3
-          data.each do |row|
-            row.strip!
-
-            if row.scan('In Network').present?
-              key[2] = 'In Network'
-
-            elsif row.scan('Out Of Network').present?
-              key[2] = 'Out Of Network'
+      if benefit['amounts'].present?
+        benefit['amounts'].each do |nam_key, name|
+          name.each do |n_key, network|
+            if network.present? && network[n_key].present? && network[n_key][0].nil?
+              data_management(nam_key, n_key, network[n_key])
             end
-
-            if row.scan('Family').present?
-              key[0] = 'Family'
-
-            elsif row.scan('Individual').present?
-              key[0] = 'Individual'
-            end
-
-            costs = row.split.reject{|a| a if !a.scan('$').present?}
-
-            final_key_amount = key[0].to_s+key[1].to_s+'AMOUNT'+key[2].to_s
-            arr << {final_key_amount.upcase.gsub(/[-\s+]/,'') => costs[0]}
-
-            final_key_met = key[0].to_s+key[1].to_s+'MET'+key[2].to_s
-            arr << {final_key_met.upcase.gsub(/[-\s+]/,'') => costs[1]}
-
-            final_key_remaining = key[0].to_s+key[1].to_s+'Remaining'+key[2].to_s
-            arr << {final_key_remaining.upcase.gsub(/[-\s+]/,'') => costs[2]}
-
-          end
-
-          arr = arr.reduce({},:merge)
-
-          da = table_array.each do |k,v|
-            table_array[k] = arr[k.upcase.gsub(/[-\s+]/,'')] if arr[k.upcase.gsub(/[-\s+]/,'')].present?
-          end
-        end
-
-        if data_sv[0].scan(/[$%]/).count == 1
-          data_sv.each do |row|
-            puts row
-
-            row.strip!
-
-          	if row.scan('Of Network').present?
-              key[2] = 'Out Of Network'
-
-            elsif row.scan('Network').present?
-              key[2] = 'In Network'
-            end
-
-						if row.scan('Family').present?
-              key[0] = 'Family'
-
-            elsif row.scan('Individual').present?
-              key[0] = 'Individual'
-						end
-
-            row = row.split
-
-            costs = row.map.with_index(0) do |a, i|
-              if a.scan('$').present?
-                v = a
-              elsif a.scan('%').present?
-                v = row[i-1]+'%'
+            
+            if network.present? && network[n_key].present? && network[n_key][0].present?
+              network[n_key].each do |data|
+                data_management(nam_key, n_key, data)
               end
-
-              v
-            end
-
-            if key[1].upcase.gsub(/[-\s+]/,'') == 'COPAYMENT' && key[2].present?
-              puts "==="*100
-              puts "COPAY (TYPE)- #{key[2].to_s.upcase}"
-              table_array["COPAY (TYPE)- #{key[2].to_s.upcase}"] = costs.reject(&:nil?).inject(:+)
-
-            elsif key[1].upcase.gsub(/[-\s+]/,'') == 'COINSURANCE' && key[2].present?
-              puts "==="*100
-              puts "COINSURANCE (STANDARD)- #{key[2].to_s.upcase}"
-              table_array["COINSURANCE (STANDARD)- #{key[2].to_s.upcase}"] = costs.reject(&:nil?).inject(:+)
             end
           end
         end
-        puts table_array.inspect
+      
+      @array['CODE'] = benefit['type']
+      
+      table_array.each do |k,v|
+        table_array[k] = @array[k.upcase.gsub(/[-\s+]/,'')] if @array[k.upcase.gsub(/[-\s+]/,'')].present?
       end
-
-      table_array['CODE'] = code
-
-      @json << { header.to_s => table_array }
-
+      
+      @json << {benefit['name'] => table_array}
+      end
     end
-   
-   	@json
-	
+    @json
 	end
 
-	def parse_subscriber_info(panel,driver)
+   def data_management(nam_key, n_key, data)
+    level ||= data['level']
+    remaining ||= data['remaining']
+    
+    if nam_key == 'coPayment'
+      @array['COPAY(TYPE)INNETWORK'] = data['amount'] if data['level'] == 'Individual' && n_key == 'inNetwork'
+      @array['COPAY(TYPE)OUTOFNETWORK'] = data['amount'] if data['level'] == 'Individual' && n_key == 'outOfNetwork'
+      
+    elsif nam_key == 'coInsurance'
+      @array['COINSURANCE(STANDARD)INNETWORK'] = data['amount'] if data['level'] == 'Individual' && n_key == 'inNetwork'
+      @array['COINSURANCE(STANDARD)OUTOFNETWORK'] = data['amount'] if data['level'] == 'Individual' && n_key == 'outOfNetwork'
+      
+    end
+    
+    if remaining.present?
+      @array["#{level.to_s}#{nam_key}amount#{n_key}".upcase.gsub(/[-\s+]/,'').gsub('DEDUCTIBLES','DEDUCTIBLE')] = data['total']
+      @array["#{level.to_s}#{nam_key}met#{n_key}".upcase.gsub(/[-\s+]/,'').gsub('DEDUCTIBLES','DEDUCTIBLE')] = data['amount']
+      @array["#{level.to_s}#{nam_key}remaining#{n_key}".upcase.gsub(/[-\s+]/,'').gsub('DEDUCTIBLES','DEDUCTIBLE')] = data['remaining']
+    end
+  end
+
+	def parse_subscriber_info(json_arr)
 		subscriber_info = []
-		if panel.find_element(:class, 'patientAddress')
-			address = panel.find_element(:class, 'patientAddress').text.split("\n")
-			address_1 = address.first
-			cit_st_zip = address.last.split(',')
-			city = cit_st_zip.first
-			state = cit_st_zip.last.strip.split(' ').first
-			zip_code = cit_st_zip.last.strip.split(' ').last
+    
+    subscriber_info << {"First Name"=>json_arr["firstName"]}
+    
+    subscriber_info << {"Middle Name"=>json_arr["middleName"]}
 
-			subscriber_info << {'ADDRESS 1'=>address_1,'City'=> city,'State'=> state,'Zip'=> zip_code}
+    subscriber_info << {"Last Name"=>json_arr["lastName"]}
+    
+    subscriber_info << {"Gender"=>json_arr["gender"]}
+    
+    subscriber_info << {"DOB"=>json_arr["birthDate"].split("T").first}
+    
+    
+    if !json_arr["address"].nil?
+      subscriber_info << {"Address 1"=>json_arr["address"]["line1"]}
 
-		end
+      subscriber_info << {"City"=>json_arr["address"]["city"]}
+      
+      subscriber_info << {"State"=>json_arr["address"]["stateCode"]}
+      
+      subscriber_info << {"Zip"=>json_arr["address"]["zipCode"]} 
+    end
 
-		sub_info = panel.find_elements(:css, '.panel-body > div.span6 > ul > li')
 
-		if sub_info!=nil
-
-
-			keys = ["PLAN NAME","PLAN NUMBER","RELATIONSHIP TO SUBSCRIBER","MEMBER ID","GROUP NUMBER","PLAN SPONSOR NAME","SUBSCRIBER"]
-			li =sub_info
-
-			li.each {|l|
-				keys.each_with_index{|key,index|
-					if l.text.include? key
-						if key != "SUBSCRIBER"
-							subscriber_info << {key => l.text.split(key).last.strip}
-						elsif
-
-							subscriber_name =  l.text.split(key).last.strip
-
-							full_name = subscriber_name.split(',')
-							last_name = full_name.first
-
-							rest_name = full_name.last.split(' ')
-
-							first_name = rest_name.first
-							middle_name = rest_name.last if rest_name.count > 1
-							subscriber_info << {"First Name" => first_name}
-							subscriber_info << {"Last Name" => last_name}
-							subscriber_info << {"Middle Name" => middle_name}
-
-						end
-					end
-				}
-			}
-
-		end
-
-		 subscriber_info = subscriber_info.reduce({},:merge)
+    subscriber_info = subscriber_info.reduce({},:merge)
 
 		subscriber_info= {'SUBSCRIBER'=>subscriber_info}
 
 	end
 
-	def parse_plan_info(panel,driver)
+	def parse_plan_info(json_arr)
 		plan_info = []
-		li = panel.find_elements(:tag_name, 'li')
+		
+    # plan_info << {""=> json_arr["plans"]["groupNumber"]}
+    # plan_info << {""=> json_arr["plans"]["groupName"]}
+    # json_arr["plans"]["coverageStartDate"]
+    # json_arr["plans"]["coverageEndDate"]
+    plan_info << {"Plan Type"=>json_arr["plans"]["insuranceType"]}
+    plan_info << {"Plan Type"=>json_arr["plans"]["benefits"]["benefits"][0]["statusDetails"]["noNetwork"]["noNetwork"]["description"]}
+    # json_arr["plans"]["insuranceTypeCode"]
 
-		keys = ["INSURANCE TYPE", "PLAN / PRODUCT"]
-
-		li.each {|l|
-			keys.each{|key|
-				if l.text.include? key
-					plan_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-
-		plan_info = {"Plan Details"=>plan_info}
+		plan_info = plan_info.reduce({},:merge)
+    plan_info = {"PLAN DETAILS"=>plan_info}
 	end
 
-	def parse_payer_info(panel,driver)
+	def parse_payer_info(json_arr)
+   payer_info = []
 
-		payer_details = panel.find_elements(:class, 'span6')[2] if  panel.find_elements(:class, 'span6').count == 4
-		ul = payer_details.find_elements(:tag_name,'ul')
-		keys  = ["NAME","TYPE"]
-		val_arr=[]
-		payer_info = []
+   payer_info << {""=>json_arr["name"]}
+   payer_info << {""=>json_arr[""]}
+   payer_info << {""=>json_arr[""]}
+   payer_info << {""=>json_arr[""]}
 
-		 if ul.count>1
-			 li = ul[1].find_elements(:tag_name,'li')
-			 li.each {|l|
-				 keys.each{|key|
-					 if l.text.include? key
-						 payer_info << {key => l.text.split(key).last.strip}
-					 end
-				 }
-			 }
-		 end
-
-		 contact_info = panel.find_elements(:class, 'contact-information')
-		 if !contact_info.empty?
-			 payer_contact_name = contact_info.first.text.split("\n").first.strip
-			 payer_contact_number = contact_info.first.text.split(':').last.strip
-			#  payer_info << {'naem'=>payer_contact_name}
-			#  payer_info << {'numb'=>payer_contact_number}
-		 end
-
-
-		 payer_info =payer_info.reduce({},:merge)
-		 payer_info={'PAYeR'=>payer_info}
+    # 
+	 payer_info =payer_info.reduce({},:merge)
+	 payer_info={'PAYeR'=>payer_info}
 
 
 	end
 
-	def parse_provider_info(panel,driver)
+	def parse_provider_info(json_arr)
 		provider_info = []
-		p_detail = panel.find_elements(:class,'span6').last
-		p_address = p_detail.find_elements(:tag_name, 'div').first
-		if p_address != nil
-			provider_address = p_address.text.split("\n")
-			address_1 = provider_address[0]+" "+provider_address[1]
+	
+    provider_info << {"PATIENT ALIGNED PHYSICIAN LAST NAME"=>json_arr["lastName"].split("&#").first.strip}
+    
+    provider_info << {"PATIENT ALIGNED PHYSICIAN NPI"=>json_arr["npi"]}
+    # provider_info << {""=>json_arr["placeOfService"]}
+    
+    
+    if !json_arr["address"].nil?
+      provider_info << {"Address 1"=>json_arr["address"]["line1"]}
+    
+      provider_info << {"City"=>json_arr["address"]["city"]}
+    
+      provider_info << {"State"=>json_arr["address"]["stateCode"]}
+    
+      provider_info << {"Zip"=>json_arr["address"]["zipCode"]}
+    end
+    
 
-			cit_st_zip = provider_address[2].split(',')
-			city = cit_st_zip[0]
-			state = cit_st_zip[1].strip.split(' ').first
-			zip_code = cit_st_zip[1].strip.split(' ').last
+    provider_info = provider_info.reduce({},:merge)
 
-			provider_info << {'ADDRESS 1'=>address_1,'City'=> city,'State'=> state,'Zip'=> zip_code}
+    provider_info = {"PLAN PROVIDER"=>provider_info}
+	
+  end
 
-		end
+	def parse_general_info(json_arr)
 
-		li = p_detail.find_elements(:tag_name, 'li')
-		keys = ["NAME", "TYPE", "ROLE", "NPI" , "PLACE OF SERVICE"]
+    status = json_arr["plans"]["plans"]["status"]
+    if status.downcase.include? 'inactive'
+      status= "Inactive"
+    else
+      status = "Active"
+    end
+    
+    t = Time.now
+    time = t.strftime("%I:%M%p")
 
-		li.each {|l|
-			keys.each{|key|
-				if l.text.include? key
-					provider_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
+    date = Time.now.to_s
 
+    asOfDate = json_arr["asOfDate"].split('T').first
+    
+    general_info = []
 
+    general_info << {"Eligibility Status"=>status}
 
+    general_info << {"Eligibility As Of"=>asOfDate}
 
-		provider_info = provider_info.reduce({},:merge)
+    general_info << {"TRANSACTION DATE"=>date}
 
-		provider_info = {"PLAN PROVIDER"=>provider_info}
+    general_info << {"TRANSACTION TIME"=>time}
 
+    general_info = general_info.reduce({},:merge)
+    general_info = {"GENERAL"=>general_info}
+
+  
 	end
 
-	def parse_general_info(driver)
-
-	 transaction_details = driver.find_element(:css, '.inline')
-
-	 li = transaction_details.find_elements(:tag_name, 'li')
-
-	 trans_datetime = li[1].text.split('Date:').last.strip.split(' ')
-
-	 transaction_date = trans_datetime[0]+' '+ trans_datetime[1]
-	 transaction_time =  trans_datetime[2]+' '+ trans_datetime[3]
-
-	 status_text = driver.find_element(:css,'div.panel-footer:nth-child(3)').text
-
-	 status = nil
-	 if status_text.include? 'Patient is Inactive'
-		 status = 'Inactive'
-	 else
-		 status = 'Active'
-	 end
-	 general_info = {'Eligibility Status'=>status ,'TRANSACTION DATE'=>transaction_date ,'TRANSACTION TIME'=>transaction_time	}
-	 general_info = {'GENERAL'=>general_info}
-
-	end
-
-	def parse_patient_info(panel,driver)
+	def parse_patient_info(json_arr)
 		patient_info = []
-		panel_heading = panel.find_elements(:class => 'panel-heading')
 
-		patient_name_relation = panel_heading[0].find_element(:tag_name=> 'h4')
-		relation = patient_name_relation.find_element(:tag_name, 'small').text
+    patient_info << {"First Name"=>json_arr["firstName"]}
+    
+    patient_info << {"Middle Name"=>json_arr["middleName"]}
 
-		patient_name = patient_name_relation.text.split(relation).first.strip
+    patient_info << {"Last Name"=>json_arr["lastName"]}
+    
+    patient_info << {"Relationship to Subscriber"=>json_arr["subscriberRelationship"]}
+    
+    patient_info << {"Gender"=>json_arr["gender"]}
+    
+    patient_info << {"DOB"=>json_arr["birthDate"].split("T").first}
+    
 
-		full_name = patient_name.split(',')
-		last_name = full_name.first
-		rest_name = full_name.last.split(' ')
+    if !json_arr["address"].nil?
+      patient_info << {"Address 1"=>json_arr["address"]["line1"]}
 
-		first_name = rest_name.first
-		middle_name = rest_name.last if rest_name.count > 1
+      patient_info << {"City"=>json_arr["address"]["city"]}
+      
+      patient_info << {"State"=>json_arr["address"]["stateCode"]}
+      
+      patient_info << {"Zip"=>json_arr["address"]["zipCode"]}
+    end
 
-		li = panel_heading[0].find_elements(:class=> 'span4').first.find_elements(:tag_name, 'li')
+    patient_info = patient_info.reduce({},:merge)
 
+    patient_info = {"PATIENT"=>patient_info}
 
-		keys=["MEMBER ID","DOB","GENDER"]
-		val_arr=[]
-		li.each {|l|
-			keys.each_with_index{|key,index|
-				if l.text.include? key
-					patient_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-		li = panel_heading[0].find_elements(:class=> 'span8').first.find_elements(:tag_name, 'li')
-		keys=["PLAN / COVERAGE DATE","DATE OF SERVICE","ELIGIBILITY END DATE"]
-
-		li.each {|l|
-			keys.each_with_index{|key,index|
-				if l.text.include? key
-					patient_info << {key => l.text.split(key).last.strip}
-				end
-			}
-		}
-		patient_info = patient_info.reduce({},:merge)
-
-		patient_info = { 'PATIENT'=>patient_info}
-	end
-
+  end
 
 end
