@@ -3,7 +3,7 @@ class ParseAvaility
   def parse_panels(json_obj)
     data_arr = []
         
-    data_arr << parse_general_info(json_obj["Coverage"])
+    data_arr << parse_general_info(json_obj["Coverage"]) if json_obj["Coverage"].present?
 
 
     json_obj["Coverage"].each {|key,value|
@@ -29,49 +29,56 @@ class ParseAvaility
       end
     }
 
+    puts "Mera theek ha"
+
     coverage_details(json_obj).each do |hash|
       data_arr << hash  
     end    
+    puts "Saara theek ha"
 
     data_arr
   end
 
   def coverage_details(hash)
+    puts "andar tak sai chala"
     
     @json = []
-    benefits = hash['Coverage']['plans']['plans']['benefits']['benefits']
+    benefits = hash['Coverage']['plans']['plans']['benefits']['benefits'] if hash['Coverage']['plans'].present? && hash['Coverage']['plans']['plans'].present?  && hash['Coverage']['plans']['plans']['benefits'].present?  && hash['Coverage']['plans']['plans']['benefits']['benefits'].present?
     
     parse = ParseTable.new
 
-    benefits.each do |benefit|
-      @array = {}
+    if benefits.present?
+      benefits.each do |benefit| 
+        @array = {}
 
-      table_array = parse.dummy_array_for_h2_table_availity()
-      
-      if benefits.is_a?(Array) && benefit['amounts'].present?
-        benefit['amounts'].each do |nam_key, name|
-          name.each do |n_key, network|
-            if network.present? && network[n_key].present? && network[n_key][0].nil?
-              data_management(nam_key, n_key, network[n_key])
-            end
-            
-            if network.present? && network[n_key].present? && network[n_key][0].present?
-              network[n_key].each do |data|
-                data_management(nam_key, n_key, data)
+        table_array = parse.dummy_array_for_h2_table_availity()
+        
+        if benefits.is_a?(Array) && benefit['amounts'].present?
+          benefit['amounts'].each do |nam_key, name|
+            name.each do |n_key, network|
+              if network.present? && network[n_key].present? && network[n_key][0].nil?
+                data_management(nam_key, n_key, network[n_key])
+              end
+              
+              if network.present? && network[n_key].present? && network[n_key][0].present?
+                network[n_key].each do |data|
+                  data_management(nam_key, n_key, data)
+                end
               end
             end
           end
+        
+        @array['CODE'] = benefit['type']
+        
+        table_array.each do |k,v|
+          table_array[k] = @array[k.upcase.gsub(/[-\s+]/,'')] if @array[k.upcase.gsub(/[-\s+]/,'')].present?
         end
-      
-      @array['CODE'] = benefit['type']
-      
-      table_array.each do |k,v|
-        table_array[k] = @array[k.upcase.gsub(/[-\s+]/,'')] if @array[k.upcase.gsub(/[-\s+]/,'')].present?
-      end
-      
-      @json << {benefit['name'] => table_array}
+        
+        @json << {benefit['name'] => table_array}
+        end
       end
     end
+    puts "yahan tak sai chala"
     @json
   end
 
@@ -110,7 +117,8 @@ class ParseAvaility
     subscriber_info << {"DOB"=>json_arr["birthDate"].split("T").first} if json_arr["birthDate"].present?
     
     
-    if !json_arr["address"].nil?
+    if json_arr["address"].present?
+
       subscriber_info << {"Address 1"=>json_arr["address"]["line1"]}
 
       subscriber_info << {"City"=>json_arr["address"]["city"]}
@@ -118,6 +126,15 @@ class ParseAvaility
       subscriber_info << {"State"=>json_arr["address"]["stateCode"]}
       
       subscriber_info << {"Zip"=>json_arr["address"]["zipCode"]} 
+    
+    elsif 
+      subscriber_info << {"Address 1"=>""}
+
+      subscriber_info << {"City"=>""}
+      
+      subscriber_info << {"State"=>""}
+      
+      subscriber_info << {"Zip"=>""} 
     end
 
 
@@ -166,14 +183,24 @@ class ParseAvaility
     # provider_info << {""=>json_arr["placeOfService"]}
     
     
-    if !json_arr["address"].nil?
+    if json_arr["address"].present?
+
       provider_info << {"Address 1"=>json_arr["address"]["line1"]}
-    
+
       provider_info << {"City"=>json_arr["address"]["city"]}
-    
+      
       provider_info << {"State"=>json_arr["address"]["stateCode"]}
+      
+      provider_info << {"Zip"=>json_arr["address"]["zipCode"]} 
     
-      provider_info << {"Zip"=>json_arr["address"]["zipCode"]}
+    elsif 
+      provider_info << {"Address 1"=>""}
+
+      provider_info << {"City"=>""}
+      
+      provider_info << {"State"=>""}
+      
+      provider_info << {"Zip"=>""} 
     end
     
 
@@ -185,7 +212,8 @@ class ParseAvaility
 
   def parse_general_info(json_arr)
 
-    status = json_arr["plans"]["plans"]["status"]
+    status = "Inactive"
+    status = json_arr["plans"]["plans"]["status"] if json_arr["plans"].present?
     if status.downcase.include? 'inactive'
       status= "Inactive"
     else
@@ -231,14 +259,24 @@ class ParseAvaility
     patient_info << {"DOB"=>json_arr["birthDate"].split("T").first} if json_arr["birthDate"].present?
     
 
-    if !json_arr["address"].nil?
+    if json_arr["address"].present?
+
       patient_info << {"Address 1"=>json_arr["address"]["line1"]}
 
       patient_info << {"City"=>json_arr["address"]["city"]}
       
       patient_info << {"State"=>json_arr["address"]["stateCode"]}
       
-      patient_info << {"Zip"=>json_arr["address"]["zipCode"]}
+      patient_info << {"Zip"=>json_arr["address"]["zipCode"]} 
+    
+    elsif 
+      patient_info << {"Address 1"=>""}
+
+      patient_info << {"City"=>""}
+      
+      patient_info << {"State"=>""}
+      
+      patient_info << {"Zip"=>""} 
     end
 
     patient_info = patient_info.reduce({},:merge)
