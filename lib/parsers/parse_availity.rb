@@ -1,7 +1,7 @@
 class ParseAvaility
 
-	def parse_panels(json_obj)
-		data_arr = []
+  def parse_panels(json_obj)
+    data_arr = []
         
     data_arr << parse_general_info(json_obj["Coverage"])
 
@@ -34,10 +34,10 @@ class ParseAvaility
     end    
 
     data_arr
-	end
+  end
 
-	def coverage_details(hash)
-		
+  def coverage_details(hash)
+    
     @json = []
     benefits = hash['Coverage']['plans']['plans']['benefits']['benefits']
     
@@ -48,7 +48,7 @@ class ParseAvaility
 
       table_array = parse.dummy_array_for_h2_table_availity()
       
-      if benefit['amounts'].present?
+      if benefits.is_a?(Array) && benefit['amounts'].present?
         benefit['amounts'].each do |nam_key, name|
           name.each do |n_key, network|
             if network.present? && network[n_key].present? && network[n_key][0].nil?
@@ -73,7 +73,7 @@ class ParseAvaility
       end
     end
     @json
-	end
+  end
 
    def data_management(nam_key, n_key, data)
     level ||= data['level']
@@ -96,8 +96,8 @@ class ParseAvaility
     end
   end
 
-	def parse_subscriber_info(json_arr)
-		subscriber_info = []
+  def parse_subscriber_info(json_arr)
+    subscriber_info = []
     
     subscriber_info << {"First Name"=>json_arr["firstName"]}
     
@@ -107,7 +107,7 @@ class ParseAvaility
     
     subscriber_info << {"Gender"=>json_arr["gender"]}
     
-    subscriber_info << {"DOB"=>json_arr["birthDate"].split("T").first}
+    subscriber_info << {"DOB"=>json_arr["birthDate"].split("T").first} if json_arr["birthDate"].present?
     
     
     if !json_arr["address"].nil?
@@ -123,26 +123,26 @@ class ParseAvaility
 
     subscriber_info = subscriber_info.reduce({},:merge)
 
-		subscriber_info= {'SUBSCRIBER'=>subscriber_info}
+    subscriber_info= {'SUBSCRIBER'=>subscriber_info}
 
-	end
+  end
 
-	def parse_plan_info(json_arr)
-		plan_info = []
-		
+  def parse_plan_info(json_arr)
+    plan_info = []
+    
     # plan_info << {""=> json_arr["plans"]["groupNumber"]}
     # plan_info << {""=> json_arr["plans"]["groupName"]}
     # json_arr["plans"]["coverageStartDate"]
     # json_arr["plans"]["coverageEndDate"]
-    plan_info << {"Plan Type"=>json_arr["plans"]["insuranceType"]}
-    plan_info << {"Plan Type"=>json_arr["plans"]["benefits"]["benefits"][0]["statusDetails"]["noNetwork"]["noNetwork"]["description"]}
+    plan_info << {"Plan Type"=>json_arr["plans"]["insuranceType"]} if json_arr["plans"].present?
+   # plan_info << {"Plan Type"=>json_arr["plans"]["benefits"]["benefits"][0]["statusDetails"]["noNetwork"]["noNetwork"]["description"]}
     # json_arr["plans"]["insuranceTypeCode"]
 
-		plan_info = plan_info.reduce({},:merge)
+    plan_info = plan_info.reduce({},:merge)
     plan_info = {"PLAN DETAILS"=>plan_info}
-	end
+  end
 
-	def parse_payer_info(json_arr)
+  def parse_payer_info(json_arr)
    payer_info = []
 
    payer_info << {""=>json_arr["name"]}
@@ -151,16 +151,16 @@ class ParseAvaility
    payer_info << {""=>json_arr[""]}
 
     # 
-	 payer_info =payer_info.reduce({},:merge)
-	 payer_info={'PAYeR'=>payer_info}
+   payer_info =payer_info.reduce({},:merge)
+   payer_info={'PAYeR'=>payer_info}
 
 
-	end
+  end
 
-	def parse_provider_info(json_arr)
-		provider_info = []
-	
-    provider_info << {"PATIENT ALIGNED PHYSICIAN LAST NAME"=>json_arr["lastName"].split("&#").first.strip}
+  def parse_provider_info(json_arr)
+    provider_info = []
+  
+    provider_info << {"PATIENT ALIGNED PHYSICIAN LAST NAME"=>json_arr["lastName"].split("&#").first.strip} if json_arr["lastName"].present?
     
     provider_info << {"PATIENT ALIGNED PHYSICIAN NPI"=>json_arr["npi"]}
     # provider_info << {""=>json_arr["placeOfService"]}
@@ -180,10 +180,10 @@ class ParseAvaility
     provider_info = provider_info.reduce({},:merge)
 
     provider_info = {"PLAN PROVIDER"=>provider_info}
-	
+  
   end
 
-	def parse_general_info(json_arr)
+  def parse_general_info(json_arr)
 
     status = json_arr["plans"]["plans"]["status"]
     if status.downcase.include? 'inactive'
@@ -197,7 +197,7 @@ class ParseAvaility
 
     date = Time.now.to_s
 
-    asOfDate = json_arr["asOfDate"].split('T').first
+    asOfDate = json_arr["asOfDate"].split('T').first if  json_arr["asOfDate"].present?
     
     general_info = []
 
@@ -213,10 +213,10 @@ class ParseAvaility
     general_info = {"GENERAL"=>general_info}
 
   
-	end
+  end
 
-	def parse_patient_info(json_arr)
-		patient_info = []
+  def parse_patient_info(json_arr)
+    patient_info = []
 
     patient_info << {"First Name"=>json_arr["firstName"]}
     
@@ -228,7 +228,7 @@ class ParseAvaility
     
     patient_info << {"Gender"=>json_arr["gender"]}
     
-    patient_info << {"DOB"=>json_arr["birthDate"].split("T").first}
+    patient_info << {"DOB"=>json_arr["birthDate"].split("T").first} if json_arr["birthDate"].present?
     
 
     if !json_arr["address"].nil?
