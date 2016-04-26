@@ -1,15 +1,16 @@
- task :cigna_test => :environment do
+task :cigna_test => :environment do
   cig = Status.find_by_site_url("https://cignaforhcp.cigna.com/")
   begin
-    if !cig
-      cig = Patient.new
-      cig.site_url = "https://cignaforhcp.cigna.com/"
-      cig.save!
-    end
+    # if !cig
+    #   cig = Status.new
+    #   cig.site_url = "https://cignaforhcp.cigna.com/"
+    #   cig.save!
+    # end
     obj = PatientsController.new.sign_in(cig.site_username,cig.site_password, 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
     driver = obj[:driver]
     cig.login_status = true
-  rescue Exception=>e
+    puts "cig.login_status successful"
+  rescue Exception => e
     cig.login_status = false
     cig.patient_search_status = false
     cig.site_status = false
@@ -33,6 +34,8 @@
       member_id = driver.find_element(:name, 'memberDataList[0].memberId')
     }
 
+    puts "cig. 2 successful"
+
     member_id.send_keys 'U5151043002'
 
     dob = driver.find_element(:name, 'memberDataList[0].dobDate')
@@ -53,7 +56,8 @@
     }
     link.click
     cig.patient_search_status = true
-  rescue Exception=>e
+    puts "cig. 3 successful"
+  rescue Exception => e
     cig.patient_search_status = false
     cig.site_status = false
     cig.status = false
@@ -72,7 +76,7 @@
     patient_flag = false
 
     wait.until { driver.find_elements(:class, 'collapseTable').present? }
-
+    puts "cig. 4 successful"
     sleep(2)
 
     if driver.find_elements( :class,"oep-managed-sub-tab").second.displayed?
@@ -82,17 +86,18 @@
     sleep(4)
 
     wait.until { driver.find_elements(:class, 'collapseTable').present? }
-
+    puts "cig. 5 successful"
 
     containers = driver.find_elements(:class, 'collapseTable-container')
-
+    puts "Going in to parse"
     @json = Patient.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
-
+    puts "Parsed and out"
     driver.quit
+    puts "cig 6 successful"
 
     cig.site_status = true
 
-  rescue Exception=>e
+  rescue Exception => e
     cig.site_status = false
 
     PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- CIGNA").deliver
@@ -146,14 +151,13 @@
     cig.status = true
     cig.save!
     PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- CIGNA").deliver
-
+    puts "Sarri parse ho gai"
   rescue Exception => e
     cig.status = false
     cig.save!
 
     PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- CIGNA").deliver
   end
-
 end
 
 task :mhnet_test => :environment do
@@ -162,7 +166,8 @@ task :mhnet_test => :environment do
     obj = PatientsController.new.sign_in(mhnet.site_username,mhnet.site_password, 'https://www.mhnetprovider.com/')
     driver = obj[:driver]
     mhnet.login_status = true
-  rescue Exception=>e
+    puts "mhnet login hua"
+  rescue Exception => e
     mhnet.login_status = false
     mhnet.patient_search_status = false
     mhnet.site_status = false
@@ -189,9 +194,10 @@ task :mhnet_test => :environment do
 
     page = driver.find_element(:css, 'body').attribute('innerHTML').squish
 
-
+    puts "patient search hua"
     mhnet.patient_search_status = true
-  rescue Exception=>e
+
+  rescue Exception => e
     mhnet.patient_search_status = false
     mhnet.site_status = false
     mhnet.status = false
@@ -470,13 +476,20 @@ task :mhnet_test => :environment do
       @json.delete_at(a.first)
     end
 
-  rescue Exception=> e
+
+    mhnet.site_status = true
+
+  rescue Exception => e
+    mhnet.site_status = false
+    mhnet.status = false
+
     PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- MHNET").deliver
   end
 
 
   begin
     # my-code-starts
+    mhnet.save!
     site_link = "https://www.mhnetprovider.com/"
     service_types = Status.find_by_site_url(site_link).service_types
 
@@ -518,14 +531,140 @@ task :mhnet_test => :environment do
     # my-code-ends
 
     driver.quit
+    mhnet.status = true
     PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- MHNET").deliver
-  rescue Exception=> e
+  rescue Exception => e
+    mhnet.status = false
     driver.quit if driver.present?
 
     PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- MHNET").deliver
-
   end
+  mhnet.save!
 end
 
+
+task :availity_test => :environment do
+  
+  begin
+    site_url = "https://apps.availity.com/"
+    patient_id = "XOF842281755"
+    patient_dob = "1/4/1954"
+    ava = Status.find_by_site_url(site_url)
+    
+    
+    patient_id = "XOF846071927"
+    patient_dob = "5/10/1956"
+    username = "prospect99"
+    pass = "Medicare#20"
+    site_url = "https://apps.availity.com/"
+
+
+    puts "=="*40
+    puts patient_id
+    puts "--"*40
+    puts patient_dob
+    puts "++"*40 
+    puts  username
+    puts "<->"*40
+    puts pass
+    puts "؟-?"*40 
+    puts site_url
+    puts "=="*40
+    
+
+    fields = Patient.retrieve_signin_fields(site_url)
+    
+    capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
+    capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '388016'
+    browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
+
+    browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
+
+    username_i = browser.element(:name, fields[:user_field])
+    username_i.send_keys username
+
+    password = browser.element(:name, fields[:pass_field])
+    password.send_keys pass
+
+    element = browser.element(:css, fields[:submit_button])
+    element.click
+
+    sleep(5)
+
+    puts "\n"
+    puts "Browser URL #{browser.url}"
+
+
+
+    if browser.url == "https://apps.availity.com/availity/web/public.elegant.login.3?wicket:pcxt=AlertsPage" || browser.url != "https://apps.availity.com/availity/web/public.elegant.login"
+      ava.login_status = true
+      puts "ava.login_status successful"
+    else
+      ava.login_status = false
+    end
+
+  rescue Exception => e
+    ava.login_status = false
+    ava.patient_search_status = false
+    ava.site_status = false
+    ava.status = false
+    PatientMailer::HTML_validation_notification("Login failed of AVAILITY").deliver
+    
+  end
+
+  begin
+    ava.save!
+
+    pat_dob = patient_dob.split("/")
+    pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
+
+    request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=BCBSIL&placeOfService=11&providerLastName=NORTHWEST+MEDICAL+CARE&providerNpi=1447277447&providerType=AT&providerUserId=aka61272640622&serviceType=30&subscriberRelationship=18"
+
+    browser.goto request_url
+    sleep(2)
+
+    js = nil
+    ret = Crack::XML.parse(browser.html)
+
+    puts ret
+    
+    if ret["APIResponse"].present?
+      browser.goto ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
+      sleep(2)
+      js = Crack::XML.parse(browser.html)
+      puts js
+    end
+    ava.patient_search_status = true
+
+  rescue Exception => e
+    ava.patient_search_status = false
+    ava.site_status = false
+    
+    PatientMailer::HTML_validation_notification("Failed: Patient Search -- AVAILITY").deliver
+    
+  end
+
+  begin
+    ava.save!
+    browser.quit
+
+    if js.present?
+      @json_arr = []
+      @json_arr = Patient.new_jsn(js)
+      
+    end
+    
+    ava.site_status = true 
+
+    PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- AVAILITY").deliver
+  
+  rescue Exception => e
+    ava.site_status = false
+    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- AVAILITY").deliver
+    
+  end
+    ava.save!
+  
+end
 
 task :web_html_test => [:cigna_test, :mhnet_test]

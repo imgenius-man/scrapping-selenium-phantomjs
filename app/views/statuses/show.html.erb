@@ -15,7 +15,7 @@
 <br ><br >
 <p>
   <h3> Site Url: <%= @status.site_url %> </h3>
-  <span class="pull-right">
+  <span style="display:none" class="pull-right">
     <%= link_to 'Change Credintials for test cases', edit_status_path , class: "btn btn-danger" %>
   </span>
 
@@ -74,10 +74,10 @@
       </tr>
       <tr>
         <th>
-          <h5>Table parseing to JSON</h5>
+          <h5>Table parsing to JSON</h5>
         <th>
         <td>
-          <% if @status.site_status%>
+          <% if @status.site_status %>
             <span class="text-info">Table parsing to JSON is OK.</span>
           <% else %>
             <span class="text-danger">Table parsing to JSON is failed. </span>

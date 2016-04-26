@@ -16,7 +16,7 @@
   <tr>
     <td> </td>
     <td><%= status.site_url %></td>
-    <% if status.status %>
+    <% if status_of_site(status.id) %>
     <td class="text-success"> Site is OK </td>
     <%else%>
     <td class="text-danger"> Tests are Failing </td>
