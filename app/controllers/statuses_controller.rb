@@ -16,9 +16,14 @@ class StatusesController < InheritedResources::Base
     url = Status.find(params[:id]).site_url
   
     if url.include? 'cignaforhcp'
-      Rake::Task["cigna_test"].invoke
+      %x[rake cigna_test]
+      # Rake::Task["cigna_test"].invoke
     elsif url.include? 'mhnet'
-      Rake::Task["mhnet_test"].invoke
+      %x[rake mhnet_test]
+      # Rake::Task["mhnet_test"].invoke
+    elsif url.include? 'availity'
+      %x[rake availity_test]
+      # Rake::Task["availity_test"].invoke
     end
   
     redirect_to :back

@@ -15,7 +15,7 @@ task :cigna_test => :environment do
     cig.patient_search_status = false
     cig.site_status = false
     cig.status = false
-    PatientMailer::HTML_validation_notification("Login failed of CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Login failed of CIGNA\n Exception => #{e}").deliver
   end
 
   begin
@@ -61,7 +61,7 @@ task :cigna_test => :environment do
     cig.patient_search_status = false
     cig.site_status = false
     cig.status = false
-    PatientMailer::HTML_validation_notification("Failed: Patient Search -- CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Failed: Patient Search -- CIGNA\n Exception => #{e}").deliver
   end
 
   begin
@@ -100,7 +100,7 @@ task :cigna_test => :environment do
   rescue Exception => e
     cig.site_status = false
 
-    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- CIGNA\n Exception => #{e}").deliver
   end
 
 
@@ -156,7 +156,7 @@ task :cigna_test => :environment do
     cig.status = false
     cig.save!
 
-    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- CIGNA").deliver
+    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- CIGNA\n Exception => #{e}").deliver
   end
 end
 
@@ -172,7 +172,7 @@ task :mhnet_test => :environment do
     mhnet.patient_search_status = false
     mhnet.site_status = false
     mhnet.status = false
-    PatientMailer::HTML_validation_notification("Login failed of MHNET").deliver
+    PatientMailer::HTML_validation_notification("Login failed of MHNET\n Exception => #{e}").deliver
   end
 
   begin
@@ -201,7 +201,7 @@ task :mhnet_test => :environment do
     mhnet.patient_search_status = false
     mhnet.site_status = false
     mhnet.status = false
-    PatientMailer::HTML_validation_notification("Failed: Patient Search -- MHNET").deliver
+    PatientMailer::HTML_validation_notification("Failed: Patient Search -- MHNET\n Exception => #{e}").deliver
   end
 
   begin
@@ -483,7 +483,7 @@ task :mhnet_test => :environment do
     mhnet.site_status = false
     mhnet.status = false
 
-    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- MHNET").deliver
+    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- MHNET\n Exception => #{e}").deliver
   end
 
 
@@ -537,7 +537,7 @@ task :mhnet_test => :environment do
     mhnet.status = false
     driver.quit if driver.present?
 
-    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- MHNET").deliver
+    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- MHNET\n Exception => #{e}").deliver
   end
   mhnet.save!
 end
@@ -608,7 +608,7 @@ task :availity_test => :environment do
     ava.patient_search_status = false
     ava.site_status = false
     ava.status = false
-    PatientMailer::HTML_validation_notification("Login failed of AVAILITY").deliver
+    PatientMailer::HTML_validation_notification("Login failed of AVAILITY\n Exception => #{e}").deliver
     
   end
 
@@ -640,7 +640,7 @@ task :availity_test => :environment do
     ava.patient_search_status = false
     ava.site_status = false
     
-    PatientMailer::HTML_validation_notification("Failed: Patient Search -- AVAILITY").deliver
+    PatientMailer::HTML_validation_notification("Failed: Patient Search -- AVAILITY\n Exception => #{e}").deliver
     
   end
 
@@ -660,11 +660,11 @@ task :availity_test => :environment do
   
   rescue Exception => e
     ava.site_status = false
-    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- AVAILITY").deliver
+    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- AVAILITY\n Exception => #{e}").deliver
     
   end
     ava.save!
   
 end
 
-task :web_html_test => [:cigna_test, :mhnet_test]
+task :web_html_test => [:cigna_test, :mhnet_test, :availity_test]
