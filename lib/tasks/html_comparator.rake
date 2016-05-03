@@ -1,49 +1,49 @@
 task :cigna_test => :environment do
-  cig = Status.find_by_site_url("https://cignaforhcp.cigna.com/")
   begin
-    # if !cig
-    #   cig = Status.new
-    #   cig.site_url = "https://cignaforhcp.cigna.com/"
-    #   cig.save!
-    # end
+    cig = Status.find_by_site_url("https://cignaforhcp.cigna.com/")
+    
+    
+    
+    cig.date_checked= DateTime.now
+
     obj = PatientsController.new.sign_in(cig.site_username,cig.site_password, 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
     driver = obj[:driver]
-    cig.login_status = true
-    puts "cig.login_status successful"
-  rescue Exception => e
-    cig.login_status = false
-    cig.patient_search_status = false
-    cig.site_status = false
-    cig.status = false
-    PatientMailer::HTML_validation_notification("Login failed of CIGNA\n Exception => #{e}").deliver
-  end
-
-  begin
-    cig.date_checked= DateTime.now
-    cig.save!
+    ret_hash = obj[:fields_hash]
+    
+    cig.test_status_hash["Username Field"] = ret_hash["Username Field"]
+    cig.test_status_hash["Password Field"] = ret_hash["Password Field"]
+    cig.test_status_hash["Login Button"] = ret_hash["Login Button"]
+      
     wait = obj[:wait]
 
     href_search = ''
     wait.until {
       href_search = driver.find_elements(:class,'patients')[1]
     }
+
     href_search.click
+
+    cig.test_status_hash["Patient Search Button"] = "Found"
 
     member_id = nil
     wait.until {
       member_id = driver.find_element(:name, 'memberDataList[0].memberId')
     }
 
-    puts "cig. 2 successful"
+    cig.test_status_hash["Patient Form"] = "Found"
 
     member_id.send_keys 'U5151043002'
+    
+    cig.test_status_hash["Patient ID Field"] = "Found"
 
     dob = driver.find_element(:name, 'memberDataList[0].dobDate')
     dob.send_keys '15/06/1986'
 
+    cig.test_status_hash["Patient DOB Field"] = "Found"
+
     ee = driver.find_elements(:class,'btn-submit-form-patient-search')[0]
     ee.submit
-
+    cig.test_status_hash["Patient Record Search Button"] = "Found"
 
     sleep(2)
 
@@ -55,17 +55,10 @@ task :cigna_test => :environment do
       link = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td > .oep-managed-link')[0]
     }
     link.click
-    cig.patient_search_status = true
-    puts "cig. 3 successful"
-  rescue Exception => e
-    cig.patient_search_status = false
-    cig.site_status = false
-    cig.status = false
-    PatientMailer::HTML_validation_notification("Failed: Patient Search -- CIGNA\n Exception => #{e}").deliver
-  end
 
-  begin
-    cig.save!
+    cig.test_status_hash["Patient Response"] = "Found"
+    
+    puts "cig. 3 successful"
 
     eligibility_status = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td')[7].attribute('innerHTML')
 
@@ -91,22 +84,11 @@ task :cigna_test => :environment do
     containers = driver.find_elements(:class, 'collapseTable-container')
     puts "Going in to parse"
     @json = Patient.parse_containers(containers, date_of_eligibility, eligibility_status, transaction_date)
-    puts "Parsed and out"
+    cig.test_status_hash["Table Parsing"] = "Successful"
+    
     driver.quit
     puts "cig 6 successful"
 
-    cig.site_status = true
-
-  rescue Exception => e
-    cig.site_status = false
-
-    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- CIGNA\n Exception => #{e}").deliver
-  end
-
-
-  #=======================================================
-  begin
-   cig.save!
 
    service_types = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types
     @json.each_with_index do |table_name, index|
@@ -148,68 +130,63 @@ task :cigna_test => :environment do
       end
     end
 
-    cig.status = true
-    cig.save!
-    PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- CIGNA").deliver
-    puts "Sarri parse ho gai"
-  rescue Exception => e
-    cig.status = false
-    cig.save!
+    cig.test_status_hash["Excel Generation & Mapping"] = "Successful"
+    cig.test_status_hash["Site Status"] = "All Tests OK"
 
-    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- CIGNA\n Exception => #{e}").deliver
+    PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- CIGNA.").deliver
+    puts "Sarri parse ho gai"
+
+  rescue Exception => e
+    PatientMailer::HTML_validation_notification("Error: Some tests not executed properly -- CIGNA.\nException=>#{e}").deliver
   end
+    cig.save!
 end
 
 task :mhnet_test => :environment do
-  mhnet = Status.find_by_site_url("https://www.mhnetprovider.com/")
   begin
+    mhnet = Status.find_by_site_url("https://www.mhnetprovider.com/")
+    Status.false_all(mhnet)
+    mhnet.date_checked= DateTime.now
+  
+
     obj = PatientsController.new.sign_in(mhnet.site_username,mhnet.site_password, 'https://www.mhnetprovider.com/')
     driver = obj[:driver]
-    mhnet.login_status = true
-    puts "mhnet login hua"
-  rescue Exception => e
-    mhnet.login_status = false
-    mhnet.patient_search_status = false
-    mhnet.site_status = false
-    mhnet.status = false
-    PatientMailer::HTML_validation_notification("Login failed of MHNET\n Exception => #{e}").deliver
-  end
 
-  begin
-    mhnet.date_checked= DateTime.now
-    mhnet.save!
+    ret_hash = obj[:fields_hash]
+    
+    mhnet.test_status_hash["Username Field"] = ret_hash["Username Field"]
+    mhnet.test_status_hash["Password Field"] = ret_hash["Password Field"]
+    mhnet.test_status_hash["Login Button"] = ret_hash["Login Button"]
+
     wait = obj[:wait]
 
     driver.navigate.to 'https://www.mhnetprovider.com:443/providerPortalWeb/appmanager/mhnet/extUsers?_nfpb=true&_pageLabel=eligibility_page_1_mhnet'
     member_id = driver.find_element(:id, 'mem_id')
     member_id.send_keys '90261149003'
+    
+    mhnet.test_status_hash["Patient Form"] = "Found"
+    mhnet.test_status_hash["Patient ID Field"] = "Found"
 
     service_type = driver.find_element(:id, 'serviceDateStart_memberIdSearch')
 
     date = 7.days.from_now.strftime("%m/%d/%Y")
     driver.execute_script("$('#serviceDateStart_memberIdSearch').val('#{date}')")
+    mhnet.test_status_hash["Patient Service Date Field"] = "Found"
 
     btn_click = driver.find_element(:name, 'singleMemberSubmit')
     btn_click.click
+    mhnet.test_status_hash["Patient Record Search Button"] = "Found"
 
     page = driver.find_element(:css, 'body').attribute('innerHTML').squish
 
-    puts "patient search hua"
-    mhnet.patient_search_status = true
+    mhnet.test_status_hash["Patient Response"] = "Found"
 
-  rescue Exception => e
-    mhnet.patient_search_status = false
-    mhnet.site_status = false
-    mhnet.status = false
-    PatientMailer::HTML_validation_notification("Failed: Patient Search -- MHNET\n Exception => #{e}").deliver
-  end
-
-  begin
-    mhnet.save!
 
     wait.until { driver.find_element(:class, 'pcpHistory').displayed? }
 
     driver.find_element(:class, 'pcpHistory').click
+
+    mhnet.test_status_hash["Patient PCP History Link"] = "Found"
 
     pcpHistory = driver.find_element(:class, 'fetched').attribute('innerHTML')
 
@@ -217,15 +194,21 @@ task :mhnet_test => :environment do
 
     driver.find_element(:class, 'coverageHistory').click
 
+    mhnet.test_status_hash["Patient Coverage History Link"] = "Found"
+
     cvrgHistory = driver.find_element(:class, 'fetched').attribute('innerHTML')
 
     wait.until { driver.find_element(:class, 'cobInformation').displayed? }
 
     driver.find_element(:class, 'cobInformation').click
 
+    mhnet.test_status_hash["Patient CobInformation Link"] = "Found"
+
     cobInformation = driver.find_element(:class, 'fetched').attribute('innerHTML')
 
     open_tables = driver.find_elements(:class, 'information')
+
+    mhnet.test_status_hash["Patient Information Detail"] = "Found"
 
 
     @json = []
@@ -476,21 +459,11 @@ task :mhnet_test => :environment do
       @json.delete_at(a.first)
     end
 
+    mhnet.test_status_hash["Table Parsing"] = "Successful"
 
-    mhnet.site_status = true
-
-  rescue Exception => e
-    mhnet.site_status = false
-    mhnet.status = false
-
-    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- MHNET\n Exception => #{e}").deliver
-  end
-
-
-  begin
-    # my-code-starts
-    mhnet.save!
+    
     site_link = "https://www.mhnetprovider.com/"
+    
     service_types = Status.find_by_site_url(site_link).service_types
 
       @json.each_with_index do |(table_name, table_content), index|
@@ -528,16 +501,17 @@ task :mhnet_test => :environment do
       end
     end
 
-    # my-code-ends
+    mhnet.test_status_hash["Excel Generation & Mapping"] = "Successful"
+    mhnet.test_status_hash["Site Status"] = "All Tests OK"
 
     driver.quit
-    mhnet.status = true
-    PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- MHNET").deliver
+
+    PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- MHNET.").deliver
   rescue Exception => e
-    mhnet.status = false
+    
     driver.quit if driver.present?
 
-    PatientMailer::HTML_validation_notification("Failed: Excel generation and mapping -- MHNET\n Exception => #{e}").deliver
+    PatientMailer::HTML_validation_notification("Error: Some tests not executed properly -- MHNET.\nException => #{e}").deliver
   end
   mhnet.save!
 end

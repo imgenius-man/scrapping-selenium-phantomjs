@@ -114,6 +114,7 @@ class PatientsController < ApplicationController
   def s_in(name, pass, site_url)
     
     fields = Patient.retrieve_signin_fields(site_url)
+    fields_hash = []
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
@@ -126,8 +127,12 @@ class PatientsController < ApplicationController
     username = driver.find_element(:name, fields[:user_field])
     username.send_keys name
 
+    fields_hash << {"Username Field" => "Found"}
+
     password = driver.find_element(:name, fields[:pass_field])
     password.send_keys pass
+    fields_hash << {"Password Field" => "Found"}
+
 
     element = driver.find_element(:css, fields[:submit_button])
     
@@ -137,8 +142,9 @@ class PatientsController < ApplicationController
     else
       element.submit
     end
+    fields_hash << {"Login Button" => "Found"}
     
-    {driver: driver, previous_url: current_url, wait: wait, error: fields[:error_string]}
+    {driver: driver, previous_url: current_url, wait: wait, error: fields[:error_string], fields_hash: fields_hash}
   end
 
   def sign_in_api
@@ -164,7 +170,7 @@ class PatientsController < ApplicationController
   def sign_in(name, pass, site_url)
     result = s_in(name, pass, site_url)
 
-    {driver: result[:driver], previous_url: result[:previous_url], wait: result[:wait], error: result[:error]}
+    {driver: result[:driver], previous_url: result[:previous_url], wait: result[:wait], error: result[:error], fields_hash: result[:fields_hash].reduce({},:merge)}
   end
 
 
