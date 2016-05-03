@@ -16,7 +16,9 @@
   <tr>
     <td> </td>
     <td><%= status.site_url %></td>
-    <% if status_of_site(status.id) %>
+    <% if status.test_status_hash.empty? %>
+    <td class="text-warning"><b> No test cases</b></td>
+    <% elsif  status.test_status_hash["Site Status"] != "false" %>
     <td class="text-success"> Site is OK </td>
     <%else%>
     <td class="text-danger"> Tests are Failing </td>

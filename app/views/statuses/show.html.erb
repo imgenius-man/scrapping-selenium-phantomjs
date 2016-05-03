@@ -24,6 +24,7 @@
     <%= link_to 'Run Test Cases Again', edit_status_path, class: "btn btn-danger" %>
   </span>
   <br />
+<%if @status.test_status_hash.present? %>    
   <table class="table table-striped">
     <thead>
       <tr>
@@ -42,6 +43,7 @@
       </tr>
     </thead>
     <tbody>
+
       <% @status.test_status_hash.each do |key,value| %>
       <tr>
         <th>
@@ -61,7 +63,10 @@
       <%end %>
     </tbody>
   </table>
-
+<% else %>
+  <h3>No test cases </h3>
+  <br>
+<% end %>
 
 <%= link_to 'Back', statuses_path %>
     </div>
