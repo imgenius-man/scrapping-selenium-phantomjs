@@ -1,9 +1,7 @@
 task :cigna_test => :environment do
   begin
     cig = Status.find_by_site_url("https://cignaforhcp.cigna.com/")
-    
-    
-    
+    Status.false_all(cig)
     cig.date_checked= DateTime.now
 
     obj = PatientsController.new.sign_in(cig.site_username,cig.site_password, 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
@@ -144,6 +142,7 @@ end
 
 task :mhnet_test => :environment do
   begin
+    puts "\n\nmhnet\n\n"
     mhnet = Status.find_by_site_url("https://www.mhnetprovider.com/")
     Status.false_all(mhnet)
     mhnet.date_checked= DateTime.now
@@ -516,83 +515,62 @@ task :mhnet_test => :environment do
   mhnet.save!
 end
 
-
 task :availity_test => :environment do
   
   begin
     site_url = "https://apps.availity.com/"
-    patient_id = "XOF842281755"
-    patient_dob = "1/4/1954"
     ava = Status.find_by_site_url(site_url)
+    Status.false_all(ava)
     
+    puts "\n\navaility\n\n"
     
     patient_id = "XOF846071927"
     patient_dob = "5/10/1956"
-    username = "prospect99"
-    pass = "Medicare#20"
-    site_url = "https://apps.availity.com/"
 
-
-    puts "=="*40
-    puts patient_id
-    puts "--"*40
-    puts patient_dob
-    puts "++"*40 
-    puts  username
-    puts "<->"*40
-    puts pass
-    puts "؟-?"*40 
-    puts site_url
-    puts "=="*40
-    
+    pass = ava.site_password
+    username = ava.site_username
 
     fields = Patient.retrieve_signin_fields(site_url)
-    
+
+
     capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
     capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '388016'
     browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
 
     browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
-
+  
     username_i = browser.element(:name, fields[:user_field])
     username_i.send_keys username
+    ava.test_status_hash["Username Field"] = "Found"
 
     password = browser.element(:name, fields[:pass_field])
     password.send_keys pass
+    ava.test_status_hash["Password Field"] = "Found"
 
     element = browser.element(:css, fields[:submit_button])
     element.click
+    ava.test_status_hash["Login Button"] = "Found"
+
+    puts "availity sign in"
 
     sleep(5)
 
     puts "\n"
     puts "Browser URL #{browser.url}"
 
-
-
-    if browser.url == "https://apps.availity.com/availity/web/public.elegant.login.3?wicket:pcxt=AlertsPage" || browser.url != "https://apps.availity.com/availity/web/public.elegant.login"
-      ava.login_status = true
-      puts "ava.login_status successful"
-    else
-      ava.login_status = false
-    end
-
-  rescue Exception => e
-    ava.login_status = false
-    ava.patient_search_status = false
-    ava.site_status = false
-    ava.status = false
-    PatientMailer::HTML_validation_notification("Login failed of AVAILITY\n Exception => #{e}").deliver
-    
-  end
-
-  begin
-    ava.save!
-
+    ava.test_status_hash["Patient Form"] = "Found"
+   
     pat_dob = patient_dob.split("/")
     pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
 
     request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=BCBSIL&placeOfService=11&providerLastName=NORTHWEST+MEDICAL+CARE&providerNpi=1447277447&providerType=AT&providerUserId=aka61272640622&serviceType=30&subscriberRelationship=18"
+
+    ava.test_status_hash["Patient ID Field"] = "Found"
+    ava.test_status_hash["Patient DOB Field"] = "Found"
+    ava.test_status_hash["Patient Payer Id Field"] = "Found"
+    ava.test_status_hash["Patient Place Of Service Field"] = "Found"
+    ava.test_status_hash["Patient Provider Name Field"] = "Found"
+    ava.test_status_hash["Patient Benefit Field"] = "Found"
 
     browser.goto request_url
     sleep(2)
@@ -608,18 +586,7 @@ task :availity_test => :environment do
       js = Crack::XML.parse(browser.html)
       puts js
     end
-    ava.patient_search_status = true
-
-  rescue Exception => e
-    ava.patient_search_status = false
-    ava.site_status = false
-    
-    PatientMailer::HTML_validation_notification("Failed: Patient Search -- AVAILITY\n Exception => #{e}").deliver
-    
-  end
-
-  begin
-    ava.save!
+    ava.test_status_hash["Patient Response"] = "Found"
     browser.quit
 
     if js.present?
@@ -628,13 +595,14 @@ task :availity_test => :environment do
       
     end
     
-    ava.site_status = true 
+    ava.test_status_hash["Table Parsing"] = "Successful"
+    ava.test_status_hash["Site Status"] = "All Tests OK"
 
     PatientMailer::HTML_validation_notification("Success: All tests executed successfully -- AVAILITY").deliver
   
   rescue Exception => e
-    ava.site_status = false
-    PatientMailer::HTML_validation_notification("Failed: Table parsing into JSON -- AVAILITY\n Exception => #{e}").deliver
+    
+    PatientMailer::HTML_validation_notification("Error: Some tests not executed properly -- AVAILITY\n Exception => #{e}").deliver
     
   end
     ava.save!

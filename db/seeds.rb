@@ -18,6 +18,9 @@ mhnet = Status.find_by_site_url('https://www.mhnetprovider.com/')
 test_status_hash = {"Username Field"=> "false","Password Field"=> "false","Login Button"=> "false","Patient Form"=> "false","Patient ID Field"=> "false","Patient Service Date Field"=> "false","Patient Record Search Button"=> "false","Patient Response"=> "false","Patient PCP History Link"=> "false","Patient Coverage History Link"=> "false","Patient CobInformation Link"=> "false","Patient Information Detail"=> "false","Table Parsing"=> "false","Excel Generation & Mapping"=> "false","Site Status"=> "false"}
 mhnet.update_attribute('test_status_hash', test_status_hash)
 
+ava = Status.find_by_site_url('https://apps.availity.com/')
+test_status_hash = {"Username Field" => "false","Password Field" => "false","Login Button" => "false","Patient Form" => "false","Patient ID Field" => "false","Patient DOB Field" => "false","Patient Payer Id Field" =>"false","Patient Place Of Service Field" => "false","Patient Provider Name Field" => "false","Patient Benefit Field" => "false","Patient Response" => "false","Table Parsing" => "false","Site Status" => "false"}
+ava.update_attribute('test_status_hash', test_status_hash)
 # TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_username_test", status_result: false)
 # TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_password_test", status_result: false)
 # TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_login_submission_test", status_result: false)
