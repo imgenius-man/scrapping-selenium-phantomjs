@@ -184,6 +184,8 @@ class PatientsController < ApplicationController
 
       elsif site_url.include?('availity')
         Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil)
+      elsif site_url.include?('navinet')
+        Delayed::Job.enqueue AetnaCrawler.new(site_url)
       end
 
 

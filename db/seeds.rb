@@ -1,8 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
 User.create(email: 'admin@goopher.com', password: 'Skedia&&105', password_confirmation: 'Skedia&&105')
 
 Status.create(site_url: 'all', date_checked: Time.now)
@@ -21,21 +16,3 @@ mhnet.update_attribute('test_status_hash', test_status_hash)
 ava = Status.find_by_site_url('https://apps.availity.com/')
 test_status_hash = {"Username Field" => "false","Password Field" => "false","Login Button" => "false","Patient Form" => "false","Patient ID Field" => "false","Patient DOB Field" => "false","Patient Payer Id Field" =>"false","Patient Place Of Service Field" => "false","Patient Provider Name Field" => "false","Patient Benefit Field" => "false","Patient Response" => "false","Table Parsing" => "false","Site Status" => "false"}
 ava.update_attribute('test_status_hash', test_status_hash)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_username_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_password_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_login_submission_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_search_page_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_search_button_click_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_form_visibility_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_ID_field_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_DOB_field_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_last_name_field_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_first_name_field_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_form_submission_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_patient_form_response_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_table_parsing_test", status_result: false)
-# TestCaseStatus.create(site_id: status_site_id, status_name: "cigna_excel_generation_test", status_result: false)
-
-
-
-    
