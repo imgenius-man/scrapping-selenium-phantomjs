@@ -1,4 +1,4 @@
-class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:pass,:site_url,:name_of_organiztion,:payer_name,:provider_name,:place_service_val,:benefit_val)
+class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:pass,:site_url, :redirect_url, :name_of_organiztion,:payer_name,:provider_name,:place_service_val,:benefit_val)
 
   def perform
     begin     

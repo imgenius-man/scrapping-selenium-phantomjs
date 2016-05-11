@@ -39,6 +39,9 @@ class PatientsController < ApplicationController
         elsif site_url.include?('mhnetprovider')
           Delayed::Job.enqueue MhnetCrawler.new(patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url])
 
+        elsif site_url.include?('availity')
+          Delayed::Job.enqueue AvailityCrawler.new(patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url], nil,nil,nil,nil,nil)
+
           patient.update_attribute('record_available', 'pending')
         end
 

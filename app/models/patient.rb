@@ -99,4 +99,89 @@ class Patient < ActiveRecord::Base
     end
   end
 
+   def self.aetna(driver)
+    
+    tables = driver.find_elements(:tag_name, 'table')
+
+    member_info = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[2].attribute('innerHTML'),nil,Mechanize.new)
+
+    subscriber_info = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[5].attribute('innerHTML'),nil,Mechanize.new)
+
+    benefit_info = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[7].attribute('innerHTML'),nil,Mechanize.new)
+
+    mega_arr = []
+
+    if member_info.search('.clsEmphasized').first.text.squish == "Member Information"
+      
+      field_labels = member_info.search('.FieldLabel')
+      field_data = member_info.search('.FieldData')
+
+        ar = []
+        indexes = []
+        
+        flag = true
+        
+        field_labels.each_with_index {|fl,index|
+        
+          if fl.text != " " && fl.text.present? && (flag || fl.text != "Address:")
+            flag = false if fl.text == "Address:"
+            ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
+          
+          elsif fl.text== " "
+              indexes << index
+          
+          end
+          
+        }
+        ar = ar.reduce({},:merge)
+        ar["Address"] = ar["Address"]+", #{field_data[3].text.squish}"
+        # puts "====="*23
+        # puts ar
+        # puts "+++++"*23
+        mega_arr << {"Member Information" => ar}
+        # puts mega_arr
+        # puts "----"*23
+
+    end
+    if subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
+      
+      field_labels = subscriber_info.search('.FieldLabel')
+      field_data = subscriber_info.search('.FieldData')
+      ar = []
+      field_labels.each_with_index {|fl,index|
+        if fl.text != " " && fl.text.present?
+          ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
+        end
+      }
+      # puts "====="*23
+      # puts ar
+      # puts "+++++"*23
+      ar = ar.reduce({},:merge)
+      mega_arr << {"Subscriber Information" => ar }
+      # puts mega_arr
+      # puts "----"*23
+    end
+    if benefit_info.search('.clsEmphasized').first.text.squish == "Benefit Description"
+      
+      field_labels = benefit_info.search('.FieldLabel')
+      field_data = benefit_info.search('.FieldData')
+      ar = []
+      field_labels.each_with_index {|fl,index|
+        if fl.text != " " && fl.text.present?
+          ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
+        end
+      }
+      # puts "====="*23
+      # puts ar
+      # puts "+++++"*23
+      ar = ar.reduce({},:merge)
+      mega_arr << {"Benefit Description" => ar }
+      # puts mega_arr
+      # puts "----"*23
+          
+    end
+    mega_arr.reduce({},:merge)
+
+  end
+
 end
