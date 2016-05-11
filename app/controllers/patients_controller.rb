@@ -40,7 +40,7 @@ class PatientsController < ApplicationController
           Delayed::Job.enqueue MhnetCrawler.new(patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url])
 
         elsif site_url.include?('availity')
-          Delayed::Job.enqueue AvailityCrawler.new(patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url], nil,nil,nil,nil,nil)
+          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, nil,nil,nil,nil,nil)
 
           patient.update_attribute('record_available', 'pending')
         end
@@ -66,7 +66,7 @@ class PatientsController < ApplicationController
     driver = obj[:driver]
     previous_url = obj[:previous_url]
 
-    if driver.current_url.split("/").last.include?(obj[:error]) || driver.current_url == previous_url
+    if (!site_url.include?('availity') == true && driver.current_url.split("/").last.include?(obj[:error]) == true) || driver.current_url == previous_url || driver.current_url == "https://apps.availity.com/availity/web/public.elegant.login"
       flash[:danger] = "Please enter correct information"
 
     else
@@ -155,7 +155,9 @@ class PatientsController < ApplicationController
     if patient[:username].present? && patient[:password].present? && patient[:site_url].present?
       result = s_in(patient[:username], patient[:password], patient[:site_url])
 
-      if result[:driver].current_url.split("/").last.include?(result[:error]) || result[:driver].current_url == result[:previous_url]
+      if (!patient[:site_url].include?('availity') == true && result[:driver].current_url.split("/").last.include?(result[:error]) == true ) || result[:driver].current_url == result[:previous_url] || result[:driver].current_url == "https://apps.availity.com/availity/web/public.elegant.login"
+        
+        puts "-="*23
         render json: false
 
       else
@@ -186,7 +188,7 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue MhnetCrawler.new(patient.patient_id, username, password, nil, patient.id, site_url)
 
       elsif site_url.include?('availity')
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil)
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil,nil,nil)
       elsif site_url.include?('navinet')
         Delayed::Job.enqueue AetnaCrawler.new(site_url)
       end

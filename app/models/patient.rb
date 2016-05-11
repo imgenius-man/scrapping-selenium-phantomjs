@@ -50,7 +50,7 @@ class Patient < ActiveRecord::Base
     elsif site_url == options[1][1]
       fields = {user_field: 'portletInstance_6{actionForm.userId}', pass_field: 'portletInstance_6{actionForm.password}', submit_button: '.button_submit', error_string: 'login'}
     elsif site_url == options[2][1]
-      fields = {user_field: 'userId', pass_field: 'password', submit_button: '#loginFormSubmit', error_string: 'login-failed'}
+      fields = {user_field: 'userId', pass_field: 'password', submit_button: '#loginFormSubmit', error_string: 'public.elegant.login'}
     end
 
     fields

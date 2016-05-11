@@ -1,4 +1,4 @@
-class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:pass,:site_url, :redirect_url, :name_of_organiztion,:payer_name,:provider_name,:place_service_val,:benefit_val)
+class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:pass,:site_url, :response_url, :token, :name_of_organiztion,:payer_name,:provider_name,:place_service_val,:benefit_val)
 
   def perform
     begin     
@@ -68,9 +68,14 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
         sleep(2)
         puts @json_arr.inspect
         puts "wapis to aa gya ha"
+        @json = JSON.generate(@json_arr)
 
-        patient.update_attribute('json', JSON.generate(@json_arr))
+        patient.update_attribute('json', @json)
         patient.update_attribute('record_available', 'complete')
+
+        if response_url.present?
+          response = RestClient.post response_url, {data: @json, token: token}
+        end
       end
     rescue Exception=> e
       patient.update_attribute('record_available', 'failed')

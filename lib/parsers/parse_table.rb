@@ -328,8 +328,8 @@ private
 
 
 				header_arrays << {table_name => dummy_array}
-			else
-				header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) }
+			# else
+			# 	header_arrays << { table_content.first[:tr][cell_i][:th].first => traverse_table_columnwise(table_content, row_length, cell_i) }
 			end
 		end
 

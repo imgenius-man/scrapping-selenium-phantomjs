@@ -132,11 +132,13 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
           response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
         end
       else
-        PatientMailer::exception_email("PatientID(#{patient.id}) ==> Please enter correct information \n WebSite = #{site_url}").deliver
-
         if response_url.present?
           response = RestClient.post response_url, {error: 'invalid patient', token: token}
         end
+        
+        PatientMailer::exception_email("PatientID(#{patient.id}) ==> Please enter correct information \n WebSite = #{site_url}").deliver
+
+        
 
         driver.quit if driver.present?
 
@@ -145,13 +147,15 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
      rescue Exception=> e
       if patient_flag
+        if response_url.present?
+          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+        end
+
         PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
 
         @json = [{'General' => {'ELIGIBILITY AS OF' => date_of_eligibility, 'ELIGIBILITY STATUS' => eligibility_status, 'TRANSACTION DATE' => transaction_date}}]
         
-        if response_url.present?
-          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
-        end
+        
 
         driver.quit if driver.present?
 
@@ -160,6 +164,9 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         patient.update_attribute('json', JSON.generate(@json))
 
       else
+        if response_url.present?
+          response = RestClient.post response_url, {error: 'please try again', token: token}
+        end
         patient.update_attribute('record_available', 'failed')
 
 
@@ -167,9 +174,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
         driver.quit if driver.present?
 
-        if response_url.present?
-          response = RestClient.post response_url, {error: 'please try again', token: token}
-        end
+        
       end
      end
   end
