@@ -97,34 +97,39 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         puts "service types mapping"
         service_types = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types
 				# kcount = 0
+        
 	        @json.each_with_index do |table_name, index|
-
+                   puts "service types mapping 1 => #{index}"
 	          service_types.each do |serv_type|
+     
+	            if @json[index].present?
+                if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
+  	              serv_type.mapped_service=true
+  								# serv_type.save!
 
-	            if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
-	              serv_type.mapped_service=true
-								# serv_type.save!
-
-                @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
-              else
-								key = @json[index]
-								a = nil
-								a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
-								if !a.present?
-									b = ServiceType.new
-									b.status_id = Status.find_by_site_url("https://cignaforhcp.cigna.com/").id
-									b.type_name = key.first[0].tr(',','')
-									# puts "++"*83
-									# puts b.type_name
-									b.mapped_service = true
-									b.save!
-								end
-	            end
+                  @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
+                else
+                  
+  								key = @json[index]
+  								a = nil
+  								a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
+  								if !a.present?
+  									b = ServiceType.new
+  									b.status_id = Status.find_by_site_url("https://cignaforhcp.cigna.com/").id
+  									b.type_name = key.first[0].tr(',','')
+  									# puts "++"*83
+  									# puts b.type_name
+  									b.mapped_service = true
+  									b.save!
+  								end
+  	            end
+              end
 	          end
 					end
 					# puts "-=-=="*82
 					# puts kcount
 				if service_types.count == 0
+          puts "service types mapping if == 0 "
 					@json.each do |key,val|
 						a = nil
 						a = Status.find_by_site_url('https://cignaforhcp.cigna.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
@@ -171,6 +176,8 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
      rescue Exception=> e
         puts "in rescue"
+        puts e
+        puts "\n\n"
       if patient_flag
         if response_url.present?
           response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
