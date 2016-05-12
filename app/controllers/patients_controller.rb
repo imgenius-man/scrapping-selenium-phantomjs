@@ -18,8 +18,7 @@ class PatientsController < ApplicationController
 
     render json: result
   end
-
-
+  
   def authenticate_token
     if params[:patient].present? && params[:patient][:first_name].present? && params[:patient][:last_name].present? && params[:patient][:dob].present? && params[:patient][:patient_id].present? && params[:patient][:password].present? && params[:patient][:username].present? && params[:patient][:site_url].present? && params[:patient][:token].present?
       res = params[:patient]
@@ -37,7 +36,7 @@ class PatientsController < ApplicationController
           patient.update_attribute('record_available', 'pending')
 
         elsif site_url.include?('mhnetprovider')
-          Delayed::Job.enqueue MhnetCrawler.new(patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url])
+          Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, patient.username, patient.password, patient.token, patient.site_url, res[:redirect_url])
 
         elsif site_url.include?('availity')
           Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, nil,nil,nil,nil,nil)
@@ -156,6 +155,7 @@ class PatientsController < ApplicationController
       result = s_in(patient[:username], patient[:password], patient[:site_url])
 
       if (!patient[:site_url].include?('availity') == true && result[:driver].current_url.split("/").last.include?(result[:error]) == true ) || result[:driver].current_url == result[:previous_url] || result[:driver].current_url == "https://apps.availity.com/availity/web/public.elegant.login"
+       # result[:driver].current_url == result[:previous_url] || result[:driver].current_url == "https://apps.availity.com/availity/web/public.elegant.login"
         
         puts "-="*23
         render json: false
@@ -185,7 +185,7 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue Crawler.new(patient.first_name, patient.last_name, patient.dob, patient.patient_id, username, password, nil, patient.id, site_url)
 
       elsif site_url.include?('mhnetprovider')
-        Delayed::Job.enqueue MhnetCrawler.new(patient.patient_id, username, password, nil, patient.id, site_url)
+        Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, patient.username, patient.password, nil, patient.site_url, nil)
 
       elsif site_url.include?('availity')
         Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil,nil,nil)
