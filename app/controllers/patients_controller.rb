@@ -185,7 +185,7 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue Crawler.new(patient.first_name, patient.last_name, patient.dob, patient.patient_id, username, password, nil, patient.id, site_url)
 
       elsif site_url.include?('mhnetprovider')
-        Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, patient.username, patient.password, nil, patient.site_url, nil)
+        Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, username, password, nil, site_url, nil)
 
       elsif site_url.include?('availity')
         Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil,nil,nil)

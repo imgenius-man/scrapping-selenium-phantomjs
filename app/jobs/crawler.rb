@@ -65,9 +65,13 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         patient_flag = true
 
         wait.until {
+          puts "lab"
           link = driver.find_elements(:css,'.patient-search-result-table > tbody > tr > td > .oep-managed-link')[0]
         }
+        puts "clicking"
         link.click
+        puts "clicked"
+
 
         patient_flag = false
 
@@ -178,10 +182,9 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         puts "in rescue"
         puts e
         puts "\n\n"
-      if patient_flag
-        if response_url.present?
-          response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
-        end
+      if patient_flag == true
+        
+        
         puts "mailing exception 2"
         PatientMailer::exception_email("PatientID(#{patient.id}) ==> User Inactive \n WebSite = #{site_url}").deliver
 
@@ -194,6 +197,10 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         patient.update_attribute('record_available', 'complete')
         
         patient.update_attribute('json', JSON.generate(@json))
+
+        if response_url.present?
+          response = RestClient.post response_url, {data: patient.json, token: token}
+        end
         puts "updating attribute 2"
       else
         if response_url.present?
@@ -206,8 +213,8 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 
         driver.quit if driver.present?
 
-        puts "rescue done"
       end
+        puts "rescue done"
      end
      puts "code done"
   end

@@ -1,11 +1,20 @@
-class MhnetCrawler < Struct.new(:pat_id, :patientid, :pass, :token, :patntid, :site_url, :response_url)
-
+class MhnetCrawler < Struct.new(:patntid,:patient_id, :username, :pass, :token, :site_url, :response_url)
 
 	def perform
     begin
+       
+      puts "patntid: #{patntid}"
+      puts "patient_id: #{patient_id}"
+      puts "username: #{username}"
+      puts "pass #{pass}"
+      puts "token #{token}"
+      puts "site_url: #{site_url}"
+      puts "response_url: #{response_url}"
+  
+
       patient = Patient.find(patntid)
 
-      obj = PatientsController.new.sign_in(patientid, pass, site_url)
+      obj = PatientsController.new.sign_in(username, pass, site_url)
 
       driver = obj[:driver]
 
@@ -17,7 +26,7 @@ class MhnetCrawler < Struct.new(:pat_id, :patientid, :pass, :token, :patntid, :s
       # driver.navigate.to 'https://www.mhnetprovider.com:443/providerPortalWeb/appmanager/mhnet/extPatients?_nfpb=true&_pageLabel=eligibility_page_1_mhnet'
 
       member_id = driver.find_element(:id, 'mem_id')
-      member_id.send_keys pat_id
+      member_id.send_keys patient_id
 
       service_type = driver.find_element(:id, 'serviceDateStart_memberIdSearch')
 
@@ -307,24 +316,25 @@ class MhnetCrawler < Struct.new(:pat_id, :patientid, :pass, :token, :patntid, :s
           @json.each_with_index do |table_name, index|
 
             service_types.each do |serv_type|
+              if @json[index].present?
+                if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
+                  serv_type.mapped_service=true
+                  # serv_type.save!
 
-              if @json[index][table_name.keys.first].present? && table_name.present? && serv_type.present? && serv_type.type_name.upcase.gsub(/[-\s+*]/, '') == table_name.keys.first.upcase.gsub(/[-\s+*]/, '').tr(',','')
-                serv_type.mapped_service=true
-                # serv_type.save!
-
-                @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
-              else
-                key = @json[index]
-                a = nil
-                a = Status.find_by_site_url('https://www.mhnetprovider.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
-                if !a.present?
-                  b = ServiceType.new
-                  b.status_id = Status.find_by_site_url("https://www.mhnetprovider.com/").id
-                  b.type_name = key.first[0].tr(',','')
-                  # puts "++"*83
-                  # puts b.type_name
-                  b.mapped_service = true
-                  b.save!
+                  @json[index][table_name.keys.first]['CODE'] = serv_type.type_code.to_s
+                else
+                  key = @json[index]
+                  a = nil
+                  a = Status.find_by_site_url('https://www.mhnetprovider.com/').service_types && ServiceType.find_by_type_name(key.first[0].tr(',',''))
+                  if !a.present?
+                    b = ServiceType.new
+                    b.status_id = Status.find_by_site_url("https://www.mhnetprovider.com/").id
+                    b.type_name = key.first[0].tr(',','')
+                    # puts "++"*83
+                    # puts b.type_name
+                    b.mapped_service = true
+                    b.save!
+                  end
                 end
               end
             end
