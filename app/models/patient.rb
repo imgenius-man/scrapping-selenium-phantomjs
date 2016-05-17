@@ -5,7 +5,7 @@ class Patient < ActiveRecord::Base
 
   extend PatientsHelper
 
-  attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url
+  attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url, :practice_name, :payer_name, :provider_type, :place_of_service, :service_type
 
   serialize :json, JSON
 
@@ -99,7 +99,7 @@ class Patient < ActiveRecord::Base
     end
   end
 
-   def self.aetna(driver)
+  def self.aetna(driver)
     
     tables = driver.find_elements(:tag_name, 'table')
 

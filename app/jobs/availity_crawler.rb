@@ -15,15 +15,14 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       puts "؟-?"*40 
       puts site_url
       puts "=="*40
-      # u_name = 'prospect99'
-      # pass = 'Medicare#20' 
-      # site_url = Patient.options_for_site[2][1]
+      username = 'ewomack'
+      pass = 'Pcc@63128' 
+      site_url = Patient.options_for_site[2][1]
       
-
       fields = Patient.retrieve_signin_fields(site_url)
       puts fields
       capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
-      capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '388016'
+      capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '313030'
       browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
 
       browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
@@ -42,7 +41,12 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       pat_dob = patient_dob.split("/")
       pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
 
-      request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=BCBSIL&placeOfService=11&providerLastName=NORTHWEST+MEDICAL+CARE&providerNpi=1447277447&providerType=AT&providerUserId=aka61272640622&serviceType=30&subscriberRelationship=18"
+
+      # request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=#{payer_name}&placeOfService=#{place_service_val}&providerLastName=#{name_of_organiztion}&providerNpi=1447277447&providerType=AT&providerUserId=aka65481841532&serviceType=#{benefit_val}&subscriberRelationship=18" 
+
+      request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"313030"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=241&providerLastName=DATTA&providerNpi=1568688414&providerUserId=aka65481841532&serviceType=MH" 
+
+
 
       browser.goto request_url 
       sleep(2)
@@ -69,6 +73,8 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
         puts @json_arr.inspect
         puts "wapis to aa gya ha"
         @json = JSON.generate(@json_arr)
+
+        puts @json.inspect
 
         patient.update_attribute('json', @json)
         patient.update_attribute('record_available', 'complete')

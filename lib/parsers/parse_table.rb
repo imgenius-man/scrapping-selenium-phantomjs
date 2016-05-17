@@ -268,6 +268,21 @@ class ParseTable
 
 	end
 
+	def dummy_patient_detail
+		dummy_array_for_patient_detail["Patient Detail"]
+	end
+
+	def dummy_subcriber_detail
+		dummy_array_for_patient_detail["Subscriber Detail"]
+	end
+
+	def dummy_plan_detail
+		dummy_array_for_patient_detail["Plan and Network Detail"]
+	end
+
+	def dummy_contact_detail
+		dummy_array_for_patient_detail["Contacts"]
+	end
 
 private
 	def map_keys(table_content, head_count, additional_info)

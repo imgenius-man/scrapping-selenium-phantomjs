@@ -3,6 +3,9 @@ task :cigna_test => :environment do
     cig = Status.find_by_site_url("https://cignaforhcp.cigna.com/")
     Status.false_all(cig)
     cig.date_checked= DateTime.now
+    cig.site_username = CIGNA_USERNAME
+    cig.site_password = CIGNA_PASSWORD
+    cig.save!
 
     obj = PatientsController.new.sign_in(cig.site_username,cig.site_password, 'https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1')
     driver = obj[:driver]
@@ -146,7 +149,9 @@ task :mhnet_test => :environment do
     mhnet = Status.find_by_site_url("https://www.mhnetprovider.com/")
     Status.false_all(mhnet)
     mhnet.date_checked= DateTime.now
-  
+    mhnet.site_username = MHNET_USERNAME
+    mhnet.site_password = MHNET_PASSWORD
+    mhnet.save!
 
     obj = PatientsController.new.sign_in(mhnet.site_username,mhnet.site_password, 'https://www.mhnetprovider.com/')
     driver = obj[:driver]
@@ -527,8 +532,8 @@ task :availity_test => :environment do
     patient_id = "XOF846071927"
     patient_dob = "5/10/1956"
 
-    pass = ava.site_password
-    username = ava.site_username
+    pass = AVAILITY_PASSWORD
+    username = AVAILITY_USERNAME
 
     fields = Patient.retrieve_signin_fields(site_url)
 

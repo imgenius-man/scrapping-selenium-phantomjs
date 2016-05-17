@@ -23,13 +23,13 @@ class ParseAvaility
         
 
       elsif key == "requestingProvider"
-        data_arr << parse_provider_info(json_obj["Coverage"][key])
-        
-          
+        data_arr << parse_provider_info(json_obj["Coverage"][key])    
       end
     }
 
     puts "Mera theek ha"
+    puts "data_arr\n\n#{data_arr}\n\n"
+    sleep(5)   
 
     coverage_details(json_obj).each do |hash|
       data_arr << hash  
@@ -68,13 +68,13 @@ class ParseAvaility
             end
           end
         
-        @array['CODE'] = benefit['type']
+          @array['CODE'] = benefit['type']
         
-        table_array.each do |k,v|
-          table_array[k] = @array[k.upcase.gsub(/[-\s+]/,'')] if @array[k.upcase.gsub(/[-\s+]/,'')].present?
-        end
+          table_array.each do |k,v|
+            table_array[k] = @array[k.upcase.gsub(/[-\s+]/,'')] if @array[k.upcase.gsub(/[-\s+]/,'')].present?
+          end
         
-        @json << {benefit['name'] => table_array}
+          @json << {benefit['name'] => table_array}
         end
       end
     end
@@ -82,7 +82,7 @@ class ParseAvaility
     @json
   end
 
-   def data_management(nam_key, n_key, data)
+  def data_management(nam_key, n_key, data)
     level ||= data['level']
     remaining ||= data['remaining']
     
@@ -137,10 +137,9 @@ class ParseAvaility
       subscriber_info << {"Zip"=>""} 
     end
 
+    subscriber_info = merging_array(ParseTable.new.dummy_subcriber_detail,subscriber_info.reduce({},:merge))
 
-    subscriber_info = subscriber_info.reduce({},:merge)
-
-    subscriber_info= {'SUBSCRIBER'=>subscriber_info}
+    subscriber_info= {'Subscriber Detail'=>subscriber_info}
 
   end
 
@@ -156,7 +155,7 @@ class ParseAvaility
     # json_arr["plans"]["insuranceTypeCode"]
 
     plan_info = plan_info.reduce({},:merge)
-    plan_info = {"PLAN DETAILS"=>plan_info}
+    plan_info = {"Plan Detail"=>plan_info}
   end
 
   def parse_payer_info(json_arr)
@@ -206,7 +205,7 @@ class ParseAvaility
 
     provider_info = provider_info.reduce({},:merge)
 
-    provider_info = {"PLAN PROVIDER"=>provider_info}
+    provider_info = {"Plan Provider"=>provider_info}
   
   end
 
@@ -238,7 +237,7 @@ class ParseAvaility
     general_info << {"TRANSACTION TIME"=>time}
 
     general_info = general_info.reduce({},:merge)
-    general_info = {"GENERAL"=>general_info}
+    general_info = {"General"=>general_info}
 
   
   end
@@ -279,10 +278,23 @@ class ParseAvaility
       patient_info << {"Zip"=>""} 
     end
 
-    patient_info = patient_info.reduce({},:merge)
+    patient_info = merging_array(ParseTable.new.dummy_patient_detail,patient_info.reduce({},:merge))
 
-    patient_info = {"PATIENT"=>patient_info}
+    patient_info = {"Patient Detail"=>patient_info}
 
+  end
+
+  def merging_array(dummy,arr)
+     
+    dummy.each{|k,v|
+      arr.each{|k2,v2|
+        if k == k2
+          dummy[k]= arr[k]
+        end
+      }
+    }
+
+    dummy
   end
 
 end

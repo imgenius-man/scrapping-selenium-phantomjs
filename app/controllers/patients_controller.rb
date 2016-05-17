@@ -32,16 +32,16 @@ class PatientsController < ApplicationController
 
         if site_url.include?('cignaforhcp')
           Delayed::Job.enqueue Crawler.new(patient.first_name, patient.last_name, patient.dob, patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url])
-
           patient.update_attribute('record_available', 'pending')
 
         elsif site_url.include?('mhnetprovider')
           Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, patient.username, patient.password, patient.token, patient.site_url, res[:redirect_url])
+          patient.update_attribute('record_available', 'pending')
 
         elsif site_url.include?('availity')
-          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, nil,nil,nil,nil,nil)
-
+          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, patient.practice_name,patient.payer_name,patient.provider_name,patient.place_of_service,patient.service_type)
           patient.update_attribute('record_available', 'pending')
+
         end
 
       else
