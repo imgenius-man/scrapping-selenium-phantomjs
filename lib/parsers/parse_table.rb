@@ -284,6 +284,31 @@ class ParseTable
 		dummy_array_for_patient_detail["Contacts"]
 	end
 
+	def dummy_plan_provider
+		{
+		"CARE COORDINATION PROVIDER"=>"",
+		"PATIENT ALIGNED PHYSICIAN FIRST NAME"=>"",
+		"PATIENT ALIGNED PHYSICIAN MIDDLE NAME"=>"",
+		"PATIENT ALIGNED PHYSICIAN LAST NAME"=>"",
+		"PATIENT ALIGNED PHYSICIAN NPI"=>"",
+		"PATIENT ALIGNED MEDICAL GROUP NAME"=>"",
+		"CARE COORDINATION NOTES"=>"",
+	  "PHYSICIAN FIRST NAME"=>"",
+	  "PHYSICIAN MIDDLE NAME"=>"",
+	  "PHYSICIAN LAST NAME"=>"",
+	  "PHYSICIAN NPI"=>"",
+	  "MEDICAL GROUP NAME"=>"",
+		"Address 1"=>"",
+		"Address 2"=>"",
+		"City"=>"",
+		"State"=>"",
+		"Zip"=>"",
+		"PHONE NO."=>"",
+		"FAX NO."=>"",
+		"EMAIL"=>""
+		}
+	end
+
 private
 	def map_keys(table_content, head_count, additional_info)
 		table_content[head_count..table_content.length].map do |tr|

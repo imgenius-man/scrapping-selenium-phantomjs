@@ -26,6 +26,12 @@ class ParseAvaility
         data_arr << parse_provider_info(json_obj["Coverage"][key])    
       end
     }
+    
+    contact_info = {}
+    contact_info = dummy_contact_detail
+    contact_info = merging_array(ParseTable.new.dummy_contact_detail,contact_info)
+    data_arr << contact_info
+
 
     puts "Mera theek ha"
     puts "data_arr\n\n#{data_arr}\n\n"
@@ -154,7 +160,9 @@ class ParseAvaility
    # plan_info << {"Plan Type"=>json_arr["plans"]["benefits"]["benefits"][0]["statusDetails"]["noNetwork"]["noNetwork"]["description"]}
     # json_arr["plans"]["insuranceTypeCode"]
 
-    plan_info = plan_info.reduce({},:merge)
+    plan_info = merging_array(ParseTable.new.dummy_plan_detail,plan_info.reduce({},:merge))
+
+    # plan_info = plan_info.reduce({},:merge)
     plan_info = {"Plan Detail"=>plan_info}
   end
 
@@ -202,8 +210,7 @@ class ParseAvaility
       provider_info << {"Zip"=>""} 
     end
     
-
-    provider_info = provider_info.reduce({},:merge)
+    provider_info = merging_array(ParseTable.new.dummy_plan_provider,provider_info.reduce({},:merge))
 
     provider_info = {"Plan Provider"=>provider_info}
   

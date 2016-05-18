@@ -1,4 +1,4 @@
-class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:pass,:site_url, :response_url, :token, :name_of_organiztion,:payer_name,:provider_name,:place_service_val,:benefit_val)
+class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:pass,:site_url, :response_url, :token, :practice_name, :practice_code,:payer_code,:provider_name, :provider_code, :place_service_val,:service_type)
 
   def perform
     begin     
@@ -15,12 +15,18 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       puts "؟-?"*40 
       puts site_url
       puts "=="*40
+      
       username = 'ewomack'
       pass = 'Pcc@63128' 
       site_url = Patient.options_for_site[2][1]
       
       fields = Patient.retrieve_signin_fields(site_url)
       puts fields
+      customer_id = practice_code.strip
+      payerId = payer_code.strip
+      service_type = service_type.strip
+      provider_lastname = provider_name.split(',').first.strip
+      providerNpi = provider_code.strip
       capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
       capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '313030'
       browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
@@ -36,15 +42,35 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       element = browser.element(:css, fields[:submit_button])
       element.click
 
-      sleep(5)
+      sleep(3)
+
+      browser.goto "https://apps.availity.com/api/v1/users/me"
+      me = Crack::XML.parse(browser.html)
+
+      puts me
+
+      providerUserId = me["APIResponse"]["User"]["id"] if me["APIResponse"].present? && me["APIResponse"]["User"].present?
+
+      puts "providerUserId #{providerUserId}"
+
+      # browser.goto "https://apps.availity.com/api/internal/v1/providers?customerId=#{customer_id}&limit=50"
+      # npi = Crack::XML.parse(browser.html)
+
+
+
+      # npi_code = npi["APIResponse"]["Provider"].keep_if{|provider| provider['lastName'] == patient_name.split(',').first.strip && provider['firstName'] == patient_name.split(',').last.strip}.reduce
+
+      # providerNpi = npi_code['npi']      
+
+      sleep(2)
       puts "logged in"
-      pat_dob = patient_dob.split("/")
-      pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
+      pat_dob = patient_dob
+      # pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
 
 
       # request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=#{payer_name}&placeOfService=#{place_service_val}&providerLastName=#{name_of_organiztion}&providerNpi=1447277447&providerType=AT&providerUserId=aka65481841532&serviceType=#{benefit_val}&subscriberRelationship=18" 
 
-      request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"313030"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=241&providerLastName=DATTA&providerNpi=1568688414&providerUserId=aka65481841532&serviceType=MH" 
+      request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+customer_id+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId="+payerId+"&providerLastName="+provider_lastname+"&providerNpi="+providerNpi+"&providerUserId="+providerUserId+"&serviceType="+service_type
 
 
 

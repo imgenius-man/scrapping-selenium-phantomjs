@@ -8,7 +8,7 @@ class PatientsController < ApplicationController
 
       params[:patient].merge!({token: token})
 
-      patient = Patient.create(params[:patient])
+      patient = Patient.create(first_name: params[:patient][:first_name],last_name: params[:patient][:last_name], dob: params[:patient][:dob], patient_id: params[:patient][:patient_id], password: params[:patient][:password], username:params[:patient][:username], token: token, site_url: site_url)
 
       result = params[:patient]
 
@@ -24,7 +24,7 @@ class PatientsController < ApplicationController
       res = params[:patient]
 
       patient = Patient.find(:all, :conditions => ['token=?', res[:token]]).last
-
+      puts patient.present?
       if patient.present?
         site_url = patient.site_url
 
@@ -39,7 +39,7 @@ class PatientsController < ApplicationController
           patient.update_attribute('record_available', 'pending')
 
         elsif site_url.include?('availity')
-          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, patient.practice_name,patient.payer_name,patient.provider_name,patient.place_of_service,patient.service_type)
+          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, res['practice_name'], res['practice_name_code'], res['cus_field2_code'],res['provider_name'], res['provider_name_code'],res['cus_field4_code'],res['service_type_code'])
           patient.update_attribute('record_available', 'pending')
 
         end
@@ -188,7 +188,9 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, username, password, nil, site_url, nil)
 
       elsif site_url.include?('availity')
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil,nil,nil,nil,nil,nil)
+        puts "in here"
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH')
+
       elsif site_url.include?('navinet')
         Delayed::Job.enqueue AetnaCrawler.new(site_url)
       end
@@ -196,11 +198,12 @@ class PatientsController < ApplicationController
 
 
       patient.update_attribute('record_available', 'pending')
-
       flash['info'] = "Process has been initiated for patient = #{patient.patient_id}"
 
       redirect_to :back
     end
   end
+
+
 
 end
