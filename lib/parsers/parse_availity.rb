@@ -28,9 +28,9 @@ class ParseAvaility
     }
     
     contact_info = {}
-    contact_info = dummy_contact_detail
     contact_info = merging_array(ParseTable.new.dummy_contact_detail,contact_info)
-    data_arr << contact_info
+    data_arr <<{"Contacts"=> contact_info}
+
 
 
     puts "Mera theek ha"
@@ -75,7 +75,20 @@ class ParseAvaility
           end
         
           @array['CODE'] = benefit['type']
-        
+
+          @array['INDIVIDUALOUTOFPOCKETMAXIMUMAMOUNTINNETWORK']=@array['INDIVIDUALOUTOFPOCKETAMOUNTINNETWORK']
+          @array['INDIVIDUALOUTOFPOCKETMAXIMUMMETINNETWORK']=@array['INDIVIDUALOUTOFPOCKETMETINNETWORK']
+          @array['INDIVIDUALOUTOFPOCKETMAXIMUMREMAININGINNETWORK']=@array['INDIVIDUALOUTOFPOCKETREMAININGINNETWORK']
+          @array['FAMILYOUTOFPOCKETMAXIMUMAMOUNTINNETWORK']=@array['FAMILYOUTOFPOCKETAMOUNTINNETWORK']
+          @array['FAMILYOUTOFPOCKETMAXIMUMMETINNETWORK']=@array['FAMILYOUTOFPOCKETMETINNETWORK']
+          @array['FAMILYOUTOFPOCKETMAXIMUMREMAININGINNETWORK']=@array['FAMILYOUTOFPOCKETREMAININGINNETWORK']
+          @array['INDIVIDUALOUTOFPOCKETMAXIMUMAMOUNTOUTOFNETWORK']=@array['INDIVIDUALOUTOFPOCKETAMOUNTOUTOFNETWORK']
+          @array['INDIVIDUALOUTOFPOCKETMAXIMUMMETOUTOFNETWORK']=@array['INDIVIDUALOUTOFPOCKETMETOUTOFNETWORK']
+          @array['INDIVIDUALOUTOFPOCKETMAXIMUMREMAININGOUTOFNETWORK']=@array['INDIVIDUALOUTOFPOCKETREMAININGOUTOFNETWORK']
+          @array['FAMILYOUTOFPOCKETMAXIMUMAMOUNTOUTOFNETWORK']=@array['FAMILYOUTOFPOCKETAMOUNTOUTOFNETWORK']
+          @array['FAMILYOUTOFPOCKETMAXIMUMMETOUTOFNETWORK']=@array['FAMILYOUTOFPOCKETMETOUTOFNETWORK']
+          @array['FAMILYOUTOFPOCKETMAXIMUMREMAININGOUTOFNETWORK']=@array['FAMILYOUTOFPOCKETREMAININGOUTOFNETWORK']
+          
           table_array.each do |k,v|
             table_array[k] = @array[k.upcase.gsub(/[-\s+]/,'')] if @array[k.upcase.gsub(/[-\s+]/,'')].present?
           end
@@ -163,7 +176,8 @@ class ParseAvaility
     plan_info = merging_array(ParseTable.new.dummy_plan_detail,plan_info.reduce({},:merge))
 
     # plan_info = plan_info.reduce({},:merge)
-    plan_info = {"Plan Detail"=>plan_info}
+    plan_info = {"Plan and Network Detail"=>plan_info}
+
   end
 
   def parse_payer_info(json_arr)
@@ -235,9 +249,9 @@ class ParseAvaility
     
     general_info = []
 
-    general_info << {"Eligibility Status"=>status}
+    general_info << {"ELIGIBILITY STATUS"=>status}
 
-    general_info << {"Eligibility As Of"=>asOfDate}
+    general_info << {"ELIGIBILITY AS OF"=>asOfDate}
 
     general_info << {"TRANSACTION DATE"=>date}
 

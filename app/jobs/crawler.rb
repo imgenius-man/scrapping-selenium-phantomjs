@@ -14,24 +14,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
       href_search = ''
       
       driver.find_element(:css,"#managedWindowPatientLink").click
-      
-      # wait.until {
-      
-      #  driver.find_element(:id , 'tab-next').click
-      #  driver.find_element(:text,"PATIENT SEARCH").displayed?
-      
-      # }
-
-        # driver.find_element(:id , 'tab-next').click
-        # href_search = driver.find_elements(:class,'patients')
-        # href = nil
-        # href_search.each{|k|
-        #  if k.text == "PATIENT SEARCH" 
-        #   href = k
-        #  end
-        # }
-
-      
+            
       puts "form found"
       member_id = nil
 

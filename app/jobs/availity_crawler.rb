@@ -16,19 +16,21 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       puts site_url
       puts "=="*40
       
-      username = 'ewomack'
-      pass = 'Pcc@63128' 
-      site_url = Patient.options_for_site[2][1]
+      # username = 'ewomack'
+      # pass = 'Pcc@63128' 
+      # site_url = Patient.options_for_site[2][1]
       
       fields = Patient.retrieve_signin_fields(site_url)
       puts fields
-      customer_id = practice_code.strip
-      payerId = payer_code.strip
-      service_type = service_type.strip
+      
+      customer_id = practice_code
+      payerId = payer_code
+
       provider_lastname = provider_name.split(',').first.strip
-      providerNpi = provider_code.strip
+      providerNpi = provider_code
+      
       capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
-      capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = '313030'
+      capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = customer_id
       browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
 
       browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
@@ -41,6 +43,7 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
 
       element = browser.element(:css, fields[:submit_button])
       element.click
+      puts "logged in"
 
       sleep(3)
 
@@ -63,7 +66,7 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       # providerNpi = npi_code['npi']      
 
       sleep(2)
-      puts "logged in"
+      
       pat_dob = patient_dob
       # pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
 
