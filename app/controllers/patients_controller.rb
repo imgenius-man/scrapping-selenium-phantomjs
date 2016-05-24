@@ -23,7 +23,10 @@ class PatientsController < ApplicationController
     if params[:patient].present? && params[:patient][:first_name].present? && params[:patient][:last_name].present? && params[:patient][:dob].present? && params[:patient][:patient_id].present? && params[:patient][:password].present? && params[:patient][:username].present? && params[:patient][:site_url].present? && params[:patient][:token].present?
       res = params[:patient]
 
-      patient = Patient.find(:all, :conditions => ['token=?', res[:token]]).last
+      # patient = Patient.find(:all, :conditions => ['token=?', res[:token]]).last
+
+      patient = Patient.find_by_token(res[:token])
+
       puts patient.present?
       if patient.present?
         site_url = patient.site_url
@@ -120,7 +123,7 @@ class PatientsController < ApplicationController
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox#phantomjs, :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 
@@ -204,6 +207,9 @@ class PatientsController < ApplicationController
     end
   end
 
-
+  private
+    # def patient_params
+    #   params.require(:patient).permit( :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url, :practice_name, :payer_name, :provider_type, :place_of_service, :service_type, :practice_name_code, :cus_field2_code, :provider_name, :provider_name_code, :cus_field4_code, :service_type_code)
+    # end
 
 end

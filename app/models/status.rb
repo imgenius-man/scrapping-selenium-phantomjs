@@ -1,5 +1,5 @@
 class Status < ActiveRecord::Base
-  attr_accessible :date_checked, :site_url, :status, :site_username, :site_password
+  # attr_accessor :date_checked, :site_url, :status, :site_username, :site_password
   serialize :test_status_hash, Hash
 
   has_many :service_types

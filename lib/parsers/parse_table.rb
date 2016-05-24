@@ -75,8 +75,6 @@ class ParseTable
 			"CODE"=>"",
 			"EFFECTIVE DATE - IN NETWORK"=>"",
 			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
-			"EFFECTIVE DATE - IN NETWORK"=>"",
-			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
 			"COPAY (PER VISIT)- IN NETWORK"=>"",
 			"COPAY (PER VISIT)- OUT OF NETWORK"=>"",
 			"COPAY (TYPE)- IN NETWORK"=>"",
@@ -140,8 +138,6 @@ class ParseTable
 	def dummy_array_for_h2_table
 		{
 			"CODE"=>"",
-			"EFFECTIVE DATE - IN NETWORK"=>"",
-			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
 			"EFFECTIVE DATE - IN NETWORK"=>"",
 			"EFFECTIVE DATE - OUT OF NETWORK"=>"",
 			"COPAY (PER VISIT)- IN NETWORK"=>"",

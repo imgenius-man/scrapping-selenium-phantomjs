@@ -1,5 +1,5 @@
 class ServiceType < ActiveRecord::Base
-  attr_accessible :type_code, :type_name
+  # attr_accessor :type_code, :type_name
   belongs_to :status
 
   def self.to_csv(id)

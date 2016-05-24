@@ -5,7 +5,7 @@ class Patient < ActiveRecord::Base
 
   extend PatientsHelper
 
-  attr_accessible :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url, :practice_name, :payer_name, :provider_type, :place_of_service, :service_type, :practice_name_code, :cus_field2_code, :provider_name, :provider_name_code, :cus_field4_code, :service_type_code
+  # attr_accessor :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url, :practice_name, :payer_name, :provider_type, :place_of_service, :service_type, :practice_name_code, :cus_field2_code, :provider_name, :provider_name_code, :cus_field4_code, :service_type_code
 
   serialize :json, JSON
 
