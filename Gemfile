@@ -1,92 +1,131 @@
+
 source 'https://rubygems.org'
-ruby '2.1.2'
+
+
+gem 'rails', '4.2.6'
+gem 'pg'
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'inherited_resources', github: 'josevalim/inherited_resources'
+
+gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jbuilder', '~> 2.0'
+gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'daemons'
-gem 'rails', '3.2.14'
 gem 'selenium-webdriver'
 gem 'whenever'
-gem 'test-unit'
-gem 'headless'
 gem "rack-timeout"
 gem 'mechanize'
 gem 'delayed_job_active_record'
-gem 'watir-webdriver'
+gem 'test-unit'
 gem 'rest-client'
+gem 'watir-webdriver'
 gem 'sanitize'
-# gem 'wait_until'
+gem 'wait_until'
 gem 'heroku'
 gem 'american_date'
-# gem 'bootstrap-datepicker-rails'
-gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
-# gem 'bootstrap-datetimepicker-rails'
-gem 'pg'
-gem 'will_paginate', '~> 3.0.5'
-group :production do
-   gem 'pg'
-end
-
-group :development, :test do
-  gem 'sqlite3'
-  gem 'mysql2', '~> 0.3.10'
-end
-
+gem 'bootstrap-datepicker-rails'
 gem 'activerecord-import'
-
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-  # gem 'therubyracer'
-  gem 'execjs'
-end
-
 gem "iconv"
 gem 'roo'
 gem 'roo-xls'
-gem 'jquery-rails', '~> 2.2.1'
-gem 'bootstrap-sass', '~> 2.3.2.2'
+gem 'bootstrap-sass'
 gem 'twitter-bootstrap-rails'
-gem 'cancan'
-# gem 'devise'
+gem 'devise'
 gem 'figaro'
 gem 'rolify'
 gem 'simple_form'
-gem 'activeadmin'
-gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
-gem 'carrierwave'
-gem 'carrierwave-dropbox'
 gem 'crack'
-# gem 'mailchimp'
-# gem "mandrill-api", "~> 1.0.42"
-# gem 'mandrill_mailer'
+gem 'cancan'
+gem 'sprockets-rails', '2.3.3'
 
-
-
-
+group :development, :test do
+  gem 'byebug'
+end
 
 group :development do
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
   gem 'better_errors'
   gem 'quiet_assets'
   gem 'binding_of_caller'
 end
-group :development, :test do
-  gem 'factory_girl_rails'
-  gem 'rspec-rails'
-end
-group :test do
-  gem 'capybara'
-  gem 'cucumber-rails', :require=>false
-  gem 'database_cleaner', '1.0.1'
-  gem 'email_spec'
-  #gem 'launchy'
-end
 
-# profile = Selenium::WebDriver::Firefox::Profile.new
-# profile["network.proxy.type"] = 1
-# profile["network.proxy.http"] = "162.213.37.207"
-# profile["network.proxy.http_port"] = 31280
-# driver = Selenium::WebDriver.for(:firefox, :profile => profile)
-# driver.navigate.to "https://apps.availity.com/availity/web/public.elegant.login"
 
-# gsettings set org.gnome.system.proxy mode 'manual'
-# gsettings set org.gnome.system.proxy.https port 3128
-# gsettings set org.gnome.system.proxy.https host '40.118.209.103
+
+
+# source 'https://rubygems.org'
+# ruby '2.3.1'
+# gem 'rails', '4.2.6'
+# gem 'selenium-webdriver'
+# gem 'whenever'
+# gem 'test-unit'
+# gem 'headless'
+# gem "rack-timeout"
+# gem 'mechanize'
+# gem 'delayed_job_active_record'
+# gem 'watir-webdriver'
+# gem 'rest-client'
+# gem 'sanitize'
+# gem 'wait_until'
+# gem 'heroku'
+# gem 'american_date'
+# # gem 'bootstrap-datepicker-rails'
+# gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+# # gem 'bootstrap-datetimepicker-rails'
+# gem 'pg'
+# gem 'will_paginate'
+# group :production do
+#    gem 'pg'
+# end
+
+# group :development, :test do
+#   gem 'sqlite3'
+#   gem 'mysql2'
+# end
+
+# gem 'activerecord-import'
+
+# group :assets do
+#   gem 'sass-rails', '~> 5.0'
+#   gem 'coffee-rails', '~> 4.1.0'
+#   gem 'uglifier', '>= 1.3.0'
+#   # gem 'therubyracer'
+#   gem 'execjs'
+# end
+
+# gem "iconv"
+# gem 'roo'
+# gem 'roo-xls'
+# gem 'jquery-rails'
+# gem 'bootstrap-sass'
+# gem 'twitter-bootstrap-rails'
+# gem 'cancan'
+# gem 'devise'
+# gem 'figaro'
+# gem 'rolify'
+# gem 'simple_form'
+# gem 'activeadmin'
+# gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+# gem 'carrierwave'
+# gem 'carrierwave-dropbox'
+# gem 'crack'
+  
+# group :development do
+#   gem 'better_errors'
+#   gem 'quiet_assets'
+#   gem 'binding_of_caller'
+# end
+# group :development, :test do
+#   gem 'factory_girl_rails'
+#   gem 'rspec-rails'
+# end
+# group :test do
+#   gem 'capybara'
+#   gem 'cucumber-rails', :require=>false
+#   gem 'database_cleaner'
+#   gem 'email_spec'
+#   #gem 'launchy'
+# end
