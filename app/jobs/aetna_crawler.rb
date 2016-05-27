@@ -1,23 +1,16 @@
-class AetnaCrawler < Struct.new(:site_url)
+class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :redirect_url, :token)
 
 
 	def perform
-    puts "aa gya"
-    driver = Selenium::WebDriver.for :firefox#phantomjs, :args => ['--ignore-ssl-errors=true']
-    driver.navigate.to site_url
-    puts site_url
-    sleep(7)
-    un = driver.find_element(:css, "#LoginPortletUsername")
-    puts "un field found"
-    pw = driver.find_element(:css, "#LoginPortletPassword")
-    puts "pw field found"
-    un.send_keys "skedia15"
-    pw.send_keys "Empclaims$102"
-    btn = driver.find_element(:css, "#btnSignInSubmit")
-    btn.submit
-
+    begin 
+        puts "aa gya"
+    patient = Patient.find_by_patient_id(patient_id)
+    puts "trying signing in"
+    obj = PatientsController.new.sign_in(username, password, site_url)
     puts "sigin done"
+    driver = obj[:driver]
 
+      wait = obj[:wait]
     sleep(4)
     driver.navigate.to "https://navinet.navimedix.com/insurers/aetna/eligibility/eligibility-benefits-inquiry?start"
     sleep(15)
@@ -30,14 +23,18 @@ class AetnaCrawler < Struct.new(:site_url)
     options.each { |option| option.click if option.text.include? 'Ahmad, Ijaz' }
 
     inp = driver.find_element(:name, 'DISPLAY_MemberID')
-    inp.send_keys "W143459914"
+    inp.send_keys patient_id
     puts "4"
     #inp = driver.find_element(:name, 'DISPLAY_DateOfService')
     #inp.send_keys "8/24/1966"
-
+    sleep(5)
     btn =  driver.find_element(:class , 'ButtonPrimaryAction')
     puts "5"
-    btn.submit
+    btn.click
+
+    driver.find_element(:css, '.Display > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(9)').click
+    
+    sleep(5)
 
     puts driver.find_element(:tag_name,'body').attribute("innerHTML")
 
@@ -50,6 +47,8 @@ class AetnaCrawler < Struct.new(:site_url)
     subscriber_info = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[5].attribute('innerHTML'),nil,Mechanize.new)
 
     benefit_info = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[7].attribute('innerHTML'),nil,Mechanize.new)
+
+    mega_arr = []
 
     if member_info.search('.clsEmphasized').first.text.squish == "Member Information"
       
@@ -65,7 +64,7 @@ class AetnaCrawler < Struct.new(:site_url)
         
           if fl.text != " " && fl.text.present? && (flag || fl.text != "Address:")
             flag = false if fl.text == "Address:"
-            ar << { fl.text => field_data[index].text.squish }
+            ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
           
           elsif fl.text== " "
               indexes << index
@@ -74,15 +73,53 @@ class AetnaCrawler < Struct.new(:site_url)
           
         }
         ar = ar.reduce({},:merge)
+        ar["Address"] = ar["Address"]+", #{field_data[3].text.squish}"
 
-        ar["Address:"] = ar["Address:"]+", #{field_data[3].text.squish}"
+        mega_arr << {"Member Information" => ar}
+    end
+    if subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
+      
+      field_labels = subscriber_info.search('.FieldLabel')
+      field_data = subscriber_info.search('.FieldData')
+      ar = []
+      field_labels.each_with_index {|fl,index|
+        if fl.text != " " && fl.text.present?
+          ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
+        end
+      }
 
-    elsif subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
-        field_labels = subscriber_info.search('.FieldLabel')
-        field_data = subscriber_info.search('.FieldData')
+      mega_arr << {"Subscriber Information" => ar.reduce({},:merge)}
 
     end
+    if benefit_info.search('.clsEmphasized').first.text.squish == "Benefit Description"
+      field_labels = benefit_info.search('.FieldLabel')
+      field_data = benefit_info.search('.FieldData')
+      ar = []
+      field_labels.each_with_index {|fl,index|
+        if fl.text != " " && fl.text.present?
+          ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
+        end
+      }
 
-
+      mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
   end
+
+    @json = JSON.generate(mega_arr)
+
+    puts @json.inspect
+
+    patient.update_attribute('json', @json)
+    patient.update_attribute('record_available', 'complete')
+
+    driver.quit
+  
+    rescue Exception=> e
+      patient.update_attribute('record_available', 'failed')
+
+      PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
+      driver.quit if driver.present?
+    end
+  end
+
+  
 end

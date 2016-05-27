@@ -45,6 +45,10 @@ class PatientsController < ApplicationController
           Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, res['practice_name'], res['practice_name_code'], res['cus_field2_code'],res['provider_name'], res['provider_name_code'],res['cus_field4_code'],res['service_type_code'])
           patient.update_attribute('record_available', 'pending')
 
+        elsif site_url.include?('navinet')
+          Delayed::Job.enqueue AetnaCrawler.new(patient.username, patient.password, patient.patient_id, patient.site_url, res[:redirect_url], patient.token)
+          patient.update_attribute('record_available', 'pending')  
+
         end
 
       else
@@ -123,7 +127,7 @@ class PatientsController < ApplicationController
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :firefox#phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 
@@ -195,7 +199,7 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH')
 
       elsif site_url.include?('navinet')
-        Delayed::Job.enqueue AetnaCrawler.new(site_url)
+        Delayed::Job.enqueue AetnaCrawler.new(username, password, patient.patient_id, site_url, nil, nil)
       end
 
 
