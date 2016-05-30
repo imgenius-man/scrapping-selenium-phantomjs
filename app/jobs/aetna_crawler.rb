@@ -2,9 +2,15 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
 
 	def perform
+
     begin 
         puts "aa gya"
     patient = Patient.find_by_patient_id(patient_id)
+    patient.update(website: 'Aetna')
+    patient.update(request_id: 'Req'+patient.id.to_s)
+    patient.update(request_datetime: Time.now)
+    patient.update(response_id: token)
+    
     puts "trying signing in"
     obj = PatientsController.new.sign_in(username, password, site_url)
     puts "sigin done"
@@ -112,12 +118,17 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
     patient.update_attribute('record_available', 'complete')
 
     driver.quit
+
+    patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Success')
   
     rescue Exception=> e
       patient.update_attribute('record_available', 'failed')
 
       PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
       driver.quit if driver.present?
+      patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Failed')
     end
   end
 

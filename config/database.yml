@@ -41,6 +41,6 @@ production:
   encoding: unicode
   database: scrapping_pro
   pool: 5
-  host: localhost
+  host: 198.90.20.101
   username: postgres
-  password: admin
+  password: T6XRhkpeudNuUZXV

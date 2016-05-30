@@ -1,0 +1,48 @@
+<%= stylesheet_link_tag "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" %>
+
+
+	<%if !@patients.first.nil? %>
+	<div class="container well">
+
+			<h4>Transaction Logs</h4>
+		<div class="table-responsive">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th>Website</th>
+			      <th>UserId</th>
+			      <th>Request ID</th>
+			      <th>Date / Time</th>
+			      <th>Response ID</th>
+			      <th>Date / Time</th>
+			      <th>Status</th>
+
+			      
+			    </tr>
+			  </thead>
+
+			  <tbody>
+
+			    <% @patients.each do |patient,index| %>
+			      <tr>
+			      	<% notpresent = 'Not Present'%>	
+			        <!-- <td><%= index %></td> -->
+			        <td><%= patient.website || notpresent %></td>
+			        <td><%= patient.username || notpresent %></td>
+			        <% if patient.record_available=='complete'%>
+			        	<% p = patient; method = :put  %>
+			        <% end %>
+			        <td><%= link_to (patient.request_id || notpresent),(p || '#') , method: (method || :get) %></td>
+			        <td><%= (patient.request_datetime.strftime('%d/%m/%y %I:%M %p') if patient.request_datetime.present?) || notpresent %></td>
+			        <td><%= link_to (patient.response_id || notpresent),(p || '#') , method: (method || :get) %></td>
+			        <td><%= (patient.response_datetime.strftime('%d/%m/%y %I:%M %p') if patient.response_datetime.present?) || notpresent %></td>
+			        <td><%= patient.request_status || notpresent %></td>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+			</div>
+			<br>
+			<br><br>
+</div>
+<%end%>

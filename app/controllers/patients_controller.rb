@@ -106,6 +106,10 @@ class PatientsController < ApplicationController
     render "search_data"
   end
 
+  def transaction_logs
+    @patients =  Patient.all
+    
+  end
 
   def import_mapping
     id = params[:format] if params[:format].present?
@@ -127,7 +131,8 @@ class PatientsController < ApplicationController
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox
+    # :phantomjs, :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 

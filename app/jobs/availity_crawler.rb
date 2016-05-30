@@ -3,7 +3,13 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
   def perform
     begin     
       patient = Patient.find(pat_id)
-    
+      patient.update(website: 'Availity')
+      patient.update(request_id: 'Req'+patient.id.to_s)
+      patient.update(request_datetime: Time.now)
+      patient.update(response_id: token)
+
+
+      
       puts "=="*40
       puts patient_id
       puts "--"*40
@@ -111,12 +117,15 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
         if response_url.present?
           response = RestClient.post response_url, {data: @json, token: token}
         end
+        patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Success')
       end
     rescue Exception=> e
       patient.update_attribute('record_available', 'failed')
 
       PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
-
+      patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Failed')
     end
  
   end

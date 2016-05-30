@@ -13,7 +13,12 @@ class MhnetCrawler < Struct.new(:patntid,:patient_id, :username, :pass, :token, 
   
 
       patient = Patient.find(patntid)
+      patient.update(website: 'MHNET')
+      patient.update(request_id: 'Req'+patient.id.to_s)
+      patient.update(request_datetime: Time.now)
+      patient.update(response_id: token)
 
+      
       obj = PatientsController.new.sign_in(username, pass, site_url)
 
       driver = obj[:driver]
@@ -365,7 +370,10 @@ class MhnetCrawler < Struct.new(:patntid,:patient_id, :username, :pass, :token, 
 
       if response_url.present?
         response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
+        
       end
+      patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Success')
 
     rescue Exception=> e
       patient.update_attribute('record_available', 'failed')
@@ -376,7 +384,11 @@ class MhnetCrawler < Struct.new(:patntid,:patient_id, :username, :pass, :token, 
 
       if response_url.present?
         response = RestClient.post response_url, {error: 'please try again', token: token}
+        # patient.update(response_id: 'Req'+patient.id)
+        
       end
+      patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Failed')
     end
   end
 

@@ -4,6 +4,11 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
 	def perform
      begin
       patient = Patient.find(patntid)
+      patient.update(website: 'Cigna')
+      patient.update(request_id: 'Req'+patient.id.to_s)
+      patient.update(request_datetime: Time.now)
+      patient.update(response_id: token)
+
       puts "trying signing in"
       obj = PatientsController.new.sign_in(patientid, pass, site_url)
       puts "signed in"
@@ -160,6 +165,8 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
           puts "respondin to RestClient"
           response = RestClient.post response_url, {data: JSON.generate(@json), token: token}
         end
+        patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Success')
       else
         if response_url.present?
           puts "respondin to RestClient 2"
@@ -173,7 +180,8 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         driver.quit if driver.present?
 
         patient.update_attribute('record_available', 'failed')
-
+        patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Failed')
       end
         puts "all done"
 
@@ -200,6 +208,8 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         if response_url.present?
           response = RestClient.post response_url, {data: patient.json, token: token}
         end
+        patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Success')
         puts "updating attribute 2"
       else
         if response_url.present?
@@ -211,7 +221,8 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
         PatientMailer::exception_email("PatientID(#{patient.try(:id)}) ==> #{e.inspect} \n WebSite = #{site_url}").deliver
 
         driver.quit if driver.present?
-
+        patient.update(response_datetime: Time.now)
+        patient.update(request_status: 'Failed')
       end
         puts "rescue done"
      end

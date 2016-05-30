@@ -20,6 +20,7 @@ Academia::Application.routes.draw do
       post 'import'
       post 'import_mapping'
       post 'authenticate_token'
+      get 'transaction_logs'
       get 'delete_all'
   	end
   end
