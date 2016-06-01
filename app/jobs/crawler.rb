@@ -18,10 +18,7 @@ class Crawler < Struct.new(:f_name, :l_name, :date_of_birth, :pat_id, :patientid
       puts "looking for form to search patient"
       href_search = ''
       
-      wait.until {
-        driver.find_element(:id, 'managedWindowPatientLink').displayed?
-      }
-      driver.find_element(:id, 'managedWindowPatientLink').click
+      sleep(7)
 
       driver.navigate.to "https://cignaforhcp.cigna.com/web/secure/chcp/windowmanager#tab-hcp.pg.patientsearch$1"
             
