@@ -52,7 +52,8 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       puts "logged in"
 
       sleep(3)
-
+      browser.goto "https://apps.availity.com/public/apps/eligibility"
+      
       browser.goto "https://apps.availity.com/api/v1/users/me"
       me = Crack::XML.parse(browser.html)
 

@@ -192,3 +192,40 @@ I, [2016-05-30T07:26:58.707733 #8911]  INFO -- : 2016-05-30T07:26:58-0500: [Work
 I, [2016-05-30T07:27:51.991342 #8911]  INFO -- : 2016-05-30T07:27:51-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:8911)] Job Crawler (id=27) COMPLETED after 53.2853
 I, [2016-05-30T07:27:51.994651 #8911]  INFO -- : 2016-05-30T07:27:51-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:8911)] 1 jobs processed at 0.0188 j/s, 0 failed
 I, [2016-05-30T07:28:14.160887 #8911]  INFO -- : 2016-05-30T07:28:14-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:8911)] Exiting...
+I, [2016-05-31T07:33:06.148763 #4039]  INFO -- : 2016-05-31T07:33:06-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Starting job worker
+I, [2016-05-31T07:33:16.284526 #4039]  INFO -- : 2016-05-31T07:33:16-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Job Crawler (id=28) RUNNING
+I, [2016-05-31T07:34:18.063692 #4039]  INFO -- : 2016-05-31T07:34:18-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Job Crawler (id=28) COMPLETED after 61.7819
+I, [2016-05-31T07:34:18.066508 #4039]  INFO -- : 2016-05-31T07:34:18-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] 1 jobs processed at 0.0162 j/s, 0 failed
+I, [2016-05-31T07:35:23.566126 #4039]  INFO -- : 2016-05-31T07:35:23-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Job Crawler (id=29) RUNNING
+I, [2016-05-31T07:36:24.304828 #4039]  INFO -- : 2016-05-31T07:36:24-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Job Crawler (id=29) COMPLETED after 60.7414
+I, [2016-05-31T07:36:24.309543 #4039]  INFO -- : 2016-05-31T07:36:24-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] 1 jobs processed at 0.0165 j/s, 0 failed
+I, [2016-05-31T07:41:31.538745 #4039]  INFO -- : 2016-05-31T07:41:31-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Job Crawler (id=30) RUNNING
+I, [2016-05-31T07:42:29.548870 #4039]  INFO -- : 2016-05-31T07:42:29-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Job Crawler (id=30) COMPLETED after 58.0128
+I, [2016-05-31T07:42:29.551847 #4039]  INFO -- : 2016-05-31T07:42:29-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] 1 jobs processed at 0.0172 j/s, 0 failed
+I, [2016-05-31T07:43:18.395062 #4039]  INFO -- : 2016-05-31T07:43:18-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4039)] Exiting...
+I, [2016-05-31T07:43:25.172160 #4105]  INFO -- : 2016-05-31T07:43:25-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Starting job worker
+I, [2016-05-31T07:43:35.288813 #4105]  INFO -- : 2016-05-31T07:43:35-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=31) RUNNING
+I, [2016-05-31T07:44:22.255180 #4105]  INFO -- : 2016-05-31T07:44:22-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=31) COMPLETED after 46.9685
+I, [2016-05-31T07:44:22.258636 #4105]  INFO -- : 2016-05-31T07:44:22-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] 1 jobs processed at 0.0213 j/s, 0 failed
+I, [2016-05-31T07:44:42.412698 #4105]  INFO -- : 2016-05-31T07:44:42-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=32) RUNNING
+I, [2016-05-31T07:45:25.699429 #4105]  INFO -- : 2016-05-31T07:45:25-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=32) COMPLETED after 43.2886
+I, [2016-05-31T07:45:25.702822 #4105]  INFO -- : 2016-05-31T07:45:25-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] 1 jobs processed at 0.0231 j/s, 0 failed
+I, [2016-05-31T07:47:01.432554 #4105]  INFO -- : 2016-05-31T07:47:01-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=33) RUNNING
+I, [2016-05-31T07:48:04.604099 #4105]  INFO -- : 2016-05-31T07:48:04-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=33) COMPLETED after 63.1745
+I, [2016-05-31T07:48:04.607530 #4105]  INFO -- : 2016-05-31T07:48:04-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=34) RUNNING
+I, [2016-05-31T07:48:34.709816 #4105]  INFO -- : 2016-05-31T07:48:34-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=34) COMPLETED after 30.1036
+I, [2016-05-31T07:48:34.713215 #4105]  INFO -- : 2016-05-31T07:48:34-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=35) RUNNING
+I, [2016-05-31T07:49:19.782059 #4105]  INFO -- : 2016-05-31T07:49:19-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Job Crawler (id=35) COMPLETED after 45.0708
+I, [2016-05-31T07:49:19.785422 #4105]  INFO -- : 2016-05-31T07:49:19-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] 3 jobs processed at 0.0217 j/s, 0 failed
+I, [2016-05-31T07:52:56.195655 #4105]  INFO -- : 2016-05-31T07:52:56-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4105)] Exiting...
+I, [2016-05-31T07:53:00.967975 #4167]  INFO -- : 2016-05-31T07:53:00-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4167)] Starting job worker
+I, [2016-05-31T07:53:11.091634 #4167]  INFO -- : 2016-05-31T07:53:11-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4167)] Job Crawler (id=36) RUNNING
+I, [2016-05-31T07:54:04.848841 #4167]  INFO -- : 2016-05-31T07:54:04-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4167)] Job Crawler (id=36) COMPLETED after 53.7597
+I, [2016-05-31T07:54:04.851668 #4167]  INFO -- : 2016-05-31T07:54:04-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4167)] 1 jobs processed at 0.0186 j/s, 0 failed
+I, [2016-05-31T08:24:13.143141 #4167]  INFO -- : 2016-05-31T08:24:13-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4167)] Exiting...
+I, [2016-05-31T08:24:21.820181 #4312]  INFO -- : 2016-05-31T08:24:21-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Starting job worker
+I, [2016-05-31T08:24:47.057978 #4312]  INFO -- : 2016-05-31T08:24:47-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Job Crawler (id=37) RUNNING
+I, [2016-05-31T08:25:32.487645 #4312]  INFO -- : 2016-05-31T08:25:32-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Job Crawler (id=37) COMPLETED after 45.4317
+I, [2016-05-31T08:25:32.491160 #4312]  INFO -- : 2016-05-31T08:25:32-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] 1 jobs processed at 0.0220 j/s, 0 failed
+I, [2016-05-31T08:52:17.829956 #4312]  INFO -- : 2016-05-31T08:52:17-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Exiting...
+I, [2016-05-31T08:52:18.029643 #4312]  INFO -- : 2016-05-31T08:52:18-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Exiting...
