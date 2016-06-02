@@ -75,13 +75,13 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       sleep(2)
       
       pat_dob = patient_dob
-      # pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
-
+      pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
+puts pat_dob
 
       # request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=#{payer_name}&placeOfService=#{place_service_val}&providerLastName=#{name_of_organiztion}&providerNpi=1447277447&providerType=AT&providerUserId=aka65481841532&serviceType=#{benefit_val}&subscriberRelationship=18" 
 
       request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+customer_id+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId="+payerId+"&providerLastName="+provider_lastname+"&providerNpi="+providerNpi+"&providerUserId="+providerUserId+"&serviceType="+service_type
-
+puts request_url
 
 
       browser.goto request_url 
@@ -94,7 +94,10 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       if ret["APIResponse"].present?
         browser.goto ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
         sleep(2)
-        js = Crack::XML.parse(browser.html)
+        a = browser.html
+        puts "==="*100
+        puts ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
+        js = Crack::XML.parse(a)
       end
 
       browser.quit      

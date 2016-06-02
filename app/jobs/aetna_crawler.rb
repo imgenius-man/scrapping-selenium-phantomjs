@@ -56,7 +56,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
     mega_arr = []
 
-    if member_info.search('.clsEmphasized').first.text.squish == "Member Information"
+    if member_info.search('.clsEmphasized').present? && member_info.search('.clsEmphasized').first.text.squish == "Member Information"
       
       field_labels = member_info.search('.FieldLabel')
       field_data = member_info.search('.FieldData')
@@ -68,11 +68,11 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         
         field_labels.each_with_index {|fl,index|
         
-          if fl.text != " " && fl.text.present? && (flag || fl.text != "Address:")
+          if fl.text.present? && fl.text != " " && (flag || fl.text != "Address:")
             flag = false if fl.text == "Address:"
             ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
           
-          elsif fl.text== " "
+          elsif fl.text.present? && fl.text== " "
               indexes << index
           
           end
@@ -83,13 +83,13 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
         mega_arr << {"Member Information" => ar}
     end
-    if subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
+    if subscriber_info.search('.clsEmphasized').present? && subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
       
       field_labels = subscriber_info.search('.FieldLabel')
       field_data = subscriber_info.search('.FieldData')
       ar = []
       field_labels.each_with_index {|fl,index|
-        if fl.text != " " && fl.text.present?
+        if fl.text.present? && fl.text != " "
           ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
         end
       }
@@ -97,18 +97,18 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       mega_arr << {"Subscriber Information" => ar.reduce({},:merge)}
 
     end
-    if benefit_info.search('.clsEmphasized').first.text.squish == "Benefit Description"
+    if benefit_info.search('.clsEmphasized').present? && benefit_info.search('.clsEmphasized').first.text.squish == "Benefit Description"
       field_labels = benefit_info.search('.FieldLabel')
       field_data = benefit_info.search('.FieldData')
       ar = []
       field_labels.each_with_index {|fl,index|
-        if fl.text != " " && fl.text.present?
+        if fl.text.present? && fl.text != " " && fl.text.present?
           ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
         end
       }
 
       mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
-  end
+    end
 
     @json = JSON.generate(mega_arr)
 
@@ -124,7 +124,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
   
     rescue Exception=> e
       patient.update_attribute('record_available', 'failed')
-
+puts e.inspect 
       PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
       driver.quit if driver.present?
       patient.update(response_datetime: Time.now)
