@@ -5,6 +5,10 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
     begin 
         puts "aa gya"
+        puts "username: #{username}"
+        puts "password: #{password}"
+        puts "patient_id: #{patient_id}"
+        puts "site_url: #{site_url}"
     patient = Patient.find_by_patient_id(patient_id)
     patient.update(website: 'Aetna')
     patient.update(request_id: 'Req'+patient.id.to_s)
@@ -14,9 +18,10 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
     puts "trying signing in"
     obj = PatientsController.new.sign_in(username, password, site_url)
     puts "sigin done"
-    driver = obj[:driver]
 
-      wait = obj[:wait]
+    driver = obj[:driver]
+    wait = obj[:wait]
+
     sleep(4)
     driver.navigate.to "https://navinet.navimedix.com/insurers/aetna/eligibility/eligibility-benefits-inquiry?start"
     sleep(15)
@@ -81,7 +86,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         ar = ar.reduce({},:merge)
         ar["Address"] = ar["Address"]+", #{field_data[3].text.squish}"
 
-        mega_arr << {"Member Information" => ar}
+        mega_arr << {"Patient Detail" => ar}
     end
     if subscriber_info.search('.clsEmphasized').present? && subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
       
@@ -94,7 +99,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         end
       }
 
-      mega_arr << {"Subscriber Information" => ar.reduce({},:merge)}
+      mega_arr << {"Subscriber Detail" => ar.reduce({},:merge)}
 
     end
     if benefit_info.search('.clsEmphasized').present? && benefit_info.search('.clsEmphasized').first.text.squish == "Benefit Description"
@@ -109,6 +114,8 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
       mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
     end
+
+    mega_arr << Patient.aetna_jsn(tables)
 
     @json = JSON.generate(mega_arr)
 

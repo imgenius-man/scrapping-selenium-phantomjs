@@ -2,6 +2,7 @@ class Patient < ActiveRecord::Base
   require 'csv'
   require 'parsers/parse_container'
   require 'parsers/parse_availity'
+  require 'parsers/parse_aetna'
 
   extend PatientsHelper
 
@@ -10,9 +11,11 @@ class Patient < ActiveRecord::Base
   serialize :json, JSON
 
   def self.new_jsn(json_obj)
-
     json = ParseAvaility.new.parse_panels(json_obj)
+  end
 
+  def self.aetna_jsn(tables)
+    json = ParseAetna.new.parse_tables_aetna(tables)
   end
 
   def self.clean(id)
@@ -140,7 +143,7 @@ class Patient < ActiveRecord::Base
         # puts "====="*23
         # puts ar
         # puts "+++++"*23
-        mega_arr << {"Member Information" => ar}
+        mega_arr << {"Patient Detail" => ar}
         # puts mega_arr
         # puts "----"*23
 
@@ -159,7 +162,7 @@ class Patient < ActiveRecord::Base
       # puts ar
       # puts "+++++"*23
       ar = ar.reduce({},:merge)
-      mega_arr << {"Subscriber Information" => ar }
+      mega_arr << {"Subscriber Detail" => ar }
       # puts mega_arr
       # puts "----"*23
     end
