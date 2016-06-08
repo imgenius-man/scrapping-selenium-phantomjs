@@ -75,11 +75,11 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         
         field_labels.each_with_index {|fl,index|
         
-          if fl.text.present? && fl.text != " " && (flag || fl.text != "Address:")
+          if fl.present? && fl.text != " " && (flag || fl.text != "Address:")
             flag = false if fl.text == "Address:"
             ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
           
-          elsif fl.text.present? && fl.text== " "
+          elsif fl.present? && fl.text== " "
               indexes << index
           
           end
@@ -96,7 +96,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       field_data = subscriber_info.search('.FieldData')
       ar = []
       field_labels.each_with_index {|fl,index|
-        if fl.text.present? && fl.text != " "
+        if fl.present? && fl.text != " "
           ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
         end
       }
@@ -109,7 +109,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       field_data = benefit_info.search('.FieldData')
       ar = []
       field_labels.each_with_index {|fl,index|
-        if fl.text.present? && fl.text != " " && fl.text.present?
+        if fl.present? && fl.text != " " && fl.text.present?
           ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
         end
       }
@@ -117,8 +117,19 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
     end
 
-    mega_arr << Patient.aetna_jsn(tables)
-
+    amounts_arr = Patient.aetna_jsn(tables)
+    amounthash = amounts_arr.reduce({},:merge)
+    amounts_arr.each{ |v|
+      if amounthash[v.keys.first].present?
+        v[v.keys.first].each{ |key,val|
+          puts "+++"*100
+          puts val
+          amounthash[v.keys.first][key] = val if amounthash[v.keys.first][key].blank?
+        }
+      end
+    }
+    mega_arr << amounthash
+    
     @json = JSON.generate(mega_arr)
 
     puts @json.inspect
