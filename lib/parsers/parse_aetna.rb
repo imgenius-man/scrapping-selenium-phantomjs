@@ -14,19 +14,19 @@ class ParseAetna
     tr = copayment.search('tr')
 
     ret = aetna_parse_copayment(tr)
-    mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)
+    mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)}
 
     deductibles = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[19].attribute('innerHTML'),nil,Mechanize.new)
     tr = deductibles.search('tr')
 
     ret = aetna_parse_deductibles(tr)
-    mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)
+    mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)}
 
     out_of_pocket = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[27].attribute('innerHTML'),nil,Mechanize.new)
     tr = out_of_pocket.search('tr')
 
     ret = aetna_parse_out_of_pocket(tr)
-    mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)
+    mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)}
 
     # map_keys_aetna(mega_arr.reduce({},:merge),ParseTable.new.dummy_array_for_tables_aetna)
     mega_arr
