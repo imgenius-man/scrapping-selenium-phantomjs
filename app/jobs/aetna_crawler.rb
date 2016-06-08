@@ -9,7 +9,9 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         puts "password: #{password}"
         puts "patient_id: #{patient_id}"
         puts "site_url: #{site_url}"
+    
     patient = Patient.find_by_patient_id(patient_id)
+    
     patient.update(website: 'Aetna')
     patient.update(request_id: 'Req'+patient.id.to_s)
     patient.update(request_datetime: Time.now)
