@@ -154,10 +154,10 @@ class ParseAetna
       network_td = tr[(n*3)+2].search('td')
       network_td.each_with_index {|td,index|
          # puts "Coinsuarnce - #{pre[ind]} - #{th[index].text.squish} => #{td.text.squish}"
-        js << {"Coinsuarnce - #{pre[ind]} - #{th[index].text.squish}" => td.text.squish} 
+        js << {"Coinsuarnce - #{pre[ind]} - #{th[index].text.squish}" => td.text.squish} if td.present? && th[index].present?
       }
     }
-    info = tr[1].text.squish
+    info = tr[1].text.squish if tr[1].present?
     t_name = info.split('-').last.squish
     t_code = info.split('-').first.squish
     js << {"Coinsuarnce - Code" => t_code}
@@ -173,10 +173,10 @@ class ParseAetna
       network_td = tr[(n*3)+2].search('td')
       network_td.each_with_index {|td,index|
          # puts "Copayment - #{th[index].text.squish} => #{td.text.squish}"
-        js << {"Copayment - #{th[index].text.squish}" => td.text.squish} 
+        js << {"Copayment - #{th[index].text.squish}" => td.text.squish} if td.present? && th[index].present?
       }
     }
-    info = tr[1].text.squish
+    info = tr[1].text.squish if tr[1].present?
     t_name = info.split('-').last.squish
     t_code = info.split('-').first.squish
     js << {"Copayment - Code" => t_code}
@@ -194,10 +194,10 @@ class ParseAetna
       network_td = tr[(n*3)+2].search('td')
       network_td.each_with_index {|td,index|
          # puts "Deductibles - #{fam_ind[ind]} - #{in_out[ind]} - #{th[index].text.squish} => #{td.text.squish}"
-        js << {"Deductibles - #{fam_ind[ind]} - #{in_out[ind]} - #{th[index].text.squish}" => td.text.squish} 
+        js << {"Deductibles - #{fam_ind[ind]} - #{in_out[ind]} - #{th[index].text.squish}" => td.text.squish} if td.present? && th[index].present?
       }
     }
-    info = tr[1].text.squish
+    info = tr[1].text.squish if tr[1].present?
     t_name = info.split('-').last.squish
     t_code = info.split('-').first.squish
     js << {"Coinsuarnce - Code" => t_code}
@@ -214,10 +214,10 @@ class ParseAetna
       network_td = tr[(n*3)+2].search('td')
       network_td.each_with_index {|td,index|
          # puts "Out of Pocket - #{fam_ind[ind]} - #{in_out[ind]} - #{th[index].text.squish} => #{td.text.squish}"
-        js << {"Out of Pocket - #{fam_ind[ind]} - #{in_out[ind]} - #{th[index].text.squish}" => td.text.squish} 
+        js << {"Out of Pocket - #{fam_ind[ind]} - #{in_out[ind]} - #{th[index].text.squish}" => td.text.squish} if td.present? && th[index].present?
       }
     }
-    info = tr[1].text.squish
+    info = tr[1].text.squish if tr[1].present?
     t_name = info.split('-').last.squish
     t_code = info.split('-').first.squish
     js << {"Coinsuarnce - Code" => t_code}

@@ -117,7 +117,18 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
     end
 
-    mega_arr << Patient.aetna_jsn(tables)
+    amounts_arr = Patient.aetna_jsn(tables)
+    amounthash = amounts_arr.reduce({},:merge)
+    amounts_arr.each{ |v|
+      if amounthash[v.keys.first].present?
+        v[v.keys.first].each{ |key,val|
+          puts "+++"*100
+          puts val
+          amounthash[v.keys.first][key] = val if amounthash[v.keys.first][key].blank?
+        }
+      end
+    }
+    mega_arr << amounthash
 
     @json = JSON.generate(mega_arr)
 
