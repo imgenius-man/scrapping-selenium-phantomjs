@@ -158,8 +158,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Coinsuarnce - Code" => t_code}
     
     [js.reduce({},:merge),t_name]
@@ -177,8 +177,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Copayment - Code" => t_code}
     
     [js.reduce({},:merge),t_name]
@@ -198,8 +198,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Coinsuarnce - Code" => t_code}
     [js.reduce({},:merge),t_name]
   end
@@ -218,8 +218,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Coinsuarnce - Code" => t_code}
     [js.reduce({},:merge),t_name]
   end
