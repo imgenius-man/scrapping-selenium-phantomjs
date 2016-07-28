@@ -32,7 +32,9 @@ class PatientsController < ApplicationController
         site_url = patient.site_url
 
         result = 'Your requested process has been initiated'
-
+# curl --data 'patient[redirect_url]=https://www.google.com.pk&patient[first_name]=KONERSMANN&patient[last_name]=ALEXANDER&patient[dob]=04/15/2005&patient[patient_id]=JWC309A65811&patient[username]=statpay&patient[password]=Medicare#01!&patient[site_url]=https://apps.availity.com/' http://gooper-dashboard.statpaymd.com/patients/access_token
+# curl --data 'patient[redirect_url]=https://www.google.com.pk&patient[first_name]=KONERSMANN&patient[last_name]=ALEXANDER&patient[dob]=04/15/2005&patient[patient_id]=JWC309A65811&patient[username]=statpay&patient[password]=Medicare#01!&patient[site_url]=https://apps.availity.com/&patient[token]=lPAjJPzEcEBnRgEEj2aOhTLZaRJ6PaRk&patient[practice_name]=abc&patient[practice_name_code]=388016&patient[cus_field2_code]=BCBSIL&patient[provider_name]=NORTHWEST+MEDICAL+CARE&patient[provider_name_code]=1447277447&patient[cus_field4_code]=&patient[service_type_code]=84' http://gooper-dashboard.statpaymd.com/patients/authenticate_token
+        
         if site_url.include?('cignaforhcp')
           Delayed::Job.enqueue Crawler.new(patient.first_name, patient.last_name, patient.dob, patient.patient_id, patient.username, patient.password, patient.token, patient.id, patient.site_url, res[:redirect_url])
           patient.update_attribute('record_available', 'pending')
@@ -131,7 +133,8 @@ class PatientsController < ApplicationController
 
     wait = Selenium::WebDriver::Wait.new(timeout: 20)
 
-    driver = Selenium::WebDriver.for :phantomjs, :args => ['--ignore-ssl-errors=true']
+    driver = Selenium::WebDriver.for :firefox
+    # , :args => ['--ignore-ssl-errors=true']
 
     driver.navigate.to site_url
 

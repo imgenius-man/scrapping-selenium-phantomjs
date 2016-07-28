@@ -229,3 +229,155 @@ I, [2016-05-31T08:25:32.487645 #4312]  INFO -- : 2016-05-31T08:25:32-0500: [Work
 I, [2016-05-31T08:25:32.491160 #4312]  INFO -- : 2016-05-31T08:25:32-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] 1 jobs processed at 0.0220 j/s, 0 failed
 I, [2016-05-31T08:52:17.829956 #4312]  INFO -- : 2016-05-31T08:52:17-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Exiting...
 I, [2016-05-31T08:52:18.029643 #4312]  INFO -- : 2016-05-31T08:52:18-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:4312)] Exiting...
+I, [2016-07-19T04:54:10.630364 #2550]  INFO -- : 2016-07-19T04:54:10-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Starting job worker
+I, [2016-07-19T04:54:10.684434 #2550]  INFO -- : 2016-07-19T04:54:10-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Job AetnaCrawler (id=52) RUNNING
+I, [2016-07-19T04:55:02.031105 #2550]  INFO -- : 2016-07-19T04:55:02-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Job AetnaCrawler (id=52) COMPLETED after 51.3481
+I, [2016-07-19T04:55:02.035087 #2550]  INFO -- : 2016-07-19T04:55:02-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] 1 jobs processed at 0.0195 j/s, 0 failed
+I, [2016-07-19T05:00:54.687233 #2550]  INFO -- : 2016-07-19T05:00:54-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Job AetnaCrawler (id=53) RUNNING
+I, [2016-07-19T05:01:00.878894 #2550]  INFO -- : 2016-07-19T05:01:00-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:01.055288 #2550]  INFO -- : 2016-07-19T05:01:01-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:01.332530 #2550]  INFO -- : 2016-07-19T05:01:01-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:01.396364 #2550]  INFO -- : 2016-07-19T05:01:01-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:01.548934 #2550]  INFO -- : 2016-07-19T05:01:01-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:01.700916 #2550]  INFO -- : 2016-07-19T05:01:01-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:01.852639 #2550]  INFO -- : 2016-07-19T05:01:01-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Exiting...
+I, [2016-07-19T05:01:04.579725 #2550]  INFO -- : 2016-07-19T05:01:04-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] Job AetnaCrawler (id=53) COMPLETED after 9.8927
+I, [2016-07-19T05:01:04.579818 #2550]  INFO -- : 2016-07-19T05:01:04-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2550)] 1 jobs processed at 0.1010 j/s, 0 failed
+I, [2016-07-19T05:01:12.513202 #2605]  INFO -- : 2016-07-19T05:01:12-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Starting job worker
+I, [2016-07-19T05:01:32.756670 #2605]  INFO -- : 2016-07-19T05:01:32-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Job Crawler (id=54) RUNNING
+I, [2016-07-19T05:01:54.024673 #2605]  INFO -- : 2016-07-19T05:01:54-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Job Crawler (id=54) COMPLETED after 21.2685
+I, [2016-07-19T05:01:54.027257 #2605]  INFO -- : 2016-07-19T05:01:54-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] 1 jobs processed at 0.0470 j/s, 0 failed
+I, [2016-07-19T05:01:59.102838 #2605]  INFO -- : 2016-07-19T05:01:59-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Job AetnaCrawler (id=55) RUNNING
+I, [2016-07-19T05:02:57.096000 #2605]  INFO -- : 2016-07-19T05:02:57-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Job AetnaCrawler (id=55) COMPLETED after 57.9947
+I, [2016-07-19T05:02:57.099374 #2605]  INFO -- : 2016-07-19T05:02:57-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] 1 jobs processed at 0.0172 j/s, 0 failed
+I, [2016-07-19T05:04:02.629488 #2605]  INFO -- : 2016-07-19T05:04:02-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Job AetnaCrawler (id=56) RUNNING
+I, [2016-07-19T05:04:50.188546 #2605]  INFO -- : 2016-07-19T05:04:50-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Job AetnaCrawler (id=56) COMPLETED after 47.5603
+I, [2016-07-19T05:04:50.191006 #2605]  INFO -- : 2016-07-19T05:04:50-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] 1 jobs processed at 0.0210 j/s, 0 failed
+I, [2016-07-19T05:40:58.374601 #2605]  INFO -- : 2016-07-19T05:40:58-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Exiting...
+I, [2016-07-19T05:40:58.654289 #2605]  INFO -- : 2016-07-19T05:40:58-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Exiting...
+I, [2016-07-19T05:40:58.870139 #2605]  INFO -- : 2016-07-19T05:40:58-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:2605)] Exiting...
+I, [2016-07-19T06:17:58.409365 #3144]  INFO -- : 2016-07-19T06:17:58-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Starting job worker
+I, [2016-07-19T06:18:23.642252 #3144]  INFO -- : 2016-07-19T06:18:23-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=57) RUNNING
+E, [2016-07-19T06:18:27.512680 #3144] ERROR -- : 2016-07-19T06:18:27-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=57) FAILED (0 prior attempts) with Errno::EHOSTUNREACH: No route to host - connect(2) for "smtp.gmail.com" port 587
+I, [2016-07-19T06:18:27.524113 #3144]  INFO -- : 2016-07-19T06:18:27-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.2563 j/s, 1 failed
+I, [2016-07-19T06:18:37.601309 #3144]  INFO -- : 2016-07-19T06:18:37-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=57) RUNNING
+E, [2016-07-19T06:18:41.228533 #3144] ERROR -- : 2016-07-19T06:18:41-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=57) FAILED (1 prior attempts) with Errno::EHOSTUNREACH: No route to host - connect(2) for "smtp.gmail.com" port 587
+E, [2016-07-19T06:18:41.228928 #3144] ERROR -- : 2016-07-19T06:18:41-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=57) REMOVED permanently because of 2 consecutive failures
+I, [2016-07-19T06:18:41.238625 #3144]  INFO -- : 2016-07-19T06:18:41-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.2744 j/s, 1 failed
+I, [2016-07-19T06:19:11.511373 #3144]  INFO -- : 2016-07-19T06:19:11-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job Crawler (id=58) RUNNING
+I, [2016-07-19T06:19:59.727486 #3144]  INFO -- : 2016-07-19T06:19:59-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job Crawler (id=58) COMPLETED after 48.2174
+I, [2016-07-19T06:19:59.732245 #3144]  INFO -- : 2016-07-19T06:19:59-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0207 j/s, 0 failed
+I, [2016-07-19T06:20:19.888126 #3144]  INFO -- : 2016-07-19T06:20:19-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=59) RUNNING
+I, [2016-07-19T06:21:33.519280 #3144]  INFO -- : 2016-07-19T06:21:33-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=59) COMPLETED after 73.6332
+I, [2016-07-19T06:21:33.521896 #3144]  INFO -- : 2016-07-19T06:21:33-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0136 j/s, 0 failed
+I, [2016-07-19T07:03:09.595700 #3144]  INFO -- : 2016-07-19T07:03:09-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=60) RUNNING
+I, [2016-07-19T07:03:38.163950 #3144]  INFO -- : 2016-07-19T07:03:38-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=60) COMPLETED after 28.5689
+I, [2016-07-19T07:03:38.166920 #3144]  INFO -- : 2016-07-19T07:03:38-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0350 j/s, 0 failed
+I, [2016-07-19T07:05:54.363873 #3144]  INFO -- : 2016-07-19T07:05:54-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=61) RUNNING
+I, [2016-07-19T07:06:45.382199 #3144]  INFO -- : 2016-07-19T07:06:45-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=61) COMPLETED after 51.0197
+I, [2016-07-19T07:06:45.385755 #3144]  INFO -- : 2016-07-19T07:06:45-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0196 j/s, 0 failed
+I, [2016-07-19T08:04:03.319623 #3144]  INFO -- : 2016-07-19T08:04:03-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=62) RUNNING
+I, [2016-07-19T08:04:57.201587 #3144]  INFO -- : 2016-07-19T08:04:57-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=62) COMPLETED after 53.8835
+I, [2016-07-19T08:04:57.205653 #3144]  INFO -- : 2016-07-19T08:04:57-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0186 j/s, 0 failed
+I, [2016-07-20T01:08:43.564693 #3144]  INFO -- : 2016-07-20T01:08:43-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=63) RUNNING
+I, [2016-07-20T01:09:33.328467 #3144]  INFO -- : 2016-07-20T01:09:33-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=63) COMPLETED after 49.7643
+I, [2016-07-20T01:09:33.331734 #3144]  INFO -- : 2016-07-20T01:09:33-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0201 j/s, 0 failed
+I, [2016-07-20T01:51:51.469880 #3144]  INFO -- : 2016-07-20T01:51:51-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=64) RUNNING
+I, [2016-07-20T01:52:42.649167 #3144]  INFO -- : 2016-07-20T01:52:42-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=64) COMPLETED after 51.1802
+I, [2016-07-20T01:52:42.651747 #3144]  INFO -- : 2016-07-20T01:52:42-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0195 j/s, 0 failed
+I, [2016-07-20T04:06:51.144577 #3144]  INFO -- : 2016-07-20T04:06:51-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=65) RUNNING
+I, [2016-07-20T04:07:40.263948 #3144]  INFO -- : 2016-07-20T04:07:40-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=65) COMPLETED after 49.1201
+I, [2016-07-20T04:07:40.268081 #3144]  INFO -- : 2016-07-20T04:07:40-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0204 j/s, 0 failed
+I, [2016-07-20T04:09:31.125482 #3144]  INFO -- : 2016-07-20T04:09:31-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=66) RUNNING
+I, [2016-07-20T04:10:35.153404 #3144]  INFO -- : 2016-07-20T04:10:35-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=66) COMPLETED after 64.0292
+I, [2016-07-20T04:10:35.155965 #3144]  INFO -- : 2016-07-20T04:10:35-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0156 j/s, 0 failed
+I, [2016-07-20T04:17:23.489979 #3144]  INFO -- : 2016-07-20T04:17:23-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=67) RUNNING
+I, [2016-07-20T04:18:20.637816 #3144]  INFO -- : 2016-07-20T04:18:20-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=67) COMPLETED after 57.1489
+I, [2016-07-20T04:18:20.640736 #3144]  INFO -- : 2016-07-20T04:18:20-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0175 j/s, 0 failed
+I, [2016-07-20T04:42:25.466022 #3144]  INFO -- : 2016-07-20T04:42:25-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=68) RUNNING
+I, [2016-07-20T04:43:31.208465 #3144]  INFO -- : 2016-07-20T04:43:31-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=68) COMPLETED after 65.7437
+I, [2016-07-20T04:43:31.211097 #3144]  INFO -- : 2016-07-20T04:43:31-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0152 j/s, 0 failed
+I, [2016-07-20T04:46:42.665298 #3144]  INFO -- : 2016-07-20T04:46:42-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=69) RUNNING
+I, [2016-07-20T04:47:38.277878 #3144]  INFO -- : 2016-07-20T04:47:38-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=69) COMPLETED after 55.6136
+I, [2016-07-20T04:47:38.281359 #3144]  INFO -- : 2016-07-20T04:47:38-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0180 j/s, 0 failed
+I, [2016-07-20T04:57:17.598403 #3144]  INFO -- : 2016-07-20T04:57:17-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=70) RUNNING
+I, [2016-07-20T04:58:15.340023 #3144]  INFO -- : 2016-07-20T04:58:15-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Job AetnaCrawler (id=70) COMPLETED after 57.7424
+I, [2016-07-20T04:58:15.343232 #3144]  INFO -- : 2016-07-20T04:58:15-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] 1 jobs processed at 0.0173 j/s, 0 failed
+I, [2016-07-20T05:00:15.131990 #3144]  INFO -- : 2016-07-20T05:00:15-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Exiting...
+I, [2016-07-20T05:00:15.272679 #3144]  INFO -- : 2016-07-20T05:00:15-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:3144)] Exiting...
+I, [2016-07-20T05:00:24.941037 #7326]  INFO -- : 2016-07-20T05:00:24-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Starting job worker
+I, [2016-07-20T05:08:33.533353 #7326]  INFO -- : 2016-07-20T05:08:33-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=71) RUNNING
+I, [2016-07-20T05:09:29.578793 #7326]  INFO -- : 2016-07-20T05:09:29-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=71) COMPLETED after 56.0465
+I, [2016-07-20T05:09:29.581279 #7326]  INFO -- : 2016-07-20T05:09:29-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0178 j/s, 0 failed
+I, [2016-07-20T05:11:20.446982 #7326]  INFO -- : 2016-07-20T05:11:20-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=72) RUNNING
+I, [2016-07-20T05:12:07.901979 #7326]  INFO -- : 2016-07-20T05:12:07-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=72) COMPLETED after 47.4559
+I, [2016-07-20T05:12:07.904079 #7326]  INFO -- : 2016-07-20T05:12:07-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0211 j/s, 0 failed
+I, [2016-07-20T05:12:58.329244 #7326]  INFO -- : 2016-07-20T05:12:58-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=73) RUNNING
+I, [2016-07-20T05:13:47.373302 #7326]  INFO -- : 2016-07-20T05:13:47-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=73) COMPLETED after 49.0450
+I, [2016-07-20T05:13:47.375881 #7326]  INFO -- : 2016-07-20T05:13:47-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0204 j/s, 0 failed
+I, [2016-07-20T05:47:56.860423 #7326]  INFO -- : 2016-07-20T05:47:56-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=74) RUNNING
+E, [2016-07-20T05:49:13.282493 #7326] ERROR -- : 2016-07-20T05:49:13-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=74) FAILED (0 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+I, [2016-07-20T05:49:13.293354 #7326]  INFO -- : 2016-07-20T05:49:13-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0131 j/s, 1 failed
+I, [2016-07-20T05:49:23.379716 #7326]  INFO -- : 2016-07-20T05:49:23-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=74) RUNNING
+E, [2016-07-20T05:49:26.568209 #7326] ERROR -- : 2016-07-20T05:49:26-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=74) FAILED (1 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+E, [2016-07-20T05:49:26.568388 #7326] ERROR -- : 2016-07-20T05:49:26-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=74) REMOVED permanently because of 2 consecutive failures
+I, [2016-07-20T05:49:26.574014 #7326]  INFO -- : 2016-07-20T05:49:26-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.3122 j/s, 1 failed
+I, [2016-07-20T05:49:56.818809 #7326]  INFO -- : 2016-07-20T05:49:56-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=75) RUNNING
+I, [2016-07-20T05:51:27.387801 #7326]  INFO -- : 2016-07-20T05:51:27-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=75) COMPLETED after 90.5709
+I, [2016-07-20T05:51:27.391168 #7326]  INFO -- : 2016-07-20T05:51:27-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0110 j/s, 0 failed
+I, [2016-07-20T05:51:57.654767 #7326]  INFO -- : 2016-07-20T05:51:57-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=76) RUNNING
+I, [2016-07-20T05:53:19.982842 #7326]  INFO -- : 2016-07-20T05:53:19-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=76) COMPLETED after 82.3297
+I, [2016-07-20T05:53:19.985374 #7326]  INFO -- : 2016-07-20T05:53:19-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0121 j/s, 0 failed
+I, [2016-07-20T06:12:17.873529 #7326]  INFO -- : 2016-07-20T06:12:17-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=77) RUNNING
+I, [2016-07-20T06:13:08.188696 #7326]  INFO -- : 2016-07-20T06:13:08-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=77) COMPLETED after 50.3162
+I, [2016-07-20T06:13:08.191188 #7326]  INFO -- : 2016-07-20T06:13:08-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0199 j/s, 0 failed
+I, [2016-07-20T06:49:18.822569 #7326]  INFO -- : 2016-07-20T06:49:18-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=78) RUNNING
+I, [2016-07-20T06:50:06.270340 #7326]  INFO -- : 2016-07-20T06:50:06-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=78) COMPLETED after 47.4483
+I, [2016-07-20T06:50:06.273220 #7326]  INFO -- : 2016-07-20T06:50:06-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0211 j/s, 0 failed
+I, [2016-07-20T07:47:46.530339 #7326]  INFO -- : 2016-07-20T07:47:46-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=79) RUNNING
+I, [2016-07-20T07:49:30.401923 #7326]  INFO -- : 2016-07-20T07:49:30-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] Job AetnaCrawler (id=79) COMPLETED after 103.8734
+I, [2016-07-20T07:49:30.405681 #7326]  INFO -- : 2016-07-20T07:49:30-0500: [Worker(delayed_job host:Devsincs-MacBook-Pro.local pid:7326)] 1 jobs processed at 0.0096 j/s, 0 failed
+I, [2016-07-27T06:43:48.003541 #3273]  INFO -- : 2016-07-27T06:43:48-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Starting job worker
+I, [2016-07-27T06:43:48.072517 #3273]  INFO -- : 2016-07-27T06:43:48-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=80) RUNNING
+E, [2016-07-27T06:45:12.219932 #3273] ERROR -- : 2016-07-27T06:45:12-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=80) FAILED (0 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+I, [2016-07-27T06:45:12.232683 #3273]  INFO -- : 2016-07-27T06:45:12-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.0119 j/s, 1 failed
+I, [2016-07-27T06:45:22.312727 #3273]  INFO -- : 2016-07-27T06:45:22-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=80) RUNNING
+E, [2016-07-27T06:45:25.609203 #3273] ERROR -- : 2016-07-27T06:45:25-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=80) FAILED (1 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+E, [2016-07-27T06:45:25.609425 #3273] ERROR -- : 2016-07-27T06:45:25-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=80) REMOVED permanently because of 2 consecutive failures
+I, [2016-07-27T06:45:25.616555 #3273]  INFO -- : 2016-07-27T06:45:25-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.3021 j/s, 1 failed
+I, [2016-07-27T06:45:45.801887 #3273]  INFO -- : 2016-07-27T06:45:45-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=81) RUNNING
+I, [2016-07-27T06:46:58.540353 #3273]  INFO -- : 2016-07-27T06:46:58-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=81) COMPLETED after 72.7405
+I, [2016-07-27T06:46:58.543589 #3273]  INFO -- : 2016-07-27T06:46:58-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.0137 j/s, 0 failed
+I, [2016-07-27T06:53:31.280013 #3273]  INFO -- : 2016-07-27T06:53:31-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=82) RUNNING
+I, [2016-07-27T06:54:43.729765 #3273]  INFO -- : 2016-07-27T06:54:43-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=82) COMPLETED after 72.4517
+I, [2016-07-27T06:54:43.732720 #3273]  INFO -- : 2016-07-27T06:54:43-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.0138 j/s, 0 failed
+I, [2016-07-27T07:08:34.420106 #3273]  INFO -- : 2016-07-27T07:08:34-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=83) RUNNING
+I, [2016-07-27T07:09:44.615995 #3273]  INFO -- : 2016-07-27T07:09:44-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=83) COMPLETED after 70.1978
+I, [2016-07-27T07:09:44.619003 #3273]  INFO -- : 2016-07-27T07:09:44-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.0142 j/s, 0 failed
+I, [2016-07-27T07:13:56.464657 #3273]  INFO -- : 2016-07-27T07:13:56-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=84) RUNNING
+E, [2016-07-27T07:15:13.402848 #3273] ERROR -- : 2016-07-27T07:15:13-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=84) FAILED (0 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+I, [2016-07-27T07:15:13.413778 #3273]  INFO -- : 2016-07-27T07:15:13-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=85) RUNNING
+E, [2016-07-27T07:15:24.955432 #3273] ERROR -- : 2016-07-27T07:15:24-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=85) FAILED (0 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+I, [2016-07-27T07:15:24.964311 #3273]  INFO -- : 2016-07-27T07:15:24-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=86) RUNNING
+E, [2016-07-27T07:15:28.040359 #3273] ERROR -- : 2016-07-27T07:15:28-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=86) FAILED (0 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+I, [2016-07-27T07:15:28.060313 #3273]  INFO -- : 2016-07-27T07:15:28-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=84) RUNNING
+E, [2016-07-27T07:15:32.827779 #3273] ERROR -- : 2016-07-27T07:15:32-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=84) FAILED (1 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+E, [2016-07-27T07:15:32.828040 #3273] ERROR -- : 2016-07-27T07:15:32-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=84) REMOVED permanently because of 2 consecutive failures
+I, [2016-07-27T07:15:32.837315 #3273]  INFO -- : 2016-07-27T07:15:32-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=85) RUNNING
+E, [2016-07-27T07:15:35.826652 #3273] ERROR -- : 2016-07-27T07:15:35-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=85) FAILED (1 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+E, [2016-07-27T07:15:35.826922 #3273] ERROR -- : 2016-07-27T07:15:35-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=85) REMOVED permanently because of 2 consecutive failures
+I, [2016-07-27T07:15:35.837814 #3273]  INFO -- : 2016-07-27T07:15:35-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=86) RUNNING
+E, [2016-07-27T07:15:39.947052 #3273] ERROR -- : 2016-07-27T07:15:39-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=86) FAILED (1 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+E, [2016-07-27T07:15:39.947341 #3273] ERROR -- : 2016-07-27T07:15:39-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=86) REMOVED permanently because of 2 consecutive failures
+I, [2016-07-27T07:15:39.955923 #3273]  INFO -- : 2016-07-27T07:15:39-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 6 jobs processed at 0.0580 j/s, 6 failed
+I, [2016-07-27T07:21:12.462132 #3273]  INFO -- : 2016-07-27T07:21:12-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=87) RUNNING
+E, [2016-07-27T07:21:30.815222 #3273] ERROR -- : 2016-07-27T07:21:30-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=87) FAILED (0 prior attempts) with SocketError: getaddrinfo: nodename nor servname provided, or not known
+I, [2016-07-27T07:21:30.823385 #3273]  INFO -- : 2016-07-27T07:21:30-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.0544 j/s, 1 failed
+I, [2016-07-27T07:21:40.924094 #3273]  INFO -- : 2016-07-27T07:21:40-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=87) RUNNING
+I, [2016-07-27T07:22:48.259561 #3273]  INFO -- : 2016-07-27T07:22:48-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=87) COMPLETED after 67.3372
+I, [2016-07-27T07:22:48.262856 #3273]  INFO -- : 2016-07-27T07:22:48-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 1 jobs processed at 0.0148 j/s, 0 failed
+I, [2016-07-27T07:24:54.210455 #3273]  INFO -- : 2016-07-27T07:24:54-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=88) RUNNING
+I, [2016-07-27T07:26:12.410511 #3273]  INFO -- : 2016-07-27T07:26:12-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=88) COMPLETED after 78.2021
+I, [2016-07-27T07:26:12.414618 #3273]  INFO -- : 2016-07-27T07:26:12-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=89) RUNNING
+I, [2016-07-27T07:27:17.583883 #3273]  INFO -- : 2016-07-27T07:27:17-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] Job AetnaCrawler (id=89) COMPLETED after 65.1710
+I, [2016-07-27T07:27:17.587573 #3273]  INFO -- : 2016-07-27T07:27:17-0500: [Worker(host:Devsincs-MacBook-Pro.local pid:3273)] 2 jobs processed at 0.0139 j/s, 0 failed

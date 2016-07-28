@@ -14,8 +14,8 @@ class Patient < ActiveRecord::Base
     json = ParseAvaility.new.parse_panels(json_obj)
   end
 
-  def self.aetna_jsn(tables)
-    json = ParseAetna.new.parse_tables_aetna(tables)
+  def self.aetna_jsn(tables, copay_ind, coin_ind, oop_ind, deduc_ind)
+    json = ParseAetna.new.parse_tables_aetna(tables, copay_ind, coin_ind, oop_ind, deduc_ind)
   end
 
   def self.clean(id)

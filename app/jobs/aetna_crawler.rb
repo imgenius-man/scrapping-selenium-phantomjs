@@ -53,6 +53,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
        
     # parsing
+    patient_detail = ParseTable.new.dummy_array_for_patient_detail
     tables = driver.find_elements(:tag_name, 'table')
 
     member_info = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[2].attribute('innerHTML'),nil,Mechanize.new)
@@ -77,6 +78,19 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         
           if fl.present? && fl.text != " " && (flag || fl.text != "Address:")
             flag = false if fl.text == "Address:"
+            key = fl.text.squish.split(':').first
+            patient_detail["Patient Detail"]["First Name"] = field_data[index].text.squish.split(',').first if key.to_s.squish.include? 'Member Name'
+            patient_detail["Patient Detail"]["Last Name"] = field_data[index].text.squish.split(',').last if key.to_s.squish.include? 'Member Name'
+            patient_detail["Patient Detail"]["Address 1"] = field_data[index].text.squish if key.to_s.squish.include? 'Address'
+            patient_detail["Patient Detail"]["Patient ID"] = field_data[index].text.squish if key.to_s.squish.include? 'Member ID'
+            patient_detail["Patient Detail"]["DOB"] = field_data[index].text.squish if key.to_s.squish.include? 'Birth'
+            patient_detail["Patient Detail"]["Relationship to Subscriber"] = field_data[index].text.squish if key.to_s.squish.include? 'Relation to Subscriber'
+            patient_detail["Patient Detail"]["Gender"] = field_data[index].text.squish if key.to_s.squish.include? 'Gender'
+            patient_detail["Patient Detail"]["PHONE NO."] = field_data[index].text.squish if key.to_s.squish.include? 'Phone Number'
+            patient_detail["Plan and Network Detail"]["Account Name"] = field_data[index].text.squish if key.to_s.squish.include? 'Plan Name'
+            patient_detail["Plan and Network Detail"]["Account No."] = field_data[index].text.squish if key.to_s.squish.include? 'Plan ID'
+            patient_detail["Plan and Network Detail"]["Initial Coverage Date"] = field_data[index].text.squish if key.to_s.squish.include? 'Plan Effective Date'
+          
             ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
           
           elsif fl.present? && fl.text== " "
@@ -87,9 +101,10 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         }
         ar = ar.reduce({},:merge)
         ar["Address"] = ar["Address"]+", #{field_data[3].text.squish}"
-
-        mega_arr << {"Patient Detail" => ar}
+        # mega_arr << {"Patient Detail" => ar}
     end
+    
+
     if subscriber_info.search('.clsEmphasized').present? && subscriber_info.search('.clsEmphasized').first.text.squish == "Subscriber/Group Information"
       
       field_labels = subscriber_info.search('.FieldLabel')
@@ -97,11 +112,16 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       ar = []
       field_labels.each_with_index {|fl,index|
         if fl.present? && fl.text != " "
+          key = fl.text.squish.split(':').first
+          patient_detail["Subscriber Detail"]["First Name"] = field_data[index].text.squish.split(',').first if key.to_s.squish.include? 'Subscriber Name'
+          patient_detail["Subscriber Detail"]["Last Name"] = field_data[index].text.squish.split(',').last if key.to_s.squish.include? 'Subscriber Name'
+          
+          
           ar << { fl.text.squish.split(':').first => field_data[index].text.squish }
         end
       }
 
-      mega_arr << {"Subscriber Detail" => ar.reduce({},:merge)}
+      # mega_arr << {"Subscriber Detail" => ar.reduce({},:merge)}
 
     end
     if benefit_info.search('.clsEmphasized').present? && benefit_info.search('.clsEmphasized').first.text.squish == "Benefit Description"
@@ -114,10 +134,16 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
         end
       }
 
-      mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
+      # mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
     end
+    mega_arr << patient_detail
 
-    amounts_arr = Patient.aetna_jsn(tables)
+    copay_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Co payment\"]').closest('table')[0] )") + 4
+    coin_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Co insurance\"]').closest('table')[0] )") + 4
+    oop_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Deductible\"]').closest('table')[0] )") + 4
+    deduc_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Out of Pocket (Stop Loss)\"]').closest('table')[0] )") + 4
+
+    amounts_arr = Patient.aetna_jsn(tables, copay_ind, coin_ind, oop_ind, deduc_ind)
     amounthash = amounts_arr.reduce({},:merge)
     amounts_arr.each{ |v|
       if amounthash[v.keys.first].present?
@@ -140,11 +166,11 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
     driver.quit
 
     patient.update(response_datetime: Time.now)
-        patient.update(request_status: 'Success')
+    patient.update(request_status: 'Success')
   
     rescue Exception=> e
       patient.update_attribute('record_available', 'failed')
-puts e.inspect 
+      puts e.inspect 
       PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
       driver.quit if driver.present?
       patient.update(response_datetime: Time.now)

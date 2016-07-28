@@ -1,28 +1,29 @@
 class ParseAetna
   require 'parsers/parse_table'
   
-  def parse_tables_aetna(tables)
+  def parse_tables_aetna(tables, copay_ind, coin_ind, oop_ind, deduc_ind)
     puts  "sdfsd"*123
     mega_arr = []
-    coinsuarance = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[11].attribute('innerHTML'),nil,Mechanize.new)
+    
+    coinsuarance = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[coin_ind].attribute('innerHTML'),nil,Mechanize.new)
     tr = coinsuarance.search('tr')
 
     ret = aetna_parse_coinsuarnce(tr)
     mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)}
 
-    copayment = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[15].attribute('innerHTML'),nil,Mechanize.new)
+    copayment = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[copay_ind].attribute('innerHTML'),nil,Mechanize.new)
     tr = copayment.search('tr')
 
     ret = aetna_parse_copayment(tr)
     mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)}
 
-    deductibles = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[19].attribute('innerHTML'),nil,Mechanize.new)
+    deductibles = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[deduc_ind].attribute('innerHTML'),nil,Mechanize.new)
     tr = deductibles.search('tr')
 
     ret = aetna_parse_deductibles(tr)
     mega_arr << { ret[1] => map_keys_aetna(ret[0],ParseTable.new.dummy_array_for_tables_aetna)}
 
-    out_of_pocket = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[27].attribute('innerHTML'),nil,Mechanize.new)
+    out_of_pocket = Mechanize::Page.new(nil,{'content-type'=>'text/html'},tables[oop_ind].attribute('innerHTML'),nil,Mechanize.new)
     tr = out_of_pocket.search('tr')
 
     ret = aetna_parse_out_of_pocket(tr)
@@ -119,16 +120,16 @@ class ParseAetna
         elsif key.include? 'Individual'
         
           if key.include?('In Network') &&  key.include?("Amount Remaining")
-            dummy["FAMILY OUT OF POCKET MAXIMUM REMAINING - IN NETWORK"] = curr[key]
+            dummy["INDIVIDUAL OUT OF POCKET MAXIMUM REMAINING - IN NETWORK"] = curr[key]
 
           elsif key.include?('In Network') &&  key.include?("Amount Limit")
-            dummy["FAMILY OUT OF POCKET MAXIMUM AMOUNT- IN NETWORK"] = curr[key]
+            dummy["INDIVIDUAL OUT OF POCKET MAXIMUM AMOUNT- IN NETWORK"] = curr[key]
             
           elsif key.include?('Out Network') && key.include?("Amount Remaining")
-            dummy["FAMILY OUT OF POCKET MAXIMUM REMAINING - OUT OF NETWORK"] = curr[key]
+            dummy["INDIVIDUAL OUT OF POCKET MAXIMUM REMAINING - OUT OF NETWORK"] = curr[key]
 
           elsif key.include?('Out Network') && key.include?("Amount Limit" )
-            dummy["FAMILY OUT OF POCKET MAXIMUM AMOUNT- OUT OF NETWORK"] = curr[key]
+            dummy["INDIVIDUAL OUT OF POCKET MAXIMUM AMOUNT- OUT OF NETWORK"] = curr[key]
 
           end
 
@@ -158,8 +159,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Coinsuarnce - Code" => t_code}
     
     [js.reduce({},:merge),t_name]
@@ -177,8 +178,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Copayment - Code" => t_code}
     
     [js.reduce({},:merge),t_name]
@@ -198,8 +199,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Coinsuarnce - Code" => t_code}
     [js.reduce({},:merge),t_name]
   end
@@ -218,8 +219,8 @@ class ParseAetna
       }
     }
     info = tr[1].text.squish if tr[1].present?
-    t_name = info.split('-').last.squish
-    t_code = info.split('-').first.squish
+    t_name = info.split('-').last.squish if info.present?
+    t_code = info.split('-').first.squish if info.present?
     js << {"Coinsuarnce - Code" => t_code}
     [js.reduce({},:merge),t_name]
   end
