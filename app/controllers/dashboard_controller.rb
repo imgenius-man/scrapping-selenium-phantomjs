@@ -61,6 +61,9 @@ class DashboardController < ApplicationController
   def index
     @patients = Patient.order('first_name asc')
   end
+
+  def eligibility
+  end
 end
 
 # $("<img>").attr({'id':'img1','style':'margin-top:6%;','src':'http://loadinggif.com/images/image-selection/32.gif'}).appendTo('#innersec');

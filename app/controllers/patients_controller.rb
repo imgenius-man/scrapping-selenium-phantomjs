@@ -218,6 +218,14 @@ class PatientsController < ApplicationController
     end
   end
 
+  def apis_eligibility
+    if params[:type] = 'pokitdok'
+      @json = [::PokitdokApi.new.send(params)].to_json
+    end
+
+    return render 'search_data'
+  end
+
   private
     # def patient_params
     #   params.require(:patient).permit( :record_available, :dob, :first_name, :last_name, :patient_id, :username, :password, :site_to_scrap, :token, :raw_html, :json, :site_url, :practice_name, :payer_name, :provider_type, :place_of_service, :service_type, :practice_name_code, :cus_field2_code, :provider_name, :provider_name_code, :cus_field4_code, :service_type_code)
