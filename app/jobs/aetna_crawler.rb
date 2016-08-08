@@ -1,4 +1,4 @@
-class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :redirect_url, :token)
+class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :response_url, :token)
 
 
 	def perform
@@ -44,6 +44,12 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
     btn =  driver.find_element(:class , 'ButtonPrimaryAction')
     puts "5"
     btn.click
+
+    #
+    whether_active = driver.find_element(:css, ".Display > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(7)")
+    whether_active = whether_active.text
+
+
 
     driver.find_element(:css, '.Display > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(9)').click
     
@@ -136,6 +142,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
       # mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
     end
+<<<<<<< HEAD
     mega_arr << patient_detail
 
     copay_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Co payment\"]').closest('table')[0] )") + 4
@@ -144,6 +151,10 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
     deduc_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Out of Pocket (Stop Loss)\"]').closest('table')[0] )") + 4
 
     amounts_arr = Patient.aetna_jsn(tables, copay_ind, coin_ind, oop_ind, deduc_ind)
+=======
+
+    amounts_arr = Patient.aetna_jsn(tables)
+>>>>>>> d0562ebaa16f2678971578f1ce9ed69002eb875b
     amounthash = amounts_arr.reduce({},:merge)
     amounts_arr.each{ |v|
       if amounthash[v.keys.first].present?
@@ -155,26 +166,53 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       end
     }
     mega_arr << amounthash
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> d0562ebaa16f2678971578f1ce9ed69002eb875b
     @json = JSON.generate(mega_arr)
 
     puts @json.inspect
 
     patient.update_attribute('json', @json)
     patient.update_attribute('record_available', 'complete')
-
+    if response_url.present?
+          response = RestClient.post response_url, {data: patient.json, token: token}
+        end
     driver.quit
 
     patient.update(response_datetime: Time.now)
     patient.update(request_status: 'Success')
   
     rescue Exception=> e
+# <<<<<<< HEAD
       patient.update_attribute('record_available', 'failed')
       puts e.inspect 
       PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
       driver.quit if driver.present?
       patient.update(response_datetime: Time.now)
+# =======
+      if whether_active == "INACTIVE"
+        transaction_date = Time.now.to_datetime.strftime("%d/%m/%y %H:%M %p")
+        @json = [{'General' => {'ELIGIBILITY AS OF' => "", 'ELIGIBILITY STATUS' => whether_active, 'TRANSACTION DATE' => transaction_date}}]
+        patient.update_attribute('json', JSON.generate(@json))
+        if response_url.present?
+          response = RestClient.post response_url, {data: patient.json, token: token}
+        end
+        patient.update_attribute('record_available', 'complete')
+        patient.update(request_status: 'Success')
+      else
+        patient.update_attribute('record_available', 'failed')
+        if response_url.present?
+          response = RestClient.post response_url, {error: 'please try again', token: token}
+        end
+        PatientMailer::exception_email("PatientID: #{patient_id} ==> #{e.inspect} \n WebSite = production").deliver
+# >>>>>>> d0562ebaa16f2678971578f1ce9ed69002eb875b
         patient.update(request_status: 'Failed')
+      end
+        driver.quit if driver.present?
+        patient.update(response_datetime: Time.now)
     end
   end
 
