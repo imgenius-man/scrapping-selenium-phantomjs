@@ -142,7 +142,6 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
 
       # mega_arr << {"Benefit Description" => ar.reduce({},:merge)}
     end
-<<<<<<< HEAD
     mega_arr << patient_detail
 
     copay_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Co payment\"]').closest('table')[0] )") + 4
@@ -151,10 +150,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
     deduc_ind = driver.execute_script(" return Array.prototype.indexOf.call($('#frmPlanForm > table'),$('#frmPlanForm > table > tbody > tr > th > a[name=\"Out of Pocket (Stop Loss)\"]').closest('table')[0] )") + 4
 
     amounts_arr = Patient.aetna_jsn(tables, copay_ind, coin_ind, oop_ind, deduc_ind)
-=======
 
-    amounts_arr = Patient.aetna_jsn(tables)
->>>>>>> d0562ebaa16f2678971578f1ce9ed69002eb875b
     amounthash = amounts_arr.reduce({},:merge)
     amounts_arr.each{ |v|
       if amounthash[v.keys.first].present?
@@ -166,11 +162,7 @@ class AetnaCrawler < Struct.new(:username, :password, :patient_id, :site_url, :r
       end
     }
     mega_arr << amounthash
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> d0562ebaa16f2678971578f1ce9ed69002eb875b
     @json = JSON.generate(mega_arr)
 
     puts @json.inspect
