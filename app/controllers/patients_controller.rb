@@ -219,8 +219,11 @@ class PatientsController < ApplicationController
   end
 
   def apis_eligibility
-    if params[:type] = 'pokitdok'
+    if params[:type] == 'pokitdok'
       @json = [::PokitdokApi.new.send(params)].to_json
+    
+    elsif params[:type] == 'eligibility'
+      @json = [::EligibilityApi.new.send(params)].to_json
     end
 
     return render 'search_data'

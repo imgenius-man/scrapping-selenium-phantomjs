@@ -1,34 +1,50 @@
 <%= stylesheet_link_tag "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" %>
 
 <div class="container well signin-form">
-	<span class="pull-right">
-		<%= link_to 'Visit Status Page', statuses_path  ,class: "text-danger"%>
-	</span>
-	<h3>	Sign In</h3>
+	<h3>	Member Info </h3>
 	<br>
-	  <div class="col-md-2">
-	  		<%= label_tag :first_name, 'First Name', :class => '' %>
-			<%= text_field_tag :first_name, nil, :class =>'form-control', :placeholder => 'Enter text' %>
-	  </div>
-	  <div class="col-md-2">
-			<%= label_tag :last_name, 'Last Name', :class => '' %>
-			<%= text_field_tag :last_name, nil, :class =>'form-control', :placeholder => 'Enter text' %>
-	  </div>
+	  	<div class='row'>
+			  <div class="col-md-2">
+			  		<%= label_tag :first_name, 'First Name', :class => '' %>
+					<%= text_field_tag :first_name, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
+			  <div class="col-md-2">
+					<%= label_tag :last_name, 'Last Name', :class => '' %>
+					<%= text_field_tag :last_name, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
 
-	  <div class="col-md-2">
-			<%= label_tag :dob, 'DOB', :class => 'control-label' %>
-			<%= text_field_tag :dob, nil, :class =>'form-control', :placeholder => 'Enter text' %>
-	  </div>
+			  <div class="col-md-2">
+					<%= label_tag :dob, 'DOB', :class => 'control-label' %>
+					<%= text_field_tag :dob, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
 
-	  <div class="col-md-2">
-			<%= label_tag :ins_id, 'Ins ID', :class => 'control-label' %>
-			<%= text_field_tag :ins_id, nil, :class =>'form-control', :placeholder => 'Enter text' %>
-	  </div>
+			  <div class="col-md-2">
+					<%= label_tag :ins_id, 'Ins ID', :class => 'control-label' %>
+					<%= text_field_tag :ins_id, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
 
-	  <div class="col-md-2">
-			<%= label_tag :group_no, 'Group no', :class => 'control-label' %>
-			<%= text_field_tag :group_no, nil, :class =>'form-control', :placeholder => 'Enter text' %>
-	  </div>
+			  <div class="col-md-2">
+					<%= label_tag :group_no, 'Group no', :class => 'control-label' %>
+					<%= text_field_tag :group_no, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
+		</div>
+		<h3>	Provider Info </h3>
+		<br>
+		<div class='row'>
+			  <div class="col-md-2">
+			  		<%= label_tag :p_first_name, 'First Name', :class => '' %>
+					<%= text_field_tag :p_first_name, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
+			  <div class="col-md-2">
+					<%= label_tag :p_last_name, 'Last Name', :class => '' %>
+					<%= text_field_tag :p_last_name, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
+
+			  <div class="col-md-2">
+					<%= label_tag :p_npi, 'NPI', :class => 'control-label' %>
+					<%= text_field_tag :p_npi, nil, :class =>'form-control', :placeholder => 'Enter text' %>
+			  </div>
+		</div>
 
 	</div>
 	
@@ -56,7 +72,7 @@
 			        <td><%= text_field_tag :service_type, nil %></td>
 
 			        <td>
-             		 	<%= form_tag apis_eligibility_patients_path, {:class => 'patient_form'} do %>
+             		 	<%= form_tag apis_eligibility_patients_path, {:class => 'patient_pokit_form'} do %>
           					<%= hidden_field_tag :first_name,  "asd" %>
              		 		<%= hidden_field_tag :last_name, "asd" %>
              		 		<%= hidden_field_tag :dob, "asd" %>
@@ -73,6 +89,34 @@
          				<% end %>
 			      	</td>
 			      </tr>
+			      <tr>
+
+			        <td>Eligibility Api</td>
+			        <td><%= text_field_tag :eligi_payer_id, nil %></td>
+			        <td><%= text_field_tag :eligi_service_type, nil %></td>
+
+			        <td>
+             		 	<%= form_tag apis_eligibility_patients_path, {:class => 'patient_eligi_form'} do %>
+          					<%= hidden_field_tag :first_name,  "asd" %>
+             		 		<%= hidden_field_tag :last_name, "asd" %>
+             		 		<%= hidden_field_tag :dob, "asd" %>
+             		 		<%= hidden_field_tag :ins_id, "asd" %>
+             		 		<%= hidden_field_tag :group_no, "asd" %>
+             		 		<%= hidden_field_tag :group_no, "asd" %>
+             		 		<%= hidden_field_tag :group_no, "asd" %>
+             		 		<%= hidden_field_tag :payer_id, "asd" %>
+             		 		<%= hidden_field_tag :service_type, "asd" %>
+
+             		 		<%= hidden_field_tag :p_first_name,  "asd" %>
+             		 		<%= hidden_field_tag :p_last_name, "asd" %>
+             		 		<%= hidden_field_tag :p_npi, "asd" %>
+
+             		 		<%= hidden_field_tag :type, "eligibility" %>
+             		 		
+          					<%= submit_tag "Check", class: "btn btn-block btn-small btn-success" %>
+         				<% end %>
+			      	</td>
+			      </tr>
 			  </tbody>
 			</table>
 			</div>
@@ -84,7 +128,7 @@
 
 	$(document).ready(function(){
 		
-		$( ".patient_form" ).submit(function( event ) {
+		$( ".patient_pokit_form" ).submit(function( event ) {
   		event.preventDefault();
   		console.log($(this).children('#first_name').val())
   		$(this).children('#first_name').val($('#first_name').val().trim())
@@ -94,6 +138,23 @@
   		$(this).children('#group_no').val($('#group_no').val().trim())
   		$(this).children('#payer_id').val($('#payer_id').val().trim())
   		$(this).children('#service_type').val($('#service_type').val().trim())
+
+			this.submit()
+		});
+
+		$( ".patient_eligi_form" ).submit(function( event ) {
+  		event.preventDefault();
+  		console.log($(this).children('#first_name').val())
+  		$(this).children('#first_name').val($('#first_name').val().trim())
+  		$(this).children('#last_name').val($('#last_name').val().trim())
+  		$(this).children('#dob').val($('#dob').val().trim())
+  		$(this).children('#ins_id').val($('#ins_id').val().trim())
+  		$(this).children('#group_no').val($('#group_no').val().trim())
+  		$(this).children('#payer_id').val($('#eligi_payer_id').val().trim())
+  		$(this).children('#service_type').val($('#eligi_service_type').val().trim())
+  		$(this).children('#p_first_name').val($('#p_first_name').val().trim())
+  		$(this).children('#p_last_name').val($('#p_last_name').val().trim())
+  		$(this).children('#p_npi').val($('#p_npi').val().trim())
 
 			this.submit()
 		});
