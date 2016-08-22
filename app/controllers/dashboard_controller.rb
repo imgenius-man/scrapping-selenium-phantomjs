@@ -63,6 +63,8 @@ class DashboardController < ApplicationController
   end
 
   def eligibility
+    @service_types = EligibilityApi.new.service_type_codes
+    @procedure_codes = EligibilityApi.new.procedure_codes
   end
 end
 

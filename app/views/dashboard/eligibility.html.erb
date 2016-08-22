@@ -58,6 +58,7 @@
 			      <th>API name</th>
 			      <th>Payer ID</th>
 			      <th>Service Type</th>
+			      <th>Procedure Code</th>
 			      <th></th>
 			      
 			    </tr>
@@ -70,7 +71,7 @@
 			        <td>Pokitdock Api</td>
 			        <td><%= text_field_tag :payer_id, nil %></td>
 			        <td><%= text_field_tag :service_type, nil %></td>
-
+			        <td></td>
 			        <td>
              		 	<%= form_tag apis_eligibility_patients_path, {:class => 'patient_pokit_form'} do %>
           					<%= hidden_field_tag :first_name,  "asd" %>
@@ -93,7 +94,19 @@
 
 			        <td>Eligibility Api</td>
 			        <td><%= text_field_tag :eligi_payer_id, nil %></td>
-			        <td><%= text_field_tag :eligi_service_type, nil %></td>
+			        <td>
+			        	<%= select_tag :eligi_service_type, options_for_select(@service_types) %>
+			        	<%= select_tag :eligi_service_type, options_for_select(@service_types) %>
+			        	<%= select_tag :eligi_service_type, options_for_select(@service_types) %>
+			        	<%= select_tag :eligi_service_type, options_for_select(@service_types) %>
+			        </td>
+			        <td>
+			        	<%= select_tag :eligi_procedure_code, options_for_select(@procedure_codes) %>
+			        	<%= select_tag :eligi_procedure_code, options_for_select(@procedure_codes) %>
+			        	<%= select_tag :eligi_procedure_code, options_for_select(@procedure_codes) %>
+			        	<%= select_tag :eligi_procedure_code, options_for_select(@procedure_codes) %>
+			        	<%= select_tag :eligi_procedure_code, options_for_select(@procedure_codes) %>
+			        </td>
 
 			        <td>
              		 	<%= form_tag apis_eligibility_patients_path, {:class => 'patient_eligi_form'} do %>
@@ -106,6 +119,9 @@
              		 		<%= hidden_field_tag :group_no, "asd" %>
              		 		<%= hidden_field_tag :payer_id, "asd" %>
              		 		<%= hidden_field_tag :service_type, "asd" %>
+             		 		<%= hidden_field_tag :service_type, "asd" %>
+             		 		<%= hidden_field_tag :procedure_code, "asd" %>
+
 
              		 		<%= hidden_field_tag :p_first_name,  "asd" %>
              		 		<%= hidden_field_tag :p_last_name, "asd" %>
@@ -144,6 +160,17 @@
 
 		$( ".patient_eligi_form" ).submit(function( event ) {
   		event.preventDefault();
+  		
+  		var st_values = []
+  		$('select[name="eligi_service_type"]').each(function(e,v){
+  			st_values.push(v.value)
+  		})
+
+  		var p_values = []
+  		$('select[name="eligi_procedure_code"]').each(function(e,v){
+  			p_values.push(v.value)
+  		})
+
   		console.log($(this).children('#first_name').val())
   		$(this).children('#first_name').val($('#first_name').val().trim())
   		$(this).children('#last_name').val($('#last_name').val().trim())
@@ -151,7 +178,9 @@
   		$(this).children('#ins_id').val($('#ins_id').val().trim())
   		$(this).children('#group_no').val($('#group_no').val().trim())
   		$(this).children('#payer_id').val($('#eligi_payer_id').val().trim())
-  		$(this).children('#service_type').val($('#eligi_service_type').val().trim())
+  		$(this).children('#service_type').val(st_values)
+  		$(this).children('#procedure_code').val(p_values)
+
   		$(this).children('#p_first_name').val($('#p_first_name').val().trim())
   		$(this).children('#p_last_name').val($('#p_last_name').val().trim())
   		$(this).children('#p_npi').val($('#p_npi').val().trim())
