@@ -163,12 +163,16 @@
   		
   		var st_values = []
   		$('select[name="eligi_service_type"]').each(function(e,v){
-  			st_values.push(v.value)
+  			if(v.value != ''){
+  				st_values.push(v.value)
+  			}
   		})
 
   		var p_values = []
   		$('select[name="eligi_procedure_code"]').each(function(e,v){
-  			p_values.push(v.value)
+  			if(v.value != ''){
+  				p_values.push(v.value)
+  			}
   		})
 
   		console.log($(this).children('#first_name').val())
