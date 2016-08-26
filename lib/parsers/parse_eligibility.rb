@@ -140,18 +140,19 @@ class ParseEligibility
 		patient_format['Patient Detail']['DOB'] = current_array['dob']
 
 
-		# plan_detail = current_array['plan_details'].present? ? current_array['plan_details'] : []
-		
-		# plan_detail.each { |plan|
-		# 	puts "---"*100
-		# 	puts plan.inspect
-		# 	patient_format['Plan and Network Detail']['Plan Type'] = plan['payer_name']
-		# 	patient_format['Plan and Network Detail']['Plan Type'] =  plan['payer_name'].to_s
-		# 	patient_format['Plan and Network Detail']['Initial Coverage Date'] = patient_format['Plan and Network Detail']['Initial Coverage Date'].to_s + plan['start_date'].to_s
-		# 	patient_format['Plan and Network Detail']['Current Coverage From'] = patient_format['Plan and Network Detail']['Current Coverage From'].to_s + plan['end_date'].to_s
-		# 	patient_format['Plan and Network Detail']['Account Name'] = patient_format['Plan and Network Detail']['Account Name'].to_s + plan['payer_name'].to_s
-		# }
-		
+		plan_detail = current_array['plan_details'].present? ? current_array['plan_details'] : []
+		plan_detail.each { |v,pln|
+		puts "---"*100
+		puts pln.inspect
+		puts pln.is_a?(Hash)
+			if pln.present? && pln.is_a?(Hash)
+				puts pln.inspect
+				patient_format['Plan and Network Detail']['Plan Type'] =  patient_format['Plan and Network Detail']['Plan Type'] + pln['payer_name'].to_s + ','
+				patient_format['Plan and Network Detail']['Initial Coverage Date'] = patient_format['Plan and Network Detail']['Initial Coverage Date'].to_s + pln['start_date'].to_s + ','
+				patient_format['Plan and Network Detail']['Current Coverage From'] = patient_format['Plan and Network Detail']['Current Coverage From'].to_s + pln['end_date'].to_s + ','
+				patient_format['Plan and Network Detail']['Account Name'] = patient_format['Plan and Network Detail']['Account Name'].to_s + pln['payer_name'].to_s + ','
+			end
+		}
 
 		json = patient_format
 
@@ -190,5 +191,19 @@ end
 # elsif table['procedure_label'].present?
 # dummy['CODE'] = table['procedure_code']
 # json.merge!({ table['procedure_label'] => dummy })
+# end
+# }
+
+# plan_detail = current_array['plan_details'].present? ? current_array['plan_details'] : []
+# plan_detail.each { |v,pln|
+# puts "---"*100
+# puts pln.inspect
+# puts pln.is_a?(Hash)
+# if pln.present? && pln.is_a?(Hash)
+# puts pln.inspect
+# patient_format['Plan and Network Detail']['Plan Type'] =  patient_format['Plan and Network Detail']['Plan Type'] + pln['payer_name'].to_s + ','
+# patient_format['Plan and Network Detail']['Initial Coverage Date'] = patient_format['Plan and Network Detail']['Initial Coverage Date'].to_s + pln['start_date'].to_s + ','
+# patient_format['Plan and Network Detail']['Current Coverage From'] = patient_format['Plan and Network Detail']['Current Coverage From'].to_s + pln['end_date'].to_s + ','
+# patient_format['Plan and Network Detail']['Account Name'] = patient_format['Plan and Network Detail']['Account Name'].to_s + pln['payer_name'].to_s + ','
 # end
 # }

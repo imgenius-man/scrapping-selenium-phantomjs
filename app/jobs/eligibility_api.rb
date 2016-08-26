@@ -8,6 +8,9 @@ class EligibilityApi
 			:provider_last_name=>params['p_last_name'], :member_id=>params['ins_id'], :member_first_name=>params['first_name'], :member_last_name=>params['last_name'], :member_dob=>params['dob'], :service_type=>params['service_type'], :procedure_code=>params['procedure_code'], :multiple_stc=>true} 
 		begin
 			current_json_string = RestClient.get("https://gds.eligibleapi.com/v1.4/coverage/all.json", params: params)
+			if current_json_string.present? && JSON.parse(current_json_string)['error'].present?
+				return error = JSON.parse(current_json_string)['error']
+			end
 		rescue Exception=>e 
 			error = JSON.parse(e.response)['error']['response_code']
 		end	
@@ -15,8 +18,12 @@ class EligibilityApi
 		if error.present? && error = 'Y'
 			begin
 				current_json_string = RestClient.get("https://gds.eligibleapi.com/v1.4/coverage/medicare.json", params: params)
+				if current_json_string.present? && JSON.parse(current_json_string)['error'].present?
+					return error = JSON.parse(current_json_string)['error']
+				end
+				
 			rescue Exception=>e 
-				return e.response.inspect
+				return JSON.parse(e.response)
 			end	
 			
 			
@@ -24,8 +31,8 @@ class EligibilityApi
 			return ParseEligibility.new.get_medicare_json(current_array)
 		
 		else
-			current_array = JSON.parse(current_json_string)
-			return ParseEligibility.new.get_coverage_json(current_array)
+			return current_array = JSON.parse(current_json_string)
+			 ParseEligibility.new.get_coverage_json(current_array)
 		end
 	end
 
