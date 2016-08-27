@@ -27,12 +27,12 @@ class EligibilityApi
 			end	
 			
 			
-			current_array = JSON.parse(current_json_string)
-			return ParseEligibility.new.get_medicare_json(current_array)
+			return current_array = JSON.parse(current_json_string)
+			# return ParseEligibility.new.get_medicare_json(current_array)
 		
 		else
 			return current_array = JSON.parse(current_json_string)
-			 ParseEligibility.new.get_coverage_json(current_array)
+			 # return ParseEligibility.new.get_coverage_json(current_array)
 		end
 	end
 
