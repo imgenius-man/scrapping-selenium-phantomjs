@@ -2,7 +2,7 @@ class AvailityApi
   def send(params)
     begin     
       
-      fields = Patient.retrieve_signin_fields(params[:site_url])
+      fields = Patient.retrieve_signin_fields(params[:site_url)
       puts fields
       
       customer_id = params[:customer_id]
@@ -13,8 +13,7 @@ class AvailityApi
       
       capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
       capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = customer_id
-      browser = Watir::Browser.new :firefox
-      # , :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
+      browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
 
       browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
 
