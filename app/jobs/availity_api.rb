@@ -18,10 +18,10 @@ class AvailityApi
       browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
 
       username_i = browser.element(:name, fields[:user_field])
-      username_i.send_keys username
+      username_i.send_keys params[:username]
 
       password = browser.element(:name, fields[:pass_field])
-      password.send_keys pass
+      password.send_keys params[:pass]
 
       element = browser.element(:css, fields[:submit_button])
       element.click
