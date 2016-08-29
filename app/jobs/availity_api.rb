@@ -74,7 +74,6 @@ puts request_url
         
         puts ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
         js = Crack::XML.parse(a)
-        return js
       end
 
       browser.quit      
@@ -88,8 +87,9 @@ puts request_url
         sleep(2)
         @json = JSON.generate(@json_arr)
 
-        return @json
+        
       end
+      return @json
     rescue Exception=> e
       return e.inspect
 
