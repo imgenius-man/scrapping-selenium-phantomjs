@@ -50,7 +50,7 @@ class AvailityApi
 
       sleep(2)
       
-      pat_dob = params[:dob]
+      pat_dob = params[:dob].split('/')
       pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
 puts pat_dob
 
