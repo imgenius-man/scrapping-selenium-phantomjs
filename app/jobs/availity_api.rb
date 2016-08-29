@@ -1,6 +1,6 @@
 class AvailityApi
   def send(params)
-    begin     
+    # begin     
       
       fields = Patient.retrieve_signin_fields(params[:site_url])
       puts fields
@@ -89,11 +89,11 @@ puts request_url
 
         
       end
-      return @json
-    rescue Exception=> e
-      return e.inspect
+      return "adasdadad"
+    # rescue Exception=> e
+    #   return e.inspect
 
-    end
+    # end
  
   end
 end
