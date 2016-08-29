@@ -57,7 +57,7 @@ puts pat_dob
       # request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=#{payer_name}&placeOfService=#{place_service_val}&providerLastName=#{name_of_organiztion}&providerNpi=1447277447&providerType=AT&providerUserId=aka65481841532&serviceType=#{benefit_val}&subscriberRelationship=18" 
 
       request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+customer_id+"&memberId="+params[:ins_id]+"&patientBirthDate="+pat_dob+"&payerId="+payerId+"&providerLastName="+provider_lastname+"&providerNpi="+providerNpi+"&providerUserId="+providerUserId+"&serviceType="+params[:service_type]+"&providerType=AT"
-return request_url
+puts request_url
 
 
       browser.goto request_url 
@@ -87,9 +87,9 @@ return request_url
         sleep(2)
         @json = JSON.generate(@json_arr)
 
-        
+      return @json
+                
       end
-      return "adasdadad"
     # rescue Exception=> e
     #   return e.inspect
 
