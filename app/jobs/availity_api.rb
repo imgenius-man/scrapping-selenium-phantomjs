@@ -71,8 +71,10 @@ puts request_url
         browser.goto ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
         sleep(2)
         a = browser.html
+        
         puts ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
         js = Crack::XML.parse(a)
+        return js
       end
 
       browser.quit      
