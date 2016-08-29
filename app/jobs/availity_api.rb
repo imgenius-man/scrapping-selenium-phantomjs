@@ -75,7 +75,7 @@ puts request_url
         puts ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
         js = Crack::XML.parse(a)
       end
-
+      return a
       browser.quit      
 
       puts js
