@@ -2,7 +2,7 @@ class AvailityApi
   def send(params)
     begin     
       
-      fields = Patient.retrieve_signin_fields(params[:site_url)
+      fields = Patient.retrieve_signin_fields(params[:site_url])
       puts fields
       
       customer_id = params[:customer_id]
