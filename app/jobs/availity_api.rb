@@ -87,7 +87,7 @@ puts request_url
         sleep(2)
         @json = JSON.generate(@json_arr)
 
-      return @json
+      return @json_arr
                 
       end
     rescue Exception=> e
