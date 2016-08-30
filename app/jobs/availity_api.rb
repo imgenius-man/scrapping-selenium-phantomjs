@@ -85,9 +85,9 @@ puts request_url
         @json_arr = Patient.new_jsn(js)
 
         sleep(2)
-        @json = JSON.generate(@json_arr)
+        @json = JSON.generate(js)
 
-      return js
+      return @json
                 
       end
     rescue Exception=> e
