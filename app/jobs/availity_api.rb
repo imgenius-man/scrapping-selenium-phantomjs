@@ -5,14 +5,20 @@ class AvailityApi
   def send(params)
     begin     
       
+      puts "--"*100
+      puts params.inspect
+
+      pat_dob = params[:dob].split('/')
+      pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
+
       patient_info = {
-        :payerId => 'BCBSIL',
-        :providerNpi => '1447277447',
-        :memberId => 'MUPXZ3775081',
-        :patientLastName => 'NORTHWEST MEDICAL CARE',
-        :patientFirstName => 'JAYANTIBHAI',
-        :serviceType => '30',
-        :patientBirthDate => '1950-08-25'
+        :payerId => params[:payer_id],
+        :providerNpi => params[:p_npi],
+        :memberId => params[:ins_id],
+        :patientLastName => params[:p_last_name],
+        :patientFirstName => params[:first_name],
+        :serviceType => params[:service_type],
+        :patientBirthDate => pat_dob
       }
 
       url = URI("https://api.availity.com/demo/v1/coverages?"+patient_info.to_query)

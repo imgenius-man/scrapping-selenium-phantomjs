@@ -202,11 +202,11 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, username, password, nil, site_url, nil)
 
       elsif site_url.include?('availity_api')
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH', 'api')
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '388016', 'BCBSIL', 'NORTHWEST+MEDICAL+CARE', '1447277447','11','30', 'api')
 
       elsif site_url.include?('availity')
         puts "in here"
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH', 'scrap')
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '388016', 'BCBSIL', 'NORTHWEST+MEDICAL+CARE', '1447277447','11','30', 'scrap')
       
       elsif site_url.include?('navinet')
         Delayed::Job.enqueue AetnaCrawler.new(username, password, patient.patient_id, site_url, nil, nil)

@@ -75,7 +75,7 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
 
         sleep(2)
         
-        pat_dob = patient_dob
+        pat_dob = patient_dob.split('/')
         pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
         puts pat_dob
 
@@ -127,8 +127,20 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
         end
       
       elsif method == 'api'
-        params={}
-        @json = [::AvailityApi.new.send(params)].to_json
+        p = {
+        :dob => patient_dob,
+        :payer_id => payer_code,
+        :p_npi => provider_code,
+        :ins_id => patient_id,
+        :p_last_name => provider_name,
+        :first_name => patient.first_name,
+        :service_type => service_type}
+
+
+        @json = [::AvailityApi.new.send(p)].to_json
+        
+        
+
         patient.update_attribute('json', @json)
         patient.update_attribute('record_available', 'complete')  
       end
