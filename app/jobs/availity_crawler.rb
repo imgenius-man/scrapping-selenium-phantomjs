@@ -128,7 +128,7 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       
       elsif method == 'api'
         params={}
-        @json = AvailityApi.new.send(params).to_json
+        @json = [::AvailityApi.new.send(params)].to_json
         patient.update_attribute('json', @json)
         patient.update_attribute('record_available', 'complete')  
       end
