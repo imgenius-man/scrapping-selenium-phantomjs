@@ -22,11 +22,12 @@ class AvailityApi
 
       request = Net::HTTP::Get.new(url)
       request["x-api-key"] = '5g7erw78b855jkx8rmrteh9a'
-      request["cache-control"] = 'no-cache'
 
       response = http.request(request)
       ret = JSON.parse(response.read_body)
 
+      sleep(1)
+      
       if ret.present?
         cov_url = ret["coverages"].first['links']['self']['href'] if ret["coverages"].present? && ret["coverages"].first.present? && ret["coverages"].first['links'].present?
         
@@ -38,21 +39,20 @@ class AvailityApi
 
           request = Net::HTTP::Get.new(url)
           request["x-api-key"] = '5g7erw78b855jkx8rmrteh9a'
-          request["cache-control"] = 'no-cache'
 
           response = http.request(request)
-          return JSON.parse(response.read_body)
+          puts JSON.parse(response.read_body)
 
         else
-          return ret
+          puts ret
         end 
 
       else
-        return ["no data present"]
+        puts ["no data present"]
       end
 
     rescue Exception=> e
-      return e.inspect
+      return [e.inspect]
 
     end
  
