@@ -20,7 +20,12 @@
 			<%= label_tag "Website to Scrap data", "Website to Scrap data", :class=> 'control-label' %>
 			<%= f.select :site_to_scrap, options_for_site,{} , {:class=> 'form-control'} %>
 	  </div>
+	  
 		<%= submit_tag "", :value => "► check & save credentials", :class => "btn btn-sm btn-primary", id: 'submit-button' %>
+		<div class="form-group">
+			<%= label_tag "Service type", "Service type", :class=> 'control-label' %>
+			<%= text_field_tag :serv_type, nil , {:class=> 'form-control'} %>
+	  </div>
   <br>
 	<% end %>
 	</div>
@@ -99,6 +104,8 @@
 			             		 <%= form_for patient, :html => { :class => 'patient_form' } do |f| %>
 			          					<%= f.hidden_field :username, value: "asd" %>
 			             		 		<%= f.hidden_field :password, value: "asd" %>
+			             		 		<%= f.hidden_field :serv_type, value: "asd" %>
+			             		 		
 			             		 		<%= f.hidden_field :site_to_scrap, value: "asd" %>
 			          					<%= submit_tag "Re-Check", class: "btn btn-block btn-small btn-danger" %>
 			         				 <% end %>
@@ -108,6 +115,7 @@
 			             		 <%= form_for patient, :html => { :class => 'patient_form' } do |f| %>
 			             		 		<%= f.hidden_field :username, value: "asd" %>
 			             		 		<%= f.hidden_field :password, value: "asd" %>
+			             		 		<%= f.hidden_field :serv_type, value: "asd" %>
 			             		 		<%= f.hidden_field :site_to_scrap, value: "asd" %>
 			          					<%= submit_tag "Check", class: "btn btn-block btn-small btn-warning" %>
 			         				 <% end %>
@@ -151,6 +159,7 @@
   		event.preventDefault();
   		$(this).children('#patient_username').val($('#patient_username').val().trim())
   		$(this).children('#patient_password').val($('#patient_password').val().trim())
+  		$(this).children('#serv_type').val($('#serv_type').val().trim())
   		$(this).children('#patient_site_to_scrap').val($('#patient_site_to_scrap option:selected').val().trim())
 			this.submit()
 		});

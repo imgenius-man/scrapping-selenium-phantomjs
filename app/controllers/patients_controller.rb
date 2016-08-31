@@ -98,7 +98,7 @@ class PatientsController < ApplicationController
     if patient.json.present?
       show(patient.id)
     else
-      search_data(patient, params[:patient][:username], params[:patient][:password], params[:patient][:site_to_scrap])
+      search_data(patient, params[:patient][:username], params[:patient][:password], params[:patient][:site_to_scrap], params[:patient][:serv_type])
     end
   end
 
@@ -193,7 +193,7 @@ class PatientsController < ApplicationController
   end
 
 
-  def search_data(patient, username, password, site_url)
+  def search_data(patient, username, password, site_url, serv_type)
     if patient.first_name.present? && patient.last_name.present? && patient.dob.present? && patient.patient_id.present?
       if site_url.include?('cignaforhcp')
         Delayed::Job.enqueue Crawler.new(patient.first_name, patient.last_name, patient.dob, patient.patient_id, username, password, nil, patient.id, site_url)
@@ -202,11 +202,11 @@ class PatientsController < ApplicationController
         Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, username, password, nil, site_url, nil)
 
       elsif site_url.include?('availity_api')
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '388016', 'BCBSIL', 'NORTHWEST+MEDICAL+CARE', '1447277447','11','30', 'api')
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '388016', 'BCBSIL', 'NORTHWEST+MEDICAL+CARE', '1447277447','11',serv_type, 'api')
 
       elsif site_url.include?('availity')
         puts "in here"
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '388016', 'BCBSIL', 'NORTHWEST+MEDICAL+CARE', '1447277447','11','30', 'scrap')
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '388016', 'BCBSIL', 'NORTHWEST+MEDICAL+CARE', '1447277447','11',serv_type, 'scrap')
       
       elsif site_url.include?('navinet')
         Delayed::Job.enqueue AetnaCrawler.new(username, password, patient.patient_id, site_url, nil, nil)
