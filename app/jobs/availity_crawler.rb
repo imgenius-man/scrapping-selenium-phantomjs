@@ -22,6 +22,9 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
       puts site_url
       puts "=="*40
       puts method
+      puts "=="*40
+      puts service_type
+
       # username = 'ewomack'
       # pass = 'Pcc@63128' 
       # site_url = Patient.options_for_site[2][1]
