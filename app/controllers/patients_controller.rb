@@ -44,7 +44,7 @@ class PatientsController < ApplicationController
           patient.update_attribute('record_available', 'pending')
 
         elsif site_url.include?('availity')
-          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, res['practice_name'], res['practice_name_code'], res['cus_field2_code'],res['provider_name'], res['provider_name_code'],res['cus_field4_code'],res['service_type_code'])
+          Delayed::Job.enqueue AvailityCrawler.new(patient.id, patient.patient_id, patient.dob, patient.username, patient.password, patient.site_url, res[:redirect_url], patient.token, res['practice_name'], res['practice_name_code'], res['cus_field2_code'],res['provider_name'], res['provider_name_code'],res['cus_field4_code'],res['service_type_code'], 'scrap')
           patient.update_attribute('record_available', 'pending')
 
         elsif site_url.include?('navinet')
@@ -201,10 +201,13 @@ class PatientsController < ApplicationController
       elsif site_url.include?('mhnetprovider')
         Delayed::Job.enqueue MhnetCrawler.new(patient.id, patient.patient_id, username, password, nil, site_url, nil)
 
+      elsif site_url.include?('availity_api')
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH', 'api')
+
       elsif site_url.include?('availity')
         puts "in here"
-        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH')
-
+        Delayed::Job.enqueue AvailityCrawler.new(patient.id,patient.patient_id,patient.dob, username, password, site_url,nil,nil, 'Psyc', '313030', 'CIGNA', 'DATTA, GAUTAM', '1528269982','11','MH', 'scrap')
+      
       elsif site_url.include?('navinet')
         Delayed::Job.enqueue AetnaCrawler.new(username, password, patient.patient_id, site_url, nil, nil)
       end
