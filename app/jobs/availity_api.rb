@@ -41,14 +41,14 @@ class AvailityApi
           request["x-api-key"] = '5g7erw78b855jkx8rmrteh9a'
 
           response = http.request(request)
-          puts JSON.parse(response.read_body)
+          return JSON.parse(response.read_body)
 
         else
-          puts ret
+          return ret
         end 
 
       else
-        puts ["no data present"]
+        return ["no data present"]
       end
 
     rescue Exception=> e
