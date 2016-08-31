@@ -48,11 +48,11 @@ class AvailityApi
         end 
 
       else
-        return ["no data present"]
+        return "no data present"
       end
 
     rescue Exception=> e
-      return [e.inspect]
+      return e.inspect
 
     end
  
