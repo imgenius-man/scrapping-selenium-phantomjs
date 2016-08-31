@@ -47,14 +47,14 @@ class AvailityApi
           request["x-api-key"] = '5g7erw78b855jkx8rmrteh9a'
 
           response = http.request(request)
-          return JSON.parse(response.read_body)
+          puts JSON.parse(response.read_body)
 
         else
-          return ret
+          puts ret
         end 
 
       else
-        return "no data present"
+        puts "no data present"
       end
 
     rescue Exception=> e
@@ -88,5 +88,14 @@ end
 
 # curl -X "GET" "https://api.availity.com/demo/v1/coverages?payerId=BCBSIL&providerNpi=1447277447&memberId=MUPXZ3775081&patientLastName=NORTHWEST+MEDICAL+CARE&patientFirstName=JAYANTIBHAI&serviceType=30&patientBirthDate=1950-08-25" -H "x-api-key: 5g7erw78b855jkx8rmrteh9a"
 
+ # patient_info = {
+ #        :payerId => 'BCBSIL',
+ #        :providerNpi => '1447277447',
+ #        :memberId => 'MUPXZ3775081',
+ #        :patientLastName => 'NORTHWEST MEDICAL CARE',
+ #        :patientFirstName => 'JAYANTIBHAI',
+ #        :serviceType => '30',
+ #        :patientBirthDate => '1950-08-25'
+ #      }
 
 

@@ -106,17 +106,17 @@ class AvailityCrawler < Struct.new(:pat_id,:patient_id,:patient_dob,:username,:p
         puts js
 
         if js.present?
-          @json_arr = []
-          @json_arr = Patient.new_jsn(js)
+          # @json_arr = []
+          # @json_arr = Patient.new_jsn(js)
 
-          sleep(2)
-          puts @json_arr.inspect
-          puts "wapis to aa gya ha"
-          @json = JSON.generate(@json_arr)
+          # sleep(2)
+          # puts @json_arr.inspect
+          # puts "wapis to aa gya ha"
+          # @json = JSON.generate(@json_arr)
 
-          puts @json.inspect
+          # puts @json.inspect
 
-          patient.update_attribute('json', @json)
+          patient.update_attribute('json', [js].to_json)
           patient.update_attribute('record_available', 'complete')
 
           if response_url.present?
