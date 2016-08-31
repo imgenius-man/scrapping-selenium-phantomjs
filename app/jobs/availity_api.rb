@@ -1,95 +1,56 @@
+
 class AvailityApi
+  require 'net/http'
+  
   def send(params)
     begin     
       
-      fields = Patient.retrieve_signin_fields(params[:site_url])
-      puts fields
-      
-      customer_id = params[:customer_id]
-      payerId = params[:payer_id]
+      patient_info = {
+        :payerId => 'BCBSIL',
+        :providerNpi => '1447277447',
+        :memberId => 'MUPXZ3775081',
+        :patientLastName => 'NORTHWEST MEDICAL CARE',
+        :patientFirstName => 'JAYANTIBHAI',
+        :serviceType => '30',
+        :patientBirthDate => '1950-08-25'
+      }
 
-      provider_lastname = params[:p_last_name]
-      providerNpi = params[:p_npi]
-      
-      capabilities = Selenium::WebDriver::Remote::Capabilities.phantomjs
-      capabilities['phantomjs.page.customHeaders.X-Availity-Customer-ID'] = customer_id
-      browser = Watir::Browser.new :phantomjs, :args => ['--ignore-ssl-errors=true'], desired_capabilities: capabilities
+      url = URI("https://api.availity.com/demo/v1/coverages?"+patient_info.to_query)
 
-      browser.goto "https://apps.availity.com/availity/web/public.elegant.login"
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
 
-      username_i = browser.element(:name, fields[:user_field])
-      username_i.send_keys params[:username]
+      request = Net::HTTP::Get.new(url)
+      request["x-api-key"] = '5g7erw78b855jkx8rmrteh9a'
+      request["cache-control"] = 'no-cache'
 
-      password = browser.element(:name, fields[:pass_field])
-      password.send_keys params[:pass]
+      response = http.request(request)
+      ret = JSON.parse(response.read_body)
 
-      element = browser.element(:css, fields[:submit_button])
-      element.click
-      puts "logged in"
-
-      sleep(3)
-      browser.goto "https://apps.availity.com/public/apps/eligibility"
-      
-      browser.goto "https://apps.availity.com/api/v1/users/me"
-      me = Crack::XML.parse(browser.html)
-
-      puts me
-
-      providerUserId = me["APIResponse"]["User"]["id"] if me["APIResponse"].present? && me["APIResponse"]["User"].present?
-
-      puts "providerUserId #{providerUserId}"
-
-      # browser.goto "https://apps.availity.com/api/internal/v1/providers?customerId=#{customer_id}&limit=50"
-      # npi = Crack::XML.parse(browser.html)
-
-
-
-      # npi_code = npi["APIResponse"]["Provider"].keep_if{|provider| provider['lastName'] == patient_name.split(',').first.strip && provider['firstName'] == patient_name.split(',').last.strip}.reduce
-
-      # providerNpi = npi_code['npi']      
-
-      sleep(2)
-      
-      pat_dob = params[:dob].split('/')
-      pat_dob = pat_dob[2]+"-"+pat_dob[0]+"-"+pat_dob[1]
-puts pat_dob
-
-      # request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+"388016"+"&memberId="+patient_id+"&patientBirthDate="+pat_dob+"&payerId=#{payer_name}&placeOfService=#{place_service_val}&providerLastName=#{name_of_organiztion}&providerNpi=1447277447&providerType=AT&providerUserId=aka65481841532&serviceType=#{benefit_val}&subscriberRelationship=18" 
-
-      request_url = "https://apps.availity.com/api/v1/coverages?asOfDate="+Time.now.strftime("%Y-%m-%d")+"&customerId="+customer_id+"&memberId="+params[:ins_id]+"&patientBirthDate="+pat_dob+"&payerId="+payerId+"&providerLastName="+provider_lastname+"&providerNpi="+providerNpi+"&providerUserId="+providerUserId+"&serviceType="+params[:service_type]+"&providerType=AT"
-puts request_url
-
-
-      browser.goto request_url 
-      sleep(2)
-      js = nil
-      ret = Crack::XML.parse(browser.html)
-
-      puts ret
-      
-      if ret["APIResponse"].present?
-        browser.goto ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
-        sleep(2)
-        a = browser.html
+      if ret.present?
+        cov_url = ret["coverages"].first['links']['self']['href'] if ret["coverages"].present? && ret["coverages"].first.present? && ret["coverages"].first['links'].present?
         
-        puts ret["APIResponse"]["Coverage"]["links"]["self"]["href"]
-        js = Crack::XML.parse(a)
+        if cov_url.present?
+          url = URI(cov_url)
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+
+          request = Net::HTTP::Get.new(url)
+          request["x-api-key"] = '5g7erw78b855jkx8rmrteh9a'
+          request["cache-control"] = 'no-cache'
+
+          response = http.request(request)
+          return JSON.parse(response.read_body)
+
+        else
+          return ret
+        end 
+
+      else
+        return ["no data present"]
       end
 
-      browser.quit      
-
-      puts js
-
-      if js.present?
-        @json_arr = []
-        @json_arr = Patient.new_jsn(js)
-
-        sleep(2)
-        @json = JSON.generate(js)
-
-      return @json
-                
-      end
     rescue Exception=> e
       return e.inspect
 
@@ -110,4 +71,16 @@ end
  #providerNpi = '1447277447'
  #service_type = '30'
  #patient_id = 'MUPXZ3775081'
+
+#  curl -X "POST" "https://api.availity.com/v1/token"  -H "Authorization: Basic eHVzZzd6emh4OGF0OXNiNW5zaHg0eTh6OnNoVEY2eFhyTXJqdVRnRUFZckZI"  -d "grant_type=client_credentials"
+# echo -n 'xusg7zzhx8at9sb5nshx4y8z':'shTF6xXrMrjuTgEAYrFH' | base64
+
+# curl -X GET "https://api.availity.com/demo/v1/coverages/123" -H "x-api-key: 5g7erw78b855jkx8rmrteh9a"
+
+
+
+
+# curl -X "GET" "https://api.availity.com/demo/v1/coverages?payerId=BCBSIL&providerNpi=1447277447&memberId=MUPXZ3775081&patientLastName=NORTHWEST+MEDICAL+CARE&patientFirstName=JAYANTIBHAI&serviceType=30&patientBirthDate=1950-08-25" -H "x-api-key: 5g7erw78b855jkx8rmrteh9a"
+
+
 
