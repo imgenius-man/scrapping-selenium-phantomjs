@@ -227,7 +227,6 @@ class PatientsController < ApplicationController
     
     elsif params[:type] == 'availity'
       @json = ::AvailityApi.new.send(params)
-      return render  json: @json
     end
 
     return render 'search_data'
